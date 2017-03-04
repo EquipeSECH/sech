@@ -23,6 +23,8 @@
 </div>
 @endif
 <br>
+@foreach ($medicos as $key => $medico)
+@if (count($medicos)>0)
 <div class="box">
     <table class="table table-bordered table-hover dataTable">
         <tr>
@@ -53,7 +55,19 @@
         </tr>
         @endforeach
     </table>
-</div>
+</div> 
+@else
+    <div class="box">
+    <table class="table table-bordered table-hover dataTable">
+        <tr>
+            <th>Nenhum médico cadastrado.</th>
+        </tr>
+    </table>
+    </div>
+
+@endif  
+@endforeach    
+
 {!! $medicos->render() !!}
 @endsection
 
