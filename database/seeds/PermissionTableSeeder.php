@@ -55,22 +55,22 @@ class PermissionTableSeeder extends Seeder {
                 'description' => 'Excluir usuário'
             ],
             
-            // Telas iniciais            
-            [
-                'name' => 'viewTelaProfessor',
-                'display_name' => 'Tela de professor',
-                'description' => 'Tela de professor'
-            ],
-            [
-                'name' => 'viewTelaAdministradorDoSistema',
-                'display_name' => 'Tela de administrador do sistema',
-                'description' => 'Tela de administrador do sistema'
-            ],
-            [
-                'name' => 'relatorioUsuario',
-                'display_name' => 'Gerar relatório de usuários',
-                'description' => 'Gerar relatório de usuários'
-            ],
+//            // Telas iniciais            
+//            [
+//                'name' => 'viewTelaProfessor',
+//                'display_name' => 'Tela de professor',
+//                'description' => 'Tela de professor'
+//            ],
+//            [
+//                'name' => 'viewTelaAdministradorDoSistema',
+//                'display_name' => 'Tela de administrador do sistema',
+//                'description' => 'Tela de administrador do sistema'
+//            ],
+//            [
+//                'name' => 'relatorioUsuario',
+//                'display_name' => 'Gerar relatório de usuários',
+//                'description' => 'Gerar relatório de usuários'
+//            ],
             
             //Especialidade
             ['name' => 'especialidade-list',
@@ -91,50 +91,7 @@ class PermissionTableSeeder extends Seeder {
                 'name' => 'especialidade-delete',
                 'display_name' => 'Excluir especialidade',
                 'description' => 'Delete especialidade'
-            ],
-            //Médico
-            [
-                'name' => 'gestao_medico-list',
-                'display_name' => 'Listagem de médico',
-                'description' => 'Listar médico'
-            ],
-            [
-                'name' => 'gestao_medico-create',
-                'display_name' => 'Cadastrar médico',
-                'description' => 'Cadastrar novo médico'
-            ],
-            [
-                'name' => 'gestao_medico-edit',
-                'display_name' => 'Editar médico',
-                'description' => 'Editar médico'
-            ],
-            [
-                'name' => 'gestao_medico-delete',
-                'display_name' => 'Excluir médico',
-                'description' => 'Excluir médico'
-            ],
-            //Dentista
-            [
-                'name' => 'gestao_dentista-list',
-                'display_name' => 'Listagem de dentista',
-                'description' => 'Listar dentista'
-            ],
-            [
-                'name' => 'gestao_dentista-create',
-                'display_name' => 'Cadastrar dentista',
-                'description' => 'Cadastrar novo dentista'
-            ],
-            [
-                'name' => 'gestao_dentista-edit',
-                'display_name' => 'Editar dentista',
-                'description' => 'Editar dentista'
-            ],
-            [
-                'name' => 'gestao_dentista-delete',
-                'display_name' => 'Excluir dentista',
-                'description' => 'Excluir dentista'
-            ]
-            
+            ] 
         ];
 
         foreach ($permission as $key => $value) {
