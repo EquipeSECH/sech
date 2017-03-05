@@ -28,7 +28,7 @@ class UserController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {        
+    public function create() {
         $especialidades = Especialidade::lists('nomeespecialidade', 'id');
         $roles = Role::lists('display_name', 'id');
         return view('users.create', compact('especialidades','roles'));
@@ -41,17 +41,15 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $this->validate($request, [   
+        $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'fk_role' => 'required',
             'cpf' => 'required',
             'rg' => 'required',
-            'codigoprofissional' => 'required',
             'nascimento' => 'required',  
             'telefone' => 'required',
-            'endereco '=> 'required',
         ]);
 
         $input = $request->all();
@@ -85,9 +83,9 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $user = User::find($id);        
+        $user = User::find($id);
         $especialidades = Especialidade::lists('nomeespecialidade', 'id');
-        $roles = Role::lists('display_name', 'id');        
+        $roles = Role::lists('display_name', 'id');
         $userRole = $user->roles->lists('id', 'id')->toArray();
 
         return view('users.edit', compact('user', 'especialidades', 'roles', 'userRole'));
@@ -102,16 +100,14 @@ class UserController extends Controller {
      */
     public function update(Request $request, $id) {
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email' . $id,
+            'name' => 'required',            
+            'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'same:confirm-password',
             'fk_role' => 'required',
             'cpf' => 'required',
             'rg' => 'required',
-            'cogidoprofissional' => 'required',
             'nascimento' => 'required',  
             'telefone' => 'required',
-            'endereco '=> 'required',
         ]);
 
         $input = $request->all();
@@ -124,7 +120,6 @@ class UserController extends Controller {
         $user = User::find($id);
         $user->update($input);
         DB::table('role_user')->where('user_id', $id)->delete();
-
 
         foreach ($request->input('fk_role') as $key => $value) {
             $user->attachRole($value);

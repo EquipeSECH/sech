@@ -15,11 +15,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'cpf', 'rg', 'codigoprofissional', 
-        'nascimento', 'telefone', 
-//        'endereco', 
-        'idespecialidade'
+        'name', 'email', 'password', 'cpf', 'rg', 
+        'codigoprofissional', 'nascimento', 'telefone',
+        'endereco', 'assinatura', 'idespecialidade',
     ];
+    
+    public function especialidade() {
+        return $this->belongsTo(Especialidade::class, 'idespecialidade');
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -29,9 +32,4 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    
-    public function especialidade() {
-        return $this->belongsTo(Especialidade::class, 'idespecialidade');
-    }
-    
 }

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Especialidade;
+use App\Formafarmaceutica;
 
-class EspecialidadeController extends Controller
+class FormafarmaceuticaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class EspecialidadeController extends Controller
      */
     public function index(Request $request)
     {
-        $especialidades = Especialidade::orderBy('id','desc')->paginate(15);
-        return view('especialidade.index', compact('especialidades'))
+        $formafarmaceuticas = Formafarmaceutica::orderBy('id','desc')->paginate(15);
+        return view('formafarmaceutica.index', compact('formafarmaceuticas'))
             ->with('i', ($request->input('page', 1) - 1) * 15);
     }
 
@@ -27,7 +27,7 @@ class EspecialidadeController extends Controller
      */
     public function create()
     {
-        return view('especialidade.create');
+        return view('formafarmaceutica.create');
     }
 
     /**
@@ -39,13 +39,14 @@ class EspecialidadeController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nomeespecialidade' => 'required',
+            'nome' => 'required',
+            'unidade' => 'required',
         ]);
 
-        Especialidade::create($request->all());
+        Formafarmaceutica::create($request->all());
 
-        return redirect()->route('especialidade.index')
-                        ->with('success','Especialidade cadastrada com sucesso!');
+        return redirect()->route('formafarmaceutica.index')
+                        ->with('success','Forma farmacêutica cadastrada com sucesso!');
     }
 
     /**
@@ -56,8 +57,8 @@ class EspecialidadeController extends Controller
      */
     public function show($id)
     {
-        $especialidade = especialidade::find($id);
-        return view('especialidade.show',compact('especialidade'));
+        $formafarmaceutica = formafarmaceutica::find($id);
+        return view('formafarmaceutica.show',compact('formafarmaceutica'));
     }
 
     /**
@@ -68,8 +69,8 @@ class EspecialidadeController extends Controller
      */
     public function edit($id)
     {
-        $especialidade = Especialidade::find($id);
-        return view('especialidade.edit',compact('especialidade'));
+        $formafarmaceutica = Formafarmaceutica::find($id);
+        return view('formafarmaceutica.edit',compact('formafarmaceutica'));
     }
 
     /**
@@ -82,13 +83,14 @@ class EspecialidadeController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nomeespecialidade' => 'required',
+            'nome' => 'required',
+            'unidade' => 'required',
         ]);
 
-        Especialidade::find($id)->update($request->all());
+        Formafarmaceutica::find($id)->update($request->all());
 
-        return redirect()->route('especialidade.index')
-                        ->with('success','Especialidade atualizada com sucesso');
+        return redirect()->route('formafarmaceutica.index')
+                        ->with('success','Forma farmacêutica atualizada com sucesso');
     }
 
     /**
@@ -100,8 +102,8 @@ class EspecialidadeController extends Controller
     public function destroy($id)
     {
         
-        Especialidade::find($id)->delete();
-        return redirect()->route('especialidade.index')
-                        ->with('success','Especialidade apagada com sucesso!');
+        Formafarmaceutica::find($id)->delete();
+        return redirect()->route('formafarmaceutica.index')
+                        ->with('success','Forma farmacêutica apagada com sucesso!');
     }
 }

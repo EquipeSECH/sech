@@ -91,7 +91,27 @@ class PermissionTableSeeder extends Seeder {
                 'name' => 'especialidade-delete',
                 'display_name' => 'Excluir especialidade',
                 'description' => 'Delete especialidade'
-            ] 
+            ],
+            //Forma farmacêutica
+            [   'name' => 'formafarmaceutica-list',
+                'display_name' => 'Listagem de forma farmacêutica',
+                'description' => 'Listar forma farmacêutica'
+            ],
+            [
+                'name' => 'formafarmaceutica-create',
+                'display_name' => 'Cadastrar forma farmacêutica',
+                'description' => 'Cadastrar nova forma farmacêutica'
+            ],
+            [
+                'name' => 'formafarmaceutica-edit',
+                'display_name' => 'Editar forma farmacêutica',
+                'description' => 'Editar forma farmacêutica existente'
+            ],
+            [
+                'name' => 'formafarmaceutica-delete',
+                'display_name' => 'Excluir forma farmacêutica',
+                'description' => 'Delete forma farmacêutica'
+            ]
         ];
 
         foreach ($permission as $key => $value) {

@@ -89,6 +89,18 @@ Route::group(['middleware' => ['auth']], function() {
         Route::delete('/{id}', ['as' => 'cid10.destroy', 'uses' => 'Cid10Controller@destroy', 'middleware' => ['permission:cid-delete']]);
     });
     
+    //rotas de formafarmaceutica
+    Route::group(['prefix' => 'formafarmaceutica', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('', ['as' => 'formafarmaceutica.index', 'uses' => 'FormafarmaceuticaController@index', 'middleware' => ['permission:formafarmaceutica-list|formafarmaceutica-create|formafarmaceutica-edit|formafarmaceutica-delete']]);
+        Route::get('/create', ['as' => 'formafarmaceutica.create', 'uses' => 'FormafarmaceuticaController@create', 'middleware' => ['permission:formafarmaceutica-create']]);
+        Route::post('/create', ['as' => 'formafarmaceutica.store', 'uses' => 'FormafarmaceuticaController@store', 'middleware' => ['permission:formafarmaceutica-create']]);
+        Route::get('/{id}', ['as' => 'formafarmaceutica.show', 'uses' => 'FormafarmaceuticaController@show']);
+        Route::get('/{id}/edit', ['as' => 'formafarmaceutica.edit', 'uses' => 'FormafarmaceuticaController@edit', 'middleware' => ['permission:formafarmaceutica-edit']]);
+        Route::patch('/{id}', ['as' => 'formafarmaceutica.update', 'uses' => 'FormafarmaceuticaController@update', 'middleware' => ['permission:formafarmaceutica-edit']]);
+        Route::delete('/{id}', ['as' => 'formafarmaceutica.destroy', 'uses' => 'FormafarmaceuticaController@destroy', 'middleware' => ['permission:formafarmaceutica-delete']]);
+    });
+   
+    
     
    
 
