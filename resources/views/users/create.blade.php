@@ -62,12 +62,6 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Código Profissional:</strong>
-            {!! Form::text('codigoprofissional', null, array('placeholder' => 'Digite seu rg','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
             <strong>Nascimento:</strong>
             {!! Form::text('nascimento', null, array('placeholder' => 'Digite sua data de nascimento','class' => 'form-control')) !!}
         </div>
@@ -86,6 +80,20 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
+            <strong>Papel:</strong>            
+            {!! Form::select('fk_role', $roles, null, array('class' => 'form-control', 'onchange' => 'papel()')) !!}
+			
+            <p id="demo"></p>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Código Profissional:</strong>
+            {!! Form::text('codigoprofissional', null, array('placeholder' => 'Digite seu rg','class' => 'form-control')) !!}
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
             <strong>Especialidade:</strong>                    
             {!! Form::select('idespecialidade', $especialidades, null, array('class' => 'form-control')) !!}
         </div>
@@ -96,15 +104,17 @@
             {!! Form::file('assinatura', null, array('placeholder' => '','class' => 'form-control', 'style'=>'height:100px')) !!}
         </div>
     </div>   
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Papel:</strong>
-            {!! Form::select('fk_role', $roles, null, array('class' => 'form-control')) !!}
-        </div>
-    </div>
+    
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
         <button type="submit" class="btn btn-primary">Salvar</button>
     </div>
 </div>
 {!! Form::close() !!}
 @endsection
+
+<script>
+function myFunction() {
+    var x = document.getElementById("mySelect").value;
+    document.getElementById("demo").innerHTML = "You selected: " + x;
+}
+</script>

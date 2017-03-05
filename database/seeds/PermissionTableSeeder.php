@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Permission;
+use App\Role;
 
 class PermissionTableSeeder extends Seeder {
 
@@ -113,9 +114,41 @@ class PermissionTableSeeder extends Seeder {
                 'description' => 'Delete forma farmacêutica'
             ]
         ];
+        
+        $role = [
+            [
+                'name' => 'admin',
+                'display_name' => 'Administrador',
+                'description' => 'Administrador do Sistema'
+            ],            
+            [
+                'name' => 'farmaceutico',
+                'display_name' => 'Farmacêutico',
+                'description' => 'Gerencia Estoque e aprova prescrições'
+            ],
+            [
+                'name' => 'medico',
+                'display_name' => 'Médico',
+                'description' => 'Pode prescrever'
+            ],
+            [
+                'name' => 'dentista',
+                'display_name' => 'Dentista',
+                'description' => 'Pode prescrever'
+            ]
+            ,
+            [
+                'name' => 'enfermeiro',
+                'display_name' => 'Enfermeiro',
+                'description' => 'Solicita medicamentos da farmacia central para as farmácias satélites'
+            ]
+        ];
 
         foreach ($permission as $key => $value) {
             Permission::create($value);
+        }
+        foreach ($role as $key => $value) {
+            Role::create($value);
         }
     }
 
