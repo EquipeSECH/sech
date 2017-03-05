@@ -48,7 +48,7 @@ class UserController extends Controller {
             'fk_role' => 'required',
             'cpf' => 'required',
             'rg' => 'required',
-            'cogidoprofissional' => 'required',
+            'codigoprofissional' => 'required',
             'nascimento' => 'required',  
             'telefone' => 'required',
             'endereco '=> 'required',

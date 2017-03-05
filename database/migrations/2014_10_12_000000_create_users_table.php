@@ -19,11 +19,10 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('cpf')->unique();
             $table->string('rg')->unique();
-            $table->string('cogidoprofissional');
+            $table->string('codigoprofissional');
             $table->date('nascimento');            
             $table->string('telefone');
-            $table->string('endereco');
-            $table->binary('assinatura');                               
+//            $table->string('endereco');                             
             $table->integer('idespecialidade')->unsigned();            
             $table->foreign('idespecialidade')->references('id')-> on('especialidades');
             $table->rememberToken();
