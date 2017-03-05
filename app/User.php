@@ -15,7 +15,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password', 'cpf', 'rg', 'cogidoprofissional', 
+        'nascimento', 'telefone', 'endereco', 'assinatura', 'idespecialidade'
     ];
 
     /**
@@ -26,5 +27,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function especialidade() {
+        return $this->belongsTo(Especialidade::class, 'idespecialidade');
+    }
     
 }

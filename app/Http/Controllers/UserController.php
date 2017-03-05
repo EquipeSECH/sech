@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Role;
+use App\Especialidade;
 use DB;
 use Hash;
 
@@ -17,9 +18,9 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        $data = User::orderBy('id', 'DESC')->paginate(5);
+        $data = User::orderBy('id', 'DESC')->paginate(15);
         return view('users.index', compact('data'))
-                        ->with('i', ($request->input('page', 1) - 1) * 5);
+                        ->with('i', ($request->input('page', 1) - 1) * 15);
     }
 
     /**
@@ -27,9 +28,10 @@ class UserController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create() {        
+        $especialidades = Especialidade::lists('nomeespecialidade', 'id');
         $roles = Role::lists('display_name', 'id');
-        return view('users.create', compact('roles'));
+        return view('users.create', compact('especialidades','roles'));
     }
 
     /**
@@ -39,11 +41,17 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $this->validate($request, [
+        $this->validate($request, [   
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
-            'fk_role' => 'required'
+            'fk_role' => 'required',
+            'cpf' => 'required',
+            'rg' => 'required',
+            'cogidoprofissional' => 'required',
+            'nascimento' => 'required',  
+            'telefone' => 'required',
+            'endereco '=> 'required',
         ]);
 
         $input = $request->all();
@@ -77,11 +85,12 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $user = User::find($id);
-        $roles = Role::lists('display_name', 'id');
+        $user = User::find($id);        
+        $especialidades = Especialidade::lists('nomeespecialidade', 'id');
+        $roles = Role::lists('display_name', 'id');        
         $userRole = $user->roles->lists('id', 'id')->toArray();
 
-        return view('users.edit', compact('user', 'roles', 'userRole'));
+        return view('users.edit', compact('user', 'especialidades', 'roles', 'userRole'));
     }
 
     /**
@@ -94,9 +103,15 @@ class UserController extends Controller {
     public function update(Request $request, $id) {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email' . $id,
             'password' => 'same:confirm-password',
-            'fk_role' => 'required'
+            'fk_role' => 'required',
+            'cpf' => 'required',
+            'rg' => 'required',
+            'cogidoprofissional' => 'required',
+            'nascimento' => 'required',  
+            'telefone' => 'required',
+            'endereco '=> 'required',
         ]);
 
         $input = $request->all();
