@@ -81,28 +81,12 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Papel:</strong>            
-            {!! Form::select('fk_role', $roles, null, array('class' => 'form-control', 'onchange' => 'papel()')) !!}
-			
-            <p id="demo"></p>
+            {!! Form::select('fk_role', $roles, null, array('placeholder'=>'--Selecione--', 'class' => 'form-control', 'onchange' => 'papelAlerta()', 'id' => 'papel')) !!}
         </div>
+    </div>           
+    <div id="demo">
+        
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Código Profissional:</strong>
-            {!! Form::text('codigoprofissional', null, array('placeholder' => 'Digite seu rg','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Especialidade:</strong>                    
-            {!! Form::select('idespecialidade', $especialidades, null, array('class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Assinatura:</strong>
-            {!! Form::file('assinatura', null, array('placeholder' => '','class' => 'form-control', 'style'=>'height:100px')) !!}
-        </div>
     </div>   
     
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -113,8 +97,30 @@
 @endsection
 
 <script>
-function myFunction() {
-    var x = document.getElementById("mySelect").value;
-    document.getElementById("demo").innerHTML = "You selected: " + x;
+function papelAlerta() {
+    var TextoCodigo1 = "";    
+    var TextoCodigo2 = "";
+    var papel = document.getElementById("papel").value;
+    document.getElementById("demo").innerHTML = "You selected: " + papel;
+    
+    if (papel == 1){
+        TextoCodigo = "<h1>texemplo</h1>";
+    }
+    else if (papel == 2){        
+        TextoCodigo1 = "<div class='col-xs-12 col-sm-12 col-md-12'><div class='form-group'><strong>CRF:</strong>";
+        TextoCodigo2 = "</div></div> <br><br>";
+    }
+    else if (papel == 3){
+        alert("Médico");
+    }s
+    else if (papel == 4){
+        alert("Dentista");
+    } 
+    else if (papel == 5){
+        alert("Enfermeiro");
+    }
+       
+    document.getElementById("demo").innerHTML = TextoCodigo1 + TextoCodigo2 ;
+
 }
 </script>
