@@ -29,7 +29,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="skin-green-light sidebar-mini">
+<body class="skin-red-light sidebar-mini">
 <div class="wrapper">
 
     @include('layouts.partials.mainheader')
@@ -48,8 +48,6 @@ desired effect
             @yield('main-content')
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
-
-    @include('layouts.partials.controlsidebar')
 
     @include('layouts.partials.footer')
 

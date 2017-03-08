@@ -46,7 +46,7 @@ Log in
                             </div>
                         </div><!-- /.col -->
                         <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+                            <button type="submit" class="btn btn-danger btn-block btn-flat">Entrar</button>
                         </div><!-- /.col -->
                     </div>
                 </form>
@@ -65,8 +65,8 @@ Log in
     <script>
         $(function () {
             $('input').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
+                checkboxClass: 'icheckbox_square-red',
+                radioClass: 'iradio_square-red',
                 increaseArea: '20%' // optional
             });
         });

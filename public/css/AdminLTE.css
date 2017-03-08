@@ -69,6 +69,11 @@ body {
 .layout-top-nav .main-footer {
   margin-left: 0;
 }
+
+.content-wrapper {
+    background-color: #000;
+}
+
 @media (max-width: 767px) {
   .content-wrapper,
   .right-side,
@@ -167,14 +172,14 @@ h6,
 }
 /* General Links */
 a {
-  color: #3c8dbc;
+  color: #FF0000;
 }
 a:hover,
 a:active,
 a:focus {
   outline: none;
   text-decoration: none;
-  color: #72afd2;
+  color: #FFA07A;
 }
 /* Page Header */
 .page-header {

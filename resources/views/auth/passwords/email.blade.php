@@ -42,7 +42,7 @@
                     <div class="col-xs-2">
                     </div><!-- /.col -->
                     <div class="col-xs-8">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Redefinir de senha</button>
+                        <button type="submit" class="btn btn-danger btn-block btn-flat">Redefinir de senha</button>
                     </div><!-- /.col -->
                     <div class="col-xs-2">
                     </div><!-- /.col -->
@@ -60,8 +60,8 @@
     <script>
         $(function () {
             $('input').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
+                checkboxClass: 'icheckbox_square-red',
+                radioClass: 'iradio_square-red',
                 increaseArea: '20%' // optional
             });
         });
