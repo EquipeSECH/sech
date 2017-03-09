@@ -31,7 +31,7 @@ class UserController extends Controller {
     public function create() {
         $especialidades = Especialidade::lists('nomeespecialidade', 'id');
         $roles = Role::lists('display_name', 'id');
-        return view('users.create', compact('especialidades','roles'));
+        return view('users.create', compact('especialidades', 'roles'));
     }
 
     /**
@@ -48,7 +48,7 @@ class UserController extends Controller {
             'fk_role' => 'required',
             'cpf' => 'required',
             'rg' => 'required',
-            'nascimento' => 'required',  
+            'nascimento' => 'required',
             'telefone' => 'required',
         ]);
 
@@ -100,13 +100,13 @@ class UserController extends Controller {
      */
     public function update(Request $request, $id) {
         $this->validate($request, [
-            'name' => 'required',            
+            'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'same:confirm-password',
             'fk_role' => 'required',
             'cpf' => 'required',
             'rg' => 'required',
-            'nascimento' => 'required',  
+            'nascimento' => 'required',
             'telefone' => 'required',
         ]);
 
@@ -121,9 +121,9 @@ class UserController extends Controller {
         $user->update($input);
         DB::table('role_user')->where('user_id', $id)->delete();
 
-        foreach ($request->input('fk_role') as $key => $value) {
-            $user->attachRole($value);
-        }
+
+        $user->attachRole($request->input('fk_role'));
+
 
         return redirect()->route('users.index')
                         ->with('success', 'Usuário atualizado com sucesso!');
