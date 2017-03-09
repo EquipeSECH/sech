@@ -1,13 +1,18 @@
 @extends('layouts.app')
 
+<script src = "{{ asset('js/jquery-3.1.0.js') }}" type = "text/javascript" ></script>
+<script src = "{{ asset('js/jquery.maskedinput.js') }}" type = "text/javascript" ></script>
+<script src = "{{ asset('js/jquery-ui-1.12.0/jquery-ui.js') }}" type = "text/javascript" ></script>
+<link href="{{ asset('js/jquery-ui-themes-1.12.0/themes/base/jquery-ui.css') }}" rel="stylesheet">
+
 @section('main-content')
 <div class="row">
     <div class="col-lg-12 margin-tb">
-         @section('contentheader_title')
+        @section('contentheader_title')
         <div class="pull-left">
             <h2>Cadastrar usuário</h2>
         </div>
-         @endsection  
+        @endsection  
         <div class="pull-right">
             <a class="btn btn-primary" href="{{ route('users.index') }}"> Voltar</a>
         </div>
@@ -23,94 +28,165 @@
 </div>
 @endif
 {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Nome completo:</strong>
-            {!! Form::text('name', null, array('placeholder' => 'Digite seu nome completo','class' => 'form-control')) !!}
+<br>
+<div class="box box-danger">
+    <div class="row">
+        <div class="box-body">
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <strong>Nome completo:</strong>
+                    {!! Form::text('name', null, array('placeholder' => 'Digite seu nome completo','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <strong>Email:</strong>
+                    {!! Form::text('email', null, array('placeholder' => 'Digite seu email','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <strong>Senha:</strong>
+                    {!! Form::password('password', array('placeholder' => 'Digite sua senha','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <strong>Confirmar senha:</strong>
+                    {!! Form::password('confirm-password', array('placeholder' => 'Confirmar senha','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <div class="form-group">
+                    <strong>CPF:</strong>
+                    {!! Form::text('cpf', null, array('placeholder' => 'Digite seu CPF','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <div class="form-group">
+                    <strong>RG:</strong>
+                    {!! Form::text('rg', null, array('placeholder' => 'Digite seu rg','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <div class="form-group">
+                    <strong>Nascimento:</strong>
+                    {!! Form::date('nascimento', null, array('placeholder' => 'Digite sua data de nascimento','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <div class="form-group">
+                    <strong>Telefone:</strong>
+                    {!! Form::text('telefone', null, array('placeholder' => 'Digite seu telefone','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8">
+                <div class="form-group">
+                    <strong>Endereço:</strong>
+                    {!! Form::text('endereco', null, array('placeholder' => 'Digite seu endereço','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Papel:</strong>            
+                    {!! Form::select('fk_role', $roles, null, array('placeholder'=>'--Selecione--', 'class' => 'form-control', 'id' => 'papel')) !!}
+                </div>
+            </div> 
+            <!-------- dados de farmacêutico -------->
+            <div id="far">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>CRF:</strong>
+                        {!! Form::text('codigoprofissional', null, array('placeholder' => 'Digite seu CRF','class' => 'form-control')) !!}
+                    </div>
+                </div>
+            </div>
+            <!-------- dados de médico -------->
+            <div id="med">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <strong>CRM:</strong>
+                        {!! Form::text('codigoprofissional', null, array('placeholder' => 'Digite seu CRM','class' => 'form-control')) !!}
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <strong>Especialidade:</strong>                    
+                        {!! Form::select('idespecialidade', $especialidades, null, array('class' => 'form-control')) !!}
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Assinatura:</strong>
+                        {!! Form::file('assinatura', null, array('placeholder' => '','class' => 'form-control', 'style'=>'height:100px')) !!}
+                    </div>
+                </div>   
+            </div>
+            <!-------- dados de dentista -------->
+            <div id="den">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <strong>CRO:</strong>
+                        {!! Form::text('codigoprofissional', null, array('placeholder' => 'Digite seu CRO','class' => 'form-control')) !!}
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <strong>Especialidade:</strong>                    
+                        {!! Form::select('idespecialidade', $especialidades, null, array('class' => 'form-control')) !!}
+                    </div>
+                </div>
+            </div>
+            <!-------- dados de enfermeiro -------->
+            <div id="enf">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>COREN:</strong>
+                        {!! Form::text('codigoprofissional', null, array('placeholder' => 'Digite seu COREN','class' => 'form-control')) !!}
+                    </div>
+                </div>
+            </div>
+            <!------------------------------------->
+
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Email:</strong>
-            {!! Form::text('email', null, array('placeholder' => 'Digite seu email','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Senha:</strong>
-            {!! Form::password('password', array('placeholder' => 'Digite sua senha','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Confirmar senha:</strong>
-            {!! Form::password('confirm-password', array('placeholder' => 'Confirmar senha','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>CPF:</strong>
-            {!! Form::text('cpf', null, array('placeholder' => 'Digite seu CPF','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>RG:</strong>
-            {!! Form::text('rg', null, array('placeholder' => 'Digite seu rg','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Nascimento:</strong>
-            {!! Form::text('nascimento', null, array('placeholder' => 'Digite sua data de nascimento','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Telefone:</strong>
-            {!! Form::text('telefone', null, array('placeholder' => 'Digite seu telefone','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Endereço:</strong>
-            {!! Form::text('endereco', null, array('placeholder' => 'Digite seu endereço','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Papel:</strong>            
-            {!! Form::select('fk_role', $roles, null, array('placeholder'=>'--Selecione--', 'class' => 'form-control', 'onchange' => 'papelAlerta()', 'id' => 'papel')) !!}
-        </div>
-    </div> 
-    
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Código Profissional:</strong>
-            {!! Form::text('codigoprofissional', null, array('placeholder' => 'Digite seu rg','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Especialidade:</strong>                    
-            {!! Form::select('idespecialidade', $especialidades, null, array('class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Assinatura:</strong>
-            {!! Form::file('assinatura', null, array('placeholder' => '','class' => 'form-control', 'style'=>'height:100px')) !!}
-        </div>
-    </div>   
-    
-    
-    
-    </div>   
-    
-    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">Salvar</button>
     </div>
 </div>
 {!! Form::close() !!}
+
+<script type="text/javascript">
+$(document).ready(function () {
+    $("#med").hide();
+    $("#den").hide();
+    $("#far").hide();
+    $("#enf").hide();
+    $("#papel").change(function () {
+        var funcao = document.getElementById('papel').value;
+        if (funcao == '2') { //farmaceutico
+            $("#med").hide();
+            $("#den").hide();
+            $("#far").show();
+            $("#enf").hide();
+        } else if (funcao == '3') { //médico
+            $("#med").show();
+            $("#den").hide();
+            $("#far").hide();
+            $("#enf").hide();
+        } else if (funcao == '4') { //dentista
+            $("#med").hide();
+            $("#den").show();
+            $("#far").hide();
+            $("#enf").hide();
+        } else if (funcao == '5') { //enfermeiro
+            $("#med").hide();
+            $("#den").hide();
+            $("#far").hide();
+            $("#enf").show();
+        }
+    });
+});
+</script>
+
 @endsection
