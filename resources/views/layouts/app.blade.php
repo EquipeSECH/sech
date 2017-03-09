@@ -31,10 +31,10 @@ desired effect
 -->
 <style>
     .skin-red-light .content-wrapper, .skin-red-light .main-footer{
-            border-left: 1px solid white;
+            border-left: 1px solid #f9efe3;
     }
 </style>
-<body class="skin-red-light sidebar-mini" style="border-left: white;">
+<body class="skin-red-light sidebar-mini" style="border-left: #f3ece3;">
 <div class="wrapper">
 
     @include('layouts.partials.mainheader')
@@ -42,7 +42,7 @@ desired effect
     @include('layouts.partials.sidebar')
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper" style="background-color: white;">
+    <div class="content-wrapper" style="background-color: rgba(253, 246, 237, 0.6);">
 
         @include('layouts.partials.contentheader')
 
