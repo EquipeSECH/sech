@@ -12,7 +12,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!--
 BODY TAG OPTIONS:
 =================
-Apply one or more of the following classes to get the
+Apply one or more of 
+the following classes to get the
 desired effect
 |---------------------------------------------------------|
 | SKINS         | skin-blue                               |
