@@ -9,7 +9,7 @@
         @if (! Auth::guest())
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{asset('/img/nurse.png')}}" class="img-circle" alt="User Image" />
+                <img src="{{asset('/img/nurse.png')}}" class="img-circle" alt="User Image"  width="700px"/>
             </div>
             <div class="pull-left info">
                 <br>
@@ -31,13 +31,48 @@
         </form>-->
         <!-- /.search form -->
         <br><br>
+        <style>
+            
+        </style>
+        
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <!--<li class="header">{{ trans('adminlte_lang::message.header') }}</li>-->
             <!-- Optionally, you can add icons to the links -->
             <!--<li class="active"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.home') }}</span></a></li>-->
-            <li class="active"><a href="{{ url('home') }}"><i class='fa fa-home'></i> <span>INÍCIO</span></a></li>
-            <?php /*
+            <li class="active">
+                <a href="{{ url('home') }}">
+                    <!--<i class='fa fa-home'></i>--> 
+                    <img src="{{asset('/img/home.png')}}" alt="User Image"  width="10%"/> 
+                    <span> INÍCIO</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('home') }}">
+                    <img src="{{asset('/img/funcionarios.png')}}" alt="User Image"  width="10%"/>
+                    <span> FUNCIONÁRIOS</span> 
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('home') }}">
+                    <img src="{{asset('/img/paciente.png')}}" alt="User Image"  width="10%"/>
+                    <span> INTERNAÇÃO</span> 
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('home') }}">
+                    <img src="{{asset('/img/medicamento.png')}}" alt="User Image"  width="10%"/>
+                    <span> MEDICAMNTOS</span> 
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('home') }}">
+                    <img src="{{asset('/img/estoque.png')}}" alt="User Image"  width="10%"/>
+                    <span> ESTOQUE</span> 
+                </a>
+            </li>
+            
+             <?php /*
               <li><a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.anotherlink') }}</span></a></li>
               <li class="treeview">
               <a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.multilevel') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
