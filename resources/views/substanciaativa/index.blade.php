@@ -32,33 +32,29 @@
     @foreach ($substanciaativas as $key => $substanciaativa)
     <tr>
             <td>{{ ++$i }}</td>
-            <td>{{ $substanciaativa->nome}}</td>  
-            <?php
-                        $nomeclassificacao = ''; 
-                        switch ($substanciaativa->classificacao) {
+            <td>{{ $substanciaativa->nome}}</td> 
+            <td>
+            <?php 
+                    switch ($substanciaativa->classificacao) {
                         case 0:
-                            $nomeclassificacao = 'Controlado da portaria 344/98';
-                            echo"<td style='color: red;'>$nomeclassificacao</td>";
+                            echo "<span class='label label-danger'>Controlado da portaria 344/98</span>";
                             break;
                         case 1:
-                            $nomeclassificacao = 'Potencialmente perigosos';
-                            echo"<td style='color: yellow;'>$nomeclassificacao</td>";
+                            echo"<span class='label label-warning'>Potencialmente perigosos</span>";
                             break;
                         case 2:
-                            $nomeclassificacao = 'Antibiótico de uso restrito';
-                            echo"<td style='color: green;'>$nomeclassificacao</td>";
+                            echo"<span class='label label-success'>Antibiótico de uso restrito</span>";
                             break;
                         case 3:
-                            $nomeclassificacao = 'Antibiótico';
-                            echo"<td style='color: blue;'>$nomeclassificacao</td>";
+                            echo"<span class='label label-primary'>Antibiótico</span>";
                             break;
                         case 4:
-                            $nomeclassificacao = 'Outros';
-                            echo"<td>$nomeclassificacao</td>";
+                            echo"<span class='label label-default'>Outros</span>";
                             break;
-                        }
+                    }
 
-                    ?>
+                ?>
+            </td>
             <td>
                     <a class="btn btn-default" href="{{ route('substanciaativa.show',$substanciaativa->id) }}"> 
                         <i class="fa fa-eye"></i>

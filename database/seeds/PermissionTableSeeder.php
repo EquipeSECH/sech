@@ -190,6 +190,26 @@ class PermissionTableSeeder extends Seeder {
                 'name' => 'substanciaativa-delete',
                 'display_name' => 'Excluir substância ativa',
                 'description' => 'Delete substância ativa'
+            ],
+            //Interação medicamentosa
+            [   'name' => 'interacaomedicamentosa-list',
+                'display_name' => 'Listagem de Interação medicamentosa',
+                'description' => 'Listar Interação medicamentosa' 
+            ],
+            [
+                'name' => 'interacaomedicamentosa-create',
+                'display_name' => 'Cadastrar Interação medicamentosa',
+                'description' => 'Cadastrar nova Interação medicamentosa'
+            ],
+            [
+                'name' => 'interacaomedicamentosa-edit',
+                'display_name' => 'Editar Interação medicamentosa',
+                'description' => 'Editar Interação medicamentosa existente'
+            ],
+            [
+                'name' => 'interacaomedicamentosa-delete',
+                'display_name' => 'Excluir Interação medicamentosa',
+                'description' => 'Delete Interação medicamentosa'
             ]
         ];
 
