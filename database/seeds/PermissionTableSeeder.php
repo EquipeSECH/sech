@@ -112,6 +112,26 @@ class PermissionTableSeeder extends Seeder {
                 'name' => 'formafarmaceutica-delete',
                 'display_name' => 'Excluir forma farmacêutica',
                 'description' => 'Delete forma farmacêutica'
+            ],
+            //Substancia ativa
+            [   'name' => 'substanciaativa-list',
+                'display_name' => 'Listagem de substância ativa',
+                'description' => 'Listar substância ativa'
+            ],
+            [
+                'name' => 'substanciaativa-create',
+                'display_name' => 'Cadastrar substância ativa',
+                'description' => 'Cadastrar nova substância ativa'
+            ],
+            [
+                'name' => 'substanciaativa-edit',
+                'display_name' => 'Editar substância ativa',
+                'description' => 'Editar substância ativa existente'
+            ],
+            [
+                'name' => 'substanciaativa-delete',
+                'display_name' => 'Excluir substância ativa',
+                'description' => 'Delete substância ativa'
             ]
         ];
         
