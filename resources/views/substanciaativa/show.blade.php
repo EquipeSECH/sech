@@ -5,7 +5,7 @@
 	    <div class="col-lg-12 margin-tb">
             @section('contentheader_title')
 	        <div class="pull-left">
-	            <h2> Exibir forma farmacêutica</h2>
+	            <h2> Exibir substância ativa</h2>
 	        </div>
             @endsection 
 	        <div class="pull-right">
@@ -17,6 +17,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Substancia ativa: </strong>
+                    
                     {{ $substanciaativa->nome }}
                 </div>
             </div>
@@ -29,27 +30,26 @@
                         $nomeclassificacao = ''; 
                         switch ($substanciaativa->classificacao) {
                         case 0:
-                            $nomeunidade = 'Controlado da portaria 344/98';
+                            $nomeclassificacao = 'Controlado da portaria 344/98';
                             echo"<td style='color: red;'>$nomeclassificacao</td>";
                             break;
                         case 1:
-                            $nomeunidade = 'Potencialmente perigosos';
+                            $nomeclassificacao = 'Potencialmente perigosos';
                             echo"<td style='color: yellow;'>$nomeclassificacao</td>";
                             break;
                         case 2:
-                            $nomeunidade = 'Antibiótico de uso restrito';
+                            $nomeclassificacao = 'Antibiótico de uso restrito';
                             echo"<td style='color: green;'>$nomeclassificacao</td>";
                             break;
                         case 3:
-                            $nomeunidade = 'Antibiótico';
+                            $nomeclassificacao = 'Antibiótico';
                             echo"<td style='color: blue;'>$nomeclassificacao</td>";
                             break;
                         case 4:
-                            $nomeunidade = 'Outros';
+                            $nomeclassificacao = 'Outros';
                             echo"<td>$nomeclassificacao</td>";
                             break;
                         }
-
                     ?>
                 </div>
             </div>

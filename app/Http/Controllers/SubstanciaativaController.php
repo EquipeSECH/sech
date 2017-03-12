@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Subtanciaativa;
+use App\Substanciaativa;
 
-class SubtanciaativaController extends Controller
+class SubstanciaativaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class SubtanciaativaController extends Controller
      */
     public function create()
     {
-        return view('substanciaativas.create');
+        return view('substanciaativa.create');
     }
 
     /**
@@ -42,12 +42,13 @@ class SubtanciaativaController extends Controller
             'nome' => 'required',
             'classificacao' => 'required',
             'contraindicacao' => 'required',
+        
         ]);
 
         Substanciaativa::create($request->all());
 
         return redirect()->route('substanciaativa.index')
-                        ->with('success','Substâcia ativa cadastrada com sucesso!');
+                        ->with('success','Substância ativa cadastrada com sucesso!');
     }
 
     /**
@@ -59,7 +60,7 @@ class SubtanciaativaController extends Controller
     public function show($id)
     {
         $substanciaativa = substanciaativa::find($id);
-        return view('substanciaativa.show',compact('$substanciaativa'));
+        return view('substanciaativa.show',compact('substanciaativa'));
     }
 
     /**
@@ -70,7 +71,7 @@ class SubtanciaativaController extends Controller
      */
     public function edit($id)
     {
-        $substanciaativa = SubstanciaAtiva::find($id);
+        $substanciaativa = Substanciaativa::find($id);
         return view('substanciaativa.edit',compact('substanciaativa'));
     }
 
@@ -87,12 +88,13 @@ class SubtanciaativaController extends Controller
             'nome' => 'required',
             'classificacao' => 'required',
             'contraindicacao' => 'required',
+        
         ]);
 
         Substanciaativa::find($id)->update($request->all());
 
         return redirect()->route('substanciaativa.index')
-                        ->with('success','Substancia ativa atualizada com sucesso');
+                        ->with('success','Substância ativa atualizada com sucesso');
     }
 
     /**
@@ -106,6 +108,6 @@ class SubtanciaativaController extends Controller
         
         Substanciaativa::find($id)->delete();
         return redirect()->route('substanciaativa.index')
-                        ->with('success','Substância antiva apagada com sucesso!');
+                        ->with('success','Substância ativa apagada com sucesso!');
     }
 }

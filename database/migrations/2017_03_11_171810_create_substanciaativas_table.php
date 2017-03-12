@@ -16,7 +16,7 @@ class CreateSubstanciaativasTable extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->integer('classificacao');
-            $table->string('contraindicacao');
+            $table->string('contraindicacao')->nullable();
             $table->timestamps();
         });
     }

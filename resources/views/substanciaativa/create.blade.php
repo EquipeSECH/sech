@@ -45,8 +45,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Contraindicação:</strong>
-                {!! Form::text('contraindicacao', null, array('placeholder' => '','class' => 'form-control')) !!}
-            </div>
+                {!! Form::textarea('contraindicacao', null, array('placeholder' => '','class' => 'form-control', 'style'=>'height:100px', 'maxlength'=>'255')) !!}
+        </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <button type="submit" class="btn btn-primary">Salvar</button>
