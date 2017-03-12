@@ -174,7 +174,7 @@ class PermissionTableSeeder extends Seeder {
             //Substancia ativa
             [   'name' => 'substanciaativa-list',
                 'display_name' => 'Listagem de substância ativa',
-                'description' => 'Listar substância ativa'
+                'description' => 'Listar substância ativa' 
             ],
             [
                 'name' => 'substanciaativa-create',
