@@ -55,7 +55,6 @@ class PermissionTableSeeder extends Seeder {
                 'display_name' => 'Excluir usuário',
                 'description' => 'Excluir usuário'
             ],
-            
 //            // Telas iniciais            
 //            [
 //                'name' => 'viewTelaProfessor',
@@ -72,7 +71,6 @@ class PermissionTableSeeder extends Seeder {
 //                'display_name' => 'Gerar relatório de usuários',
 //                'description' => 'Gerar relatório de usuários'
 //            ],
-            
             //Especialidade
             ['name' => 'especialidade-list',
                 'display_name' => 'Listagem de especialidades',
@@ -94,7 +92,7 @@ class PermissionTableSeeder extends Seeder {
                 'description' => 'Delete especialidade'
             ],
             //Forma farmacêutica
-            [   'name' => 'formafarmaceutica-list',
+            [ 'name' => 'formafarmaceutica-list',
                 'display_name' => 'Listagem de forma farmacêutica',
                 'description' => 'Listar forma farmacêutica'
             ],
@@ -112,6 +110,66 @@ class PermissionTableSeeder extends Seeder {
                 'name' => 'formafarmaceutica-delete',
                 'display_name' => 'Excluir forma farmacêutica',
                 'description' => 'Delete forma farmacêutica'
+            ],
+            //Clínicas
+            [ 'name' => 'clinica-list',
+                'display_name' => 'Listagem de clínicas',
+                'description' => 'Listar clínicas'
+            ],
+            [
+                'name' => 'clinica-create',
+                'display_name' => 'Cadastrar clínica',
+                'description' => 'Cadastrar nova clínica'
+            ],
+            [
+                'name' => 'clinica-edit',
+                'display_name' => 'Editar clínica',
+                'description' => 'Editar clínica existente'
+            ],
+            [
+                'name' => 'clinica-delete',
+                'display_name' => 'Excluir clínica',
+                'description' => 'Excluir clínica'
+            ],
+            //Cid10
+            [ 'name' => 'cid-list',
+                'display_name' => 'Listagem cid10',
+                'description' => 'Listar cid10'
+            ],
+            [
+                'name' => 'cid-create',
+                'display_name' => 'Cadastrar cid10',
+                'description' => 'Cadastrar nova cid10'
+            ],
+            [
+                'name' => 'cid-edit',
+                'display_name' => 'Editar cid10',
+                'description' => 'Editar cid10 existente'
+            ],
+            [
+                'name' => 'cid-delete',
+                'display_name' => 'Excluir cid10',
+                'description' => 'Excluir cid10'
+            ],
+            //Leito
+            [ 'name' => 'leito-list',
+                'display_name' => 'Listagem de leitos',
+                'description' => 'Listar leitos'
+            ],
+            [
+                'name' => 'leito-create',
+                'display_name' => 'Cadastrar leito',
+                'description' => 'Cadastrar novo leito'
+            ],
+            [
+                'name' => 'leito-edit',
+                'display_name' => 'Editar leito',
+                'description' => 'Editar leito existente'
+            ],
+            [
+                'name' => 'leito-delete',
+                'display_name' => 'Excluir leito',
+                'description' => 'Excluir leito'
             ],
             //Substancia ativa
             [   'name' => 'substanciaativa-list',
@@ -134,13 +192,13 @@ class PermissionTableSeeder extends Seeder {
                 'description' => 'Delete substância ativa'
             ]
         ];
-        
+
         $role = [
             [
                 'name' => 'admin',
                 'display_name' => 'Administrador',
                 'description' => 'Administrador do Sistema'
-            ],            
+            ],
             [
                 'name' => 'farmaceutico',
                 'display_name' => 'Farmacêutico',
