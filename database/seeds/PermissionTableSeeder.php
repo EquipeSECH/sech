@@ -170,6 +170,46 @@ class PermissionTableSeeder extends Seeder {
                 'name' => 'leito-delete',
                 'display_name' => 'Excluir leito',
                 'description' => 'Excluir leito'
+            ],
+            //Substancia ativa
+            [   'name' => 'substanciaativa-list',
+                'display_name' => 'Listagem de substância ativa',
+                'description' => 'Listar substância ativa' 
+            ],
+            [
+                'name' => 'substanciaativa-create',
+                'display_name' => 'Cadastrar substância ativa',
+                'description' => 'Cadastrar nova substância ativa'
+            ],
+            [
+                'name' => 'substanciaativa-edit',
+                'display_name' => 'Editar substância ativa',
+                'description' => 'Editar substância ativa existente'
+            ],
+            [
+                'name' => 'substanciaativa-delete',
+                'display_name' => 'Excluir substância ativa',
+                'description' => 'Delete substância ativa'
+            ],
+            //Interação medicamentosa
+            [   'name' => 'interacaomedicamentosa-list',
+                'display_name' => 'Listagem de Interação medicamentosa',
+                'description' => 'Listar Interação medicamentosa' 
+            ],
+            [
+                'name' => 'interacaomedicamentosa-create',
+                'display_name' => 'Cadastrar Interação medicamentosa',
+                'description' => 'Cadastrar nova Interação medicamentosa'
+            ],
+            [
+                'name' => 'interacaomedicamentosa-edit',
+                'display_name' => 'Editar Interação medicamentosa',
+                'description' => 'Editar Interação medicamentosa existente'
+            ],
+            [
+                'name' => 'interacaomedicamentosa-delete',
+                'display_name' => 'Excluir Interação medicamentosa',
+                'description' => 'Delete Interação medicamentosa'
             ]
         ];
 

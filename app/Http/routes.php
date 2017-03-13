@@ -100,7 +100,26 @@ Route::group(['middleware' => ['auth']], function() {
         Route::delete('/{id}', ['as' => 'formafarmaceutica.destroy', 'uses' => 'FormafarmaceuticaController@destroy', 'middleware' => ['permission:formafarmaceutica-delete']]);
     });
    
-    
+    //rotas de substancia ativa
+    Route::group(['prefix' => 'substanciaativa', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('', ['as' => 'substanciaativa.index', 'uses' => 'SubstanciaativaController@index', 'middleware' => ['permission:substanciaativa-list|substanciaativa-create|substanciaativa-edit|substanciaativa-delete']]);
+        Route::get('/create', ['as' => 'substanciaativa.create', 'uses' => 'SubstanciaativaController@create', 'middleware' => ['permission:substanciaativa-create']]);
+        Route::post('/create', ['as' => 'substanciaativa.store', 'uses' => 'SubstanciaativaController@store', 'middleware' => ['permission:substanciaativa-create']]);
+        Route::get('/{id}', ['as' => 'substanciaativa.show', 'uses' => 'SubstanciaativaController@show']);
+        Route::get('/{id}/edit', ['as' => 'substanciaativa.edit', 'uses' => 'SubstanciaativaController@edit', 'middleware' => ['permission:substanciaativa-edit']]);
+        Route::patch('/{id}', ['as' => 'substanciaativa.update', 'uses' => 'SubstanciaativaController@update', 'middleware' => ['permission:substanciaativa-edit']]);
+        Route::delete('/{id}', ['as' => 'substanciaativa.destroy', 'uses' => 'SubstanciaativaController@destroy', 'middleware' => ['permission:substanciaativa-delete']]);
+    });
+    //rotas de interacao medicamentosa
+    Route::group(['prefix' => 'interacaomedicamentosa', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('', ['as' => 'interacaomedicamentosa.index', 'uses' => 'InteracaomedicamentosaController@index', 'middleware' => ['permission:interacaomedicamentosa-list|interacaomedicamentosa-create|interacaomedicamentosa-edit|interacaomedicamentosa-delete']]);
+        Route::get('/create', ['as' => 'interacaomedicamentosa.create', 'uses' => 'InteracaomedicamentosaController@create', 'middleware' => ['permission:interacaomedicamentosa-create']]);
+        Route::post('/create', ['as' => 'interacaomedicamentosa.store', 'uses' => 'InteracaomedicamentosaController@store', 'middleware' => ['permission:interacaomedicamentosa-create']]);
+        Route::get('/{id}', ['as' => 'interacaomedicamentosa.show', 'uses' => 'InteracaomedicamentosaController@show']);
+        Route::get('/{id}/edit', ['as' => 'interacaomedicamentosa.edit', 'uses' => 'InteracaomedicamentosaController@edit', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
+        Route::patch('/{id}', ['as' => 'interacaomedicamentosa.update', 'uses' => 'InteracaomedicamentosaController@update', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
+        Route::delete('/{id}', ['as' => 'interacaomedicamentosa.destroy', 'uses' => 'InteracaomedicamentosaController@destroy', 'middleware' => ['permission:interacaomedicamentosa-delete']]);
+    });
     
    
 

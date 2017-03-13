@@ -40,37 +40,71 @@
             <!--<li class="header">{{ trans('adminlte_lang::message.header') }}</li>-->
             <!-- Optionally, you can add icons to the links -->
             <!--<li class="active"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.home') }}</span></a></li>-->
-            <li class="active">
+            <li class="tree view active">
                 <a href="{{ url('home') }}">
-                    <!--<i class='fa fa-home'></i>--> 
-                    <img src="{{asset('/img/home.png')}}" alt="User Image"  width="10%"/> 
+                    <i style="font-size:18px; color:#e64225; " class='fa fa-home'></i> 
                     <span> INÍCIO</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ url('home') }}">
-                    <img src="{{asset('/img/funcionarios.png')}}" alt="User Image"  width="10%"/>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                  <i style="font-size:18px; color:#e64225; " class='fa fa-users'></i> 
                     <span> FUNCIONÁRIOS</span> 
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
                 </a>
+                <ul class="treeview-menu" style="display: none;">
+                  <li style="margin-left: 20px;"><a href="{{ url('users') }}"> Usuários</a></li>
+                  <li style="margin-left: 20px;"><a href="{{ url('roles') }}"></i> Papeis</a></li>
+                  <li style="margin-left: 20px;"><a href="{{ url('especialidade') }}"></i> Especialidade</a></li>
+                </ul>
             </li>
-            <li>
-                <a href="{{ url('home') }}">
-                    <img src="{{asset('/img/paciente.png')}}" alt="User Image"  width="10%"/>
+            <li class="treeview">
+                <a href="#">
+                  <i style="font-size:18px; color:#e64225; " class='fa fa-h-square'></i> 
+                    <span> HOSPITAL</span> 
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu" style="display: none;">
+                  <li style="margin-left: 20px;"><a href="{{ url('') }}"> Frmácia</a></li>
+                  <li style="margin-left: 20px;"><a href="{{ url('') }}"></i>Leito</a></li>
+                  <li style="margin-left: 20px;"><a href="{{ url('') }}"></i> Clinica</a></li>   
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                  <i style="font-size:18px; color:#e64225; " class='fa fa-heartbeat'></i> 
                     <span> INTERNAÇÃO</span> 
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
                 </a>
+                <ul class="treeview-menu" style="display: none;">
+                  <li style="margin-left: 20px;"><a href="{{ url('') }}"> Frmácia</a></li>
+                  <li style="margin-left: 20px;"><a href="{{ url('') }}"></i>Leito</a></li>
+                  <li style="margin-left: 20px;"><a href="{{ url('') }}"></i> Clinica</a></li>   
+                </ul>
             </li>
+            
+            
             <li>
                 <a href="{{ url('home') }}">
-                    <img src="{{asset('/img/medicamento.png')}}" alt="User Image"  width="10%"/>
+                    <i style="font-size:18px; color:#e64225; " class='fa  fa-medkit'></i> 
                     <span> MEDICAMNTOS</span> 
                 </a>
             </li>
             <li>
                 <a href="{{ url('home') }}">
-                    <img src="{{asset('/img/estoque.png')}}" alt="User Image"  width="10%"/>
+                    <i style="font-size:18px; color:#e64225; " class='fa  fa-cube'></i> 
                     <span> ESTOQUE</span> 
                 </a>
             </li>
+            
+            
             
              <?php /*
               <li><a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.anotherlink') }}</span></a></li>
