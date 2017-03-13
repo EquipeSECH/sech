@@ -11,7 +11,7 @@ class ClinicaController extends Controller
 {
     public function index(Request $request)
     {
-        $clinicas = Clinica::orderBy('id','DESC')->paginate(5);
+        $clinicas = Clinica::orderBy('id','DESC')->get();
         return view('clinica.index',compact('clinicas'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -29,9 +29,13 @@ class ClinicaController extends Controller
         ]);
 
         Clinica::create($request->all());
+        
+        $notificacao = array(
+            'mensagem' => 'Clínica cadastrada com sucesso!',
+        );
 
         return redirect()->route('clinica.index')
-                        ->with('success','Clínica cadastrada com sucesso!');
+                        ->with($notificacao);
     }
     
     public function edit($id)

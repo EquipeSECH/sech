@@ -9,7 +9,7 @@
 	        </div>
 	         @endsection
 	        <div class="pull-right">
-	            <a class="btn btn-primary" href="{{ route('itemCRUD2.index') }}"> Back</a>
+	            <a class="btn btn-primary" href="{{ route('clinica.index') }}"> Back</a>
 	        </div>
 	    </div>
 	</div>

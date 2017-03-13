@@ -23,21 +23,26 @@
 </div>
 @endif
 {!! Form::open(array('route' => 'clinica.store','method'=>'POST')) !!}
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Nome:</strong>
-            {!! Form::text('nome', null, array('placeholder' => 'Digite o nome da clínica','class' => 'form-control')) !!}
+<br>
+<div class="box box-danger">
+    <div class="row">
+        <div class="box-body">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Nome:</strong>
+                    {!! Form::text('nome', null, array('placeholder' => 'Digite o nome da clínica','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Descrição:</strong>
+                    {!! Form::textarea('descricao', null, array('placeholder' => 'Descrição da clínica','class' => 'form-control','style'=>'height:100px')) !!}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Descrição:</strong>
-            {!! Form::textarea('descricao', null, array('placeholder' => 'Descrição da clínica','class' => 'form-control','style'=>'height:100px')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">Salvar</button>
     </div>
 </div>
 {!! Form::close() !!}

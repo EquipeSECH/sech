@@ -16,6 +16,8 @@ class CreateLeitosTable extends Migration
             $table->increments('id');
             $table->integer('leito');
             $table->string('observacao')->nullable();
+            $table->integer('idclinica');           
+            $table->foreign('idclinica')->references('id')-> on('clinicas'); 
             $table->timestamps();
         });
     }
