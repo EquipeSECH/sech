@@ -29,13 +29,9 @@ class ClinicaController extends Controller
         ]);
 
         Clinica::create($request->all());
-        
-        $notificacao = array(
-            'mensagem' => 'Clínica cadastrada com sucesso!',
-        );
 
         return redirect()->route('clinica.index')
-                        ->with($notificacao);
+                        ->with('success','Clínica cadastrada com sucesso!');
     }
     
     public function edit($id)
@@ -54,7 +50,7 @@ class ClinicaController extends Controller
         Clinica::find($id)->update($request->all());
 
         return redirect()->route('clinica.index')
-                        ->with('success','Clinica atualizada com sucesso!');
+                        ->with('success','Clínica atualizada com sucesso!');
     }
     
     public function destroy($id)

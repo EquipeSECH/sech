@@ -43,14 +43,14 @@
             <li class="tree view active">
                 <a href="{{ url('home') }}">
                     <i style="font-size:18px; color:#e64225; " class='fa fa-home'></i> 
-                    <span> INÍCIO</span>
+                    <span> Início</span>
                 </a>
             </li>
             </li>
             <li class="treeview">
                 <a href="#">
                   <i style="font-size:18px; color:#e64225; " class='fa fa-users'></i> 
-                    <span> FUNCIONÁRIOS</span> 
+                    <span> Funcionários</span> 
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
@@ -64,29 +64,29 @@
             <li class="treeview">
                 <a href="#">
                   <i style="font-size:18px; color:#e64225; " class='fa fa-h-square'></i> 
-                    <span> HOSPITAL</span> 
+                    <span> Hospital</span> 
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                  <li style="margin-left: 20px;"><a href="{{ url('') }}"> Frmácia</a></li>
-                  <li style="margin-left: 20px;"><a href="{{ url('') }}"></i>Leito</a></li>
-                  <li style="margin-left: 20px;"><a href="{{ url('') }}"></i> Clinica</a></li>   
+                  <li style="margin-left: 20px;"><a href="{{ url('') }}"> Farmácia</a></li>
+                  <li style="margin-left: 20px;"><a href="{{ url('leito') }}"></i>Leito</a></li>
+                  <li style="margin-left: 20px;"><a href="{{ url('clinica') }}"></i> Clínica</a></li>   
                 </ul>
             </li>
             <li class="treeview">
                 <a href="#">
                   <i style="font-size:18px; color:#e64225; " class='fa fa-heartbeat'></i> 
-                    <span> INTERNAÇÃO</span> 
+                    <span> Internação</span> 
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                  <li style="margin-left: 20px;"><a href="{{ url('') }}"> Frmácia</a></li>
-                  <li style="margin-left: 20px;"><a href="{{ url('') }}"></i>Leito</a></li>
-                  <li style="margin-left: 20px;"><a href="{{ url('') }}"></i> Clinica</a></li>   
+                  <li style="margin-left: 20px;"><a href="{{ url('') }}"> Farmácia</a></li>
+                  <li style="margin-left: 20px;"><a href="{{ url('leito') }}"></i>Leito</a></li>
+                  <li style="margin-left: 20px;"><a href="{{ url('clinica') }}"></i> Clínica</a></li>   
                 </ul>
             </li>
             
@@ -94,13 +94,13 @@
             <li>
                 <a href="{{ url('home') }}">
                     <i style="font-size:18px; color:#e64225; " class='fa  fa-medkit'></i> 
-                    <span> MEDICAMNTOS</span> 
+                    <span> Medicamentos</span> 
                 </a>
             </li>
             <li>
                 <a href="{{ url('home') }}">
                     <i style="font-size:18px; color:#e64225; " class='fa  fa-cube'></i> 
-                    <span> ESTOQUE</span> 
+                    <span> Estoque</span> 
                 </a>
             </li>
             
