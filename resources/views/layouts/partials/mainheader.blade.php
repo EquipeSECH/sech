@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{{ url('/home') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>SECH</b></span>
+        <span class="logo-mini"><img src="{{asset('/img/logosech_branco.png')}}" width="75%" style="margin-top: 15%"></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">SECH</span>
+        <span class="logo-lg"><img src="{{asset('/img/logosech_branco.png')}}" width="30%" >SECH</span>
     </a>
 
     <!-- Header Navbar -->

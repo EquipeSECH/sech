@@ -2,13 +2,13 @@
 
 @section('main-content')
 <div class="row">
-    <div class="col-lg-12 margin-tb">
-        @section('contentheader_title')
+    <div class="col-lg-12 margin-tb">  
         <div class="pull-left">
-            <h2>Cadastrar nova clínica</h2>
+             @section('contentheader_title')
+            Cadastrar clínica
+             @endsection 
         </div>
-        @endsection 
-        <div class="pull-right">
+        <div class="pull-right" style="margin-right: 2%;">
             <a class="btn btn-primary" href="{{ route('clinica.index') }}"> Voltar</a>
         </div>
     </div>
@@ -24,7 +24,7 @@
 @endif
 {!! Form::open(array('route' => 'clinica.store','method'=>'POST')) !!}
 <br>
-<div class="box box-danger">
+<div class="box box-danger" style="margin-left: 2%; margin-right: 2%; width: 96%;">
     <div class="row">
         <div class="box-body">
             <div class="col-xs-12 col-sm-12 col-md-12">

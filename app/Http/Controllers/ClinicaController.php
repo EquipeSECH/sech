@@ -28,9 +28,10 @@ class ClinicaController extends Controller
             'descricao' => 'required',
         ]);
 
-        Clinica::create($request->all());
-
-        return redirect()->route('clinica.index')
+        $clinica = Clinica::create($request->all());
+            
+        
+        return redirect()->route('leito.create', $clinica->id)
                         ->with('success','Clínica cadastrada com sucesso!');
     }
     

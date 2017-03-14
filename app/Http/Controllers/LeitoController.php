@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Leito;
 use App\Clinica;
+use DB;
 
 class LeitoController extends Controller
 {
@@ -17,10 +18,14 @@ class LeitoController extends Controller
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
     
-    public function create()
+    public function create($id)
     {
-        $clinicas = Clinica::lists('nome', 'id');
-        return view('leito.create', compact('clinicas'));
+        
+        $clinica = Clinica::select('nome', 'id')->where('clinicas.id', '=', $id)->get();
+       
+        
+        
+        return view('leito.create', compact('clinica'));
     }
     
     public function store(Request $request)
@@ -28,9 +33,9 @@ class LeitoController extends Controller
         $this->validate($request, [
             'leito' => 'required',
             'observacao' => 'required',
-            'idclinica' => 'required'
         ]);
-
+        
+       
         Leito::create($request->all());
 
         return redirect()->route('leito.index')
@@ -40,7 +45,8 @@ class LeitoController extends Controller
     public function edit($id)
     {
         $leito = Leito::find($id);
-        return view('leito.edit',compact('leito'));
+        $clinicas = Clinica::lists('nome', 'id');
+        return view('leito.edit',compact('leito', 'clinicas'));
     }
     
     public function update(Request $request, $id)

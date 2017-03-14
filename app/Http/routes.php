@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth']], function() {
     //rotas de leito
     Route::group(['prefix' => 'leito', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'leito.index', 'uses' => 'LeitoController@index', 'middleware' => ['permission:leito-list|leito-create|leito-edit|leito-delete']]);
-        Route::get('/create', ['as' => 'leito.create', 'uses' => 'LeitoController@create', 'middleware' => ['permission:leito-create']]);
+        Route::get('/create/{id}', ['as' => 'leito.create', 'uses' => 'LeitoController@create', 'middleware' => ['permission:leito-create']]);
         Route::post('/create', ['as' => 'leito.store', 'uses' => 'LeitoController@store', 'middleware' => ['permission:leito-create']]);
         Route::get('/{id}', ['as' => 'leito.show', 'uses' => 'LeitoController@show']);
         Route::get('/{id}/edit', ['as' => 'leito.edit', 'uses' => 'LeitoController@edit', 'middleware' => ['permission:leito-edit']]);
@@ -119,6 +119,28 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/{id}/edit', ['as' => 'interacaomedicamentosa.edit', 'uses' => 'InteracaomedicamentosaController@edit', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
         Route::patch('/{id}', ['as' => 'interacaomedicamentosa.update', 'uses' => 'InteracaomedicamentosaController@update', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
         Route::delete('/{id}', ['as' => 'interacaomedicamentosa.destroy', 'uses' => 'InteracaomedicamentosaController@destroy', 'middleware' => ['permission:interacaomedicamentosa-delete']]);
+    });
+    
+    //rotas de internação
+    Route::group(['prefix' => 'internacao', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('', ['as' => 'internacao.index', 'uses' => 'InternacaoController@index', 'middleware' => ['permission:interacaomedicamentosa-list|interacaomedicamentosa-create|interacaomedicamentosa-edit|interacaomedicamentosa-delete']]);
+        Route::get('/create', ['as' => 'internacao.create', 'uses' => 'InternacaoController@create', 'middleware' => ['permission:interacaomedicamentosa-create']]);
+        Route::post('/create', ['as' => 'internacao.store', 'uses' => 'InternacaoController@store', 'middleware' => ['permission:interacaomedicamentosa-create']]);
+        Route::get('/{id}', ['as' => 'internacao.show', 'uses' => 'InternacaoController@show']);
+        Route::get('/{id}/edit', ['as' => 'internacao.edit', 'uses' => 'InternacaoController@edit', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
+        Route::patch('/{id}', ['as' => 'internacao.update', 'uses' => 'InternacaoController@update', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
+        Route::delete('/{id}', ['as' => 'internacao.destroy', 'uses' => 'InternacaoController@destroy', 'middleware' => ['permission:interacaomedicamentosa-delete']]);
+    });
+    
+    //rotas de paciente
+    Route::group(['prefix' => 'paciente', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('', ['as' => 'paciente.index', 'uses' => 'PacienteController@index', 'middleware' => ['permission:interacaomedicamentosa-list|interacaomedicamentosa-create|interacaomedicamentosa-edit|interacaomedicamentosa-delete']]);
+        Route::get('/create', ['as' => 'paciente.create', 'uses' => 'PacienteController@create', 'middleware' => ['permission:interacaomedicamentosa-create']]);
+        Route::post('/create', ['as' => 'paciente.store', 'uses' => 'PacienteController@store', 'middleware' => ['permission:interacaomedicamentosa-create']]);
+        Route::get('/{id}', ['as' => 'paciente.show', 'uses' => 'PacienteController@show']);
+        Route::get('/{id}/edit', ['as' => 'paciente.edit', 'uses' => 'PacienteController@edit', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
+        Route::patch('/{id}', ['as' => 'paciente.update', 'uses' => 'PacienteController@update', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
+        Route::delete('/{id}', ['as' => 'paciente.destroy', 'uses' => 'PacienteController@destroy', 'middleware' => ['permission:interacaomedicamentosa-delete']]);
     });
     
    

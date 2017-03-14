@@ -11393,7 +11393,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "Procurar:",
+			"sSearch": "<i class='fa fa-search'></i>",
 	
 	
 			/**

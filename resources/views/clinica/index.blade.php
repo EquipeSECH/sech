@@ -14,7 +14,7 @@
         @endsection
         <div class="pull-right" style="margin-right: 2%;">
             @permission('clinica-create')
-            <a class="btn btn-success"  href="{{ route('clinica.create') }}"> Cadastrar clínica</a>
+            <a class="btn btn-default"  href="{{ route('clinica.create') }}">Cadastrar</a>
             @endpermission
         </div>
     </div>
@@ -22,41 +22,43 @@
 <br>
 <div class="box box-danger" style="margin-left: 2%; margin-right: 2%; width: 96%;">
     <div class="box-body">
-        <table id="table" class="table table-bordered table-hover dataTable" role="grid">
-            <thead>
-                <tr>
-                    <th class="text-center">Nº</th>
-                    <th class="text-center">Nome</th>
-                    <th class="text-center">Descrição</th>
-                    <th class="text-center no-sort" width="14%">Ação</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($clinicas as $key => $clinica)
-                <tr>
-                    <td>{{ ++$i }}</td>
-                    <td>{{ $clinica->nome }}</td>
-                    <td>{{ $clinica->descricao }}</td>
-                    <td width="14%">
-                        <a class="btn btn-default" href="{{ route('clinica.show',$clinica->id) }}">
-                            <i class="fa fa-eye"> </i>
-                        </a>
-                        @permission('clinica-edit')
-                        <a class="btn btn-default" href="{{ route('clinica.edit',$clinica->id) }}">
-                            <i class="fa fa-edit"> </i>
-                        </a>
-                        @endpermission
-                        @permission('clinica-delete')
-                        {!! Form::open(['method' => 'DELETE','route' => ['clinica.destroy', $clinica->id],'style'=>'display:inline']) !!}
-                        {{ Form::button('<i class=" fa fa-trash"></i>', array('class' => 'btn btn-default', 'type' => 'submit')) }}
-                        <!--{!! Form::submit('Excluir', ['class' => 'btn btn-danger']) !!}-->
-                        {!! Form::close() !!}
-                        @endpermission
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="table" class="table table-bordered table-hover dataTable" role="grid">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="4%">Nº</th>
+                        <th class="text-center">Nome</th>
+                        <th class="text-center">Descrição</th>
+                        <th class="text-center no-sort" width="14%">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($clinicas as $key => $clinica)
+                    <tr>
+                        <td>{{ ++$i }}</td>
+                        <td>{{ $clinica->nome }}</td>
+                        <td>{{ $clinica->descricao }}</td>
+                        <td width="14%">
+                            <a class="btn btn-default" href="{{ route('clinica.show',$clinica->id) }}">
+                                <i class="fa fa-eye"> </i>
+                            </a>
+                            @permission('clinica-edit')
+                            <a class="btn btn-default" href="{{ route('clinica.edit',$clinica->id) }}">
+                                <i class="fa fa-edit"> </i>
+                            </a>
+                            @endpermission
+                            @permission('clinica-delete')
+                            {!! Form::open(['method' => 'DELETE','route' => ['clinica.destroy', $clinica->id],'style'=>'display:inline']) !!}
+                            {{ Form::button('<i class=" fa fa-trash"></i>', array('class' => 'btn btn-default', 'type' => 'submit')) }}
+                            <!--{!! Form::submit('Excluir', ['class' => 'btn btn-danger']) !!}-->
+                            {!! Form::close() !!}
+                            @endpermission
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 @endsection

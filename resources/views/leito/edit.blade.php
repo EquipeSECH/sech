@@ -23,27 +23,32 @@
 </div>
 @endif
 {!! Form::model($leito, ['method' => 'PATCH','route' => ['leito.update', $leito->id]]) !!}
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Leito:</strong>
-            {!! Form::text('leito', null, array('placeholder' => 'Digite o código','class' => 'form-control')) !!}
+<br>
+<div class="box box-danger">
+    <div class="row">
+        <div class="box-body">
+            <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group">
+                    <strong>Leito:</strong>
+                    {!! Form::text('leito', null, array('placeholder' => 'Digite o código','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-9 col-sm-9 col-md-9">
+                <div class="form-group">
+                    <strong>Clínica:</strong>
+                    {!! Form::select('idclinica', $clinicas, null, array('class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Observação:</strong>
+                    {!! Form::textarea('observacao', null, array('placeholder' => 'Descrição','class' => 'form-control','style'=>'height:100px')) !!}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Observação:</strong>
-            {!! Form::textarea('observacao', null, array('placeholder' => 'Descrição','class' => 'form-control','style'=>'height:100px')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Clínica:</strong>
-            {!! Form::select('idclinica', $clinicas, null, array('class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">Salvar</button>
     </div>
 </div>
 {!! Form::close() !!}

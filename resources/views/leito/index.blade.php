@@ -13,11 +13,6 @@
             <h2>Leitos</h2>
         </div>
         @endsection
-        <div class="pull-right" style="margin-right: 2%;">
-            @permission('leito-create')
-            <a class="btn btn-success" href="{{ route('leito.create') }}"> Cadastrar leito</a>
-            @endpermission
-        </div>
     </div>
 </div>
 <br>,
@@ -57,8 +52,8 @@
                         @endpermission
                     </td>
                 </tr>
-            </tbody>
-            @endforeach
+                @endforeach
+            </tbody>   
         </table>
     </div>
 </div>
