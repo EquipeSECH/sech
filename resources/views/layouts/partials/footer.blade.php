@@ -8,7 +8,7 @@
 </style>
 
 <!-- Main Footer -->
-<footer class="main-footer">
+<footer class="main-footer text-center">
     <!-- To the right -->
     <!-- Default to the left -->
     Copyright &copy; 2017 Fábrica de Software - <a href="http://www2.uesb.br/cpds/" target="_blank">CPDS</a>. Sistema disponível em <a href="https://github.com/EquipeSECH/sech" target="_blank">Github</a>

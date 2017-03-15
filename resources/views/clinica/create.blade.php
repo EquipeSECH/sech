@@ -4,12 +4,9 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">  
         <div class="pull-left">
-             @section('contentheader_title')
+            @section('contentheader_title')
             Cadastrar clínica
-             @endsection 
-        </div>
-        <div class="pull-right" style="margin-right: 2%;">
-            <a class="btn btn-primary" href="{{ route('clinica.index') }}"> Voltar</a>
+            @endsection 
         </div>
     </div>
 </div>
@@ -39,8 +36,9 @@
                     {!! Form::textarea('descricao', null, array('placeholder' => 'Descrição da clínica','class' => 'form-control','style'=>'height:100px')) !!}
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Salvar</button>
+            <div class="pull-right" style="margin-right: 1%;">
+                <a class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Voltar" href="{{ route('clinica.index') }}"><i class="fa fa-mail-reply"></i></a>
+                <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Salvar"><i class="fa fa-save"></i></button>
             </div>
         </div>
     </div>

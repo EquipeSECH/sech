@@ -22,7 +22,8 @@ class InternacaoController extends Controller {
         $pacientes = Paciente::orderBy('id', 'DESC')->lists('nomecompleto', 'id');  
         $clinicas = Clinica::lists('nome', 'id');
         $cid10s = Cid10::lists('descricao', 'id');
-        return view('internacao.create', compact('pacientes', 'clinicas', 'cid10s'));
+        $dataadmissao = date ("d-m-Y");
+        return view('internacao.create', compact('pacientes', 'clinicas', 'cid10s', 'dataadmissao'));
     }
 
     public function store(Request $request) {
@@ -34,7 +35,7 @@ class InternacaoController extends Controller {
         ]);
 
         $campos = $request->all();
-        
+        dd($campos);
         Internacao::create($campos);
 
         return redirect()->route('internacao.index')

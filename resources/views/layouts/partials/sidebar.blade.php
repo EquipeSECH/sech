@@ -32,9 +32,9 @@
         <!-- /.search form -->
         <br><br>
         <style>
-            
+
         </style>
-        
+
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <!--<li class="header">{{ trans('adminlte_lang::message.header') }}</li>-->
@@ -49,64 +49,56 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                  <i style="font-size:18px; color:#e64225; " class='fa fa-users'></i> 
+                    <i style="font-size:18px; color:#e64225; " class='fa fa-users' data-toggle="dropdown"></i> 
                     <span> Funcionários</span> 
-                  <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
-                  </span>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                  <li style="margin-left: 20px;"><a href="{{ url('users') }}"> Usuários</a></li>
-                  <li style="margin-left: 20px;"><a href="{{ url('roles') }}"></i> Papeis</a></li>
-                  <li style="margin-left: 20px;"><a href="{{ url('especialidade') }}"></i> Especialidade</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('users') }}"> Usuários</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('roles') }}"></i> Papeis</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('especialidade') }}"></i> Especialidade</a></li>
                 </ul>
             </li>
             <li class="treeview">
                 <a href="#">
-                  <i style="font-size:18px; color:#e64225; " class='fa fa-h-square'></i> 
+                    <i style="font-size:18px; color:#e64225; " class='fa fa-h-square' data-toggle="dropdown"></i> 
                     <span> Hospital</span> 
-                  <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
-                  </span>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                  <li style="margin-left: 20px;"><a href="{{ url('') }}"> Farmácia</a></li>
-                  <li style="margin-left: 20px;"><a href="{{ url('leito') }}"></i>Leito</a></li>
-                  <li style="margin-left: 20px;"><a href="{{ url('clinica') }}"></i> Clínica</a></li>   
+                    <li style="margin-left: 20px;"><a href="{{ url('') }}"> Farmácia</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('leito') }}"></i>Leito</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('clinica') }}"></i> Clínica</a></li>   
                 </ul>
             </li>
             <li class="treeview">
                 <a href="#">
-                  <i style="font-size:18px; color:#e64225; " class='fa fa-heartbeat'></i> 
+                    <i style="font-size:18px; color:#e64225; " class='fa fa-heartbeat' data-toggle="dropdown"></i> 
                     <span> Internação</span> 
-                  <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
-                  </span>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                  <li style="margin-left: 20px;"><a href="{{ url('') }}"> Farmácia</a></li>
-                  <li style="margin-left: 20px;"><a href="{{ url('leito') }}"></i>Leito</a></li>
-                  <li style="margin-left: 20px;"><a href="{{ url('clinica') }}"></i> Clínica</a></li>   
+                    <li style="margin-left: 20px;"><a href="{{ url('internacao') }}"> Internação</a></li>
                 </ul>
             </li>
-            
-            
+
+
             <li>
                 <a href="{{ url('home') }}">
-                    <i style="font-size:18px; color:#e64225; " class='fa  fa-medkit'></i> 
+                    <i style="font-size:18px; color:#e64225; " class='fa  fa-medkit' data-toggle="dropdown"></i> 
                     <span> Medicamentos</span> 
                 </a>
             </li>
             <li>
                 <a href="{{ url('home') }}">
-                    <i style="font-size:18px; color:#e64225; " class='fa  fa-cube'></i> 
+                    <i style="font-size:18px; color:#e64225; " class='fa  fa-cube' data-toggle="dropdown"></i> 
                     <span> Estoque</span> 
                 </a>
             </li>
-            
-            
-            
-             <?php /*
+
+
+
+            <?php /*
               <li><a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.anotherlink') }}</span></a></li>
               <li class="treeview">
               <a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.multilevel') }}</span> <i class="fa fa-angle-left pull-right"></i></a>

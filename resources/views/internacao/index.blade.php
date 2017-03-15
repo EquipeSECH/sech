@@ -1,50 +1,105 @@
 @extends('layouts.app')
- 
+
+<link href="{{ asset('js/jquery-ui-themes-1.12.0/themes/base/jquery-ui.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/iziToast.min.css')}}">
+<link rel="stylesheet" href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}">
+
 @section('main-content')
-	<div class="row">
-	    <div class="col-lg-12 margin-tb">
-	    	@section('contentheader_title')
-	        <div class="pull-left">
-	            <h2>Items CRUD</h2>
-	        </div>
-	         @endsection
-	        <div class="pull-right">
-	        	@permission('item-create')
-	            <a class="btn btn-success" href="{{ route('itemCRUD2.create') }}"> Create Novo Item</a>
-	            @endpermission
-	        </div>
-	    </div>
-	</div>
-	@if ($message = Session::get('success'))
-		<div class="alert alert-success">
-			<p>{{ $message }}</p>
-		</div>
-	@endif
-	<table class="table table-bordered">
-		<tr>
-			<th>No</th>
-			<th>Title</th>
-			<th>Description</th>
-			<th width="280px">Action</th>
-		</tr>
-	@foreach ($items as $key => $item)
-	<tr>
-		<td>{{ ++$i }}</td>
-		<td>{{ $item->title }}</td>
-		<td>{{ $item->description }}</td>
-		<td>
-			<a class="btn btn-info" href="{{ route('itemCRUD2.show',$item->id) }}">Visualizar</a>
-			@permission('item-edit')
-			<a class="btn btn-primary" href="{{ route('itemCRUD2.edit',$item->id) }}">Editar</a>
-			@endpermission
-			@permission('item-delete')
-			{!! Form::open(['method' => 'DELETE','route' => ['itemCRUD2.destroy', $item->id],'style'=>'display:inline']) !!}
-            {!! Form::submit('Excluir', ['class' => 'btn btn-danger']) !!}
-        	{!! Form::close() !!}
-        	@endpermission
-		</td>
-	</tr>
-	@endforeach
-	</table>
-	{!! $items->render() !!}
+<div class="row">
+    <div class="col-lg-12 margin-tb">
+        @section('contentheader_title')
+        <div class="pull-left">
+            Internações
+        </div>
+        @endsection
+        <div class="pull-right" style="margin-right: 2%;">
+            @permission('internacao-create')
+            <a class="btn btn-default"  href="{{ route('internacao.create') }}">Cadastrar</a>
+            @endpermission
+        </div>
+    </div>
+</div>
+<br>
+<div class="box box-danger" style="margin-left: 2%; margin-right: 2%; width: 96%;">
+    <div class="box-body">
+        <div class="table-responsive col-lg-12 col-md-12 col-sm-12">
+            <table id="table" class="table table-bordered table-hover dataTable" role="grid">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="4%">Nº</th>
+                        <th class="text-center">Paciente</th>
+                        <th class="text-center">Clínica</th>
+                        <th class="text-center">Leito</th>
+                        <th class="text-center">Diagnóstico</th>
+                        <th class="text-center no-sort" width="14%">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($internacoes as $key => $internacao)
+                    <tr>
+                        <td>{{ ++$i }}</td>
+                        <td>{{ $internacao->paciente->nomecompleto }}</td>
+                        <td>{{ $internacao->leito->clinica->nome}}</td>
+                        <td>{{ $internacao->leito->leito }}</td>
+                        <td>{{ $internacao->cid10->descricao}}</td>
+                        <td width="14.5%">
+                            <a class="btn btn-default" href="{{ route('internacao.show',$internacao->id) }}">
+                                <i class="fa fa-eye"> </i>
+                            </a>
+                            @permission('internacao-edit')
+                            <a class="btn btn-default" href="{{ route('internacao.edit',$internacao->id) }}">
+                                <i class="fa fa-edit"> </i>
+                            </a>
+                            @endpermission
+                            @permission('internacao-delete')
+                            {!! Form::open(['method' => 'DELETE','route' => ['internacao.destroy', $internacao->id],'style'=>'display:inline']) !!}
+                            {{ Form::button('<i class=" fa fa-trash"></i>', array('class' => 'btn btn-default', 'type' => 'submit')) }}
+                            <!--{!! Form::submit('Excluir', ['class' => 'btn btn-danger']) !!}-->
+                            {!! Form::close() !!}
+                            @endpermission
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @endsection
+<script src = "{{ asset('js/jquery-3.1.0.js') }}"></script>
+<script src = "{{ asset('js/jquery.maskedinput.js') }}" type = "text/javascript" ></script>
+<script src = "{{ asset('js/jquery-ui-1.12.0/jquery-ui.js') }}" type = "text/javascript" ></script>
+<script src="{{ asset('js/iziToast.min.js')}}" type="text/javascript"></script>
+<!-- DataTables -->
+<script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}" type = "text/javascript"></script>
+<script src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+
+<script>
+$(function ($) {
+    $('#table').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "Todos"]],
+        "columnDefs": [{
+                "targets": 'no-sort',
+                "orderable": false,
+            }]
+    });
+});
+</script>
+<script>
+    @if (Session::get('success'))
+            $(function () {
+                var msg = "{{Session::get('success')}}"
+                iziToast.success({
+                    title: 'OK',
+                    message: msg,
+                });
+            });
+            @endif
+</script>
+

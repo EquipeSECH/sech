@@ -8,9 +8,6 @@
             <h2>Editar leito</h2>
         </div>
         @endsection 
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('leito.index') }}"> Voltar</a>
-        </div>
     </div>
 </div>
 @if (count($errors) > 0)
@@ -24,7 +21,7 @@
 @endif
 {!! Form::model($leito, ['method' => 'PATCH','route' => ['leito.update', $leito->id]]) !!}
 <br>
-<div class="box box-danger">
+<div class="box box-danger" style="margin-left: 2%; margin-right: 2%; width: 96%;">
     <div class="row">
         <div class="box-body">
             <div class="col-xs-3 col-sm-3 col-md-3">
@@ -45,8 +42,9 @@
                     {!! Form::textarea('observacao', null, array('placeholder' => 'Descrição','class' => 'form-control','style'=>'height:100px')) !!}
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Salvar</button>
+            <div class="pull-right" style="margin-right: 1%;">
+                <a class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Voltar" href="{{ route('leito.index') }}"><i class="fa fa-mail-reply"></i></a>
+                <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Salvar"><i class="fa fa-save"></i></button>
             </div>
         </div>
     </div>
