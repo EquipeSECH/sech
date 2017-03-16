@@ -143,7 +143,16 @@ Route::group(['middleware' => ['auth']], function() {
         Route::delete('/{id}', ['as' => 'paciente.destroy', 'uses' => 'PacienteController@destroy', 'middleware' => ['permission:interacaomedicamentosa-delete']]);
     });
     
-   
+      //rotas de fornecedor
+    Route::group(['prefix' => 'fornecedor', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('', ['as' => 'fornecedor.index', 'uses' => 'FornecedorController@index', 'middleware' => ['permission:fornecedor-list|fornecedor-create|fornecedor-edit|fornecedor-delete']]);
+        Route::get('/create', ['as' => 'fornecedor.create', 'uses' => 'FornecedorController@create', 'middleware' => ['permission:fornecedor-create']]);
+        Route::post('/create', ['as' => 'fornecedor.store', 'uses' => 'FornecedorController@store', 'middleware' => ['permission:fornecedor-create']]);
+        Route::get('/{id}', ['as' => 'fornecedor.show', 'uses' => 'FornecedorController@show']);
+        Route::get('/{id}/edit', ['as' => 'fornecedor.edit', 'uses' => 'FornecedorController@edit', 'middleware' => ['permission:fornecedor-edit']]);
+        Route::patch('/{id}', ['as' => 'fornecedor.update', 'uses' => 'FornecedorController@update', 'middleware' => ['permission:fornecedor-edit']]);
+        Route::delete('/{id}', ['as' => 'fornecedor.destroy', 'uses' => 'FornecedorController@destroy', 'middleware' => ['permission:fornecedor-delete']]);
+    });
 
 });
 
