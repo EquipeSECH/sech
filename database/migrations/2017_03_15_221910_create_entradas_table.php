@@ -15,7 +15,7 @@ class CreateEntradasTable extends Migration
         Schema::create('entradas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('quantidade');
-            $table->timestatmps('data');
+            $table->datetime('data');
             $table->integer('idusuario')->unsigned();
             $table->foreign('idusuario')->references('id')->on('users')
                     ->onUpdate('restrict')
