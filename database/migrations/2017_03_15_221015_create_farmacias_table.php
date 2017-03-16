@@ -19,7 +19,7 @@ class CreateFarmaciasTable extends Migration {
                     ->onDelete('cascade');
             $table->string('nome');
             $table->string('codigo');
-            $table->bool('central'); //Imagem?
+            $table->boolean('central'); //Imagem?
            $table->timestamps();
         });
     }
