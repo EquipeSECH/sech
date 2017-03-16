@@ -210,6 +210,26 @@ class PermissionTableSeeder extends Seeder {
                 'name' => 'interacaomedicamentosa-delete',
                 'display_name' => 'Excluir Interação medicamentosa',
                 'description' => 'Delete Interação medicamentosa'
+            ],
+            //Internacao
+            [   'name' => 'internacao-list',
+                'display_name' => 'Listagem de internações',
+                'description' => 'Listar internação' 
+            ],
+            [
+                'name' => 'internacao-create',
+                'display_name' => 'Cadastrar internacao',
+                'description' => 'Cadastrar nova internacao'
+            ],
+            [
+                'name' => 'internacao-edit',
+                'display_name' => 'Editar internação',
+                'description' => 'Editar internação'
+            ],
+            [
+                'name' => 'internacao-delete',
+                'display_name' => 'Excluir internação',
+                'description' => 'Excluir internação'
             ]
         ];
 

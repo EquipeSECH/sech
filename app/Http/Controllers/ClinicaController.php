@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Clinica;
+use App\Leito;
 
 class ClinicaController extends Controller
 {
     public function index(Request $request)
     {
         $clinicas = Clinica::orderBy('id','DESC')->get();
-        return view('clinica.index',compact('clinicas'))
+        $leitos = Leito::orderBy('id','DESC')->get();
+        return view('clinica.index',compact('clinicas', 'leitos'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
     

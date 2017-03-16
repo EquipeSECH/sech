@@ -71,7 +71,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::group(['prefix' => 'leito', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'leito.index', 'uses' => 'LeitoController@index', 'middleware' => ['permission:leito-list|leito-create|leito-edit|leito-delete']]);
         Route::get('/create/{id}', ['as' => 'leito.create', 'uses' => 'LeitoController@create', 'middleware' => ['permission:leito-create']]);
-        Route::post('/create', ['as' => 'leito.store', 'uses' => 'LeitoController@store', 'middleware' => ['permission:leito-create']]);
+        Route::post('/create/{id}', ['as' => 'leito.store', 'uses' => 'LeitoController@store', 'middleware' => ['permission:leito-create']]);
         Route::get('/{id}', ['as' => 'leito.show', 'uses' => 'LeitoController@show']);
         Route::get('/{id}/edit', ['as' => 'leito.edit', 'uses' => 'LeitoController@edit', 'middleware' => ['permission:leito-edit']]);
         Route::patch('/{id}', ['as' => 'leito.update', 'uses' => 'LeitoController@update', 'middleware' => ['permission:leito-edit']]);
@@ -123,13 +123,13 @@ Route::group(['middleware' => ['auth']], function() {
     
     //rotas de internação
     Route::group(['prefix' => 'internacao', 'where' => ['id' => '[0-9]+']], function() {
-        Route::get('', ['as' => 'internacao.index', 'uses' => 'InternacaoController@index', 'middleware' => ['permission:interacaomedicamentosa-list|interacaomedicamentosa-create|interacaomedicamentosa-edit|interacaomedicamentosa-delete']]);
-        Route::get('/create', ['as' => 'internacao.create', 'uses' => 'InternacaoController@create', 'middleware' => ['permission:interacaomedicamentosa-create']]);
-        Route::post('/create', ['as' => 'internacao.store', 'uses' => 'InternacaoController@store', 'middleware' => ['permission:interacaomedicamentosa-create']]);
+        Route::get('', ['as' => 'internacao.index', 'uses' => 'InternacaoController@index', 'middleware' => ['permission:internacao-list|internacao-create|internacao-edit|internacao-delete']]);
+        Route::get('/create', ['as' => 'internacao.create', 'uses' => 'InternacaoController@create', 'middleware' => ['permission:internacao-create']]);
+        Route::post('/create', ['as' => 'internacao.store', 'uses' => 'InternacaoController@store', 'middleware' => ['permission:internacao-create']]);
         Route::get('/{id}', ['as' => 'internacao.show', 'uses' => 'InternacaoController@show']);
-        Route::get('/{id}/edit', ['as' => 'internacao.edit', 'uses' => 'InternacaoController@edit', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
-        Route::patch('/{id}', ['as' => 'internacao.update', 'uses' => 'InternacaoController@update', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
-        Route::delete('/{id}', ['as' => 'internacao.destroy', 'uses' => 'InternacaoController@destroy', 'middleware' => ['permission:interacaomedicamentosa-delete']]);
+        Route::get('/{id}/edit', ['as' => 'internacao.edit', 'uses' => 'InternacaoController@edit', 'middleware' => ['permission:internacao-edit']]);
+        Route::patch('/{id}', ['as' => 'internacao.update', 'uses' => 'InternacaoController@update', 'middleware' => ['permission:internacao-edit']]);
+        Route::delete('/{id}', ['as' => 'internacao.destroy', 'uses' => 'InternacaoController@destroy', 'middleware' => ['permission:internacao-delete']]);
     });
     
     //rotas de paciente

@@ -22,10 +22,9 @@ class LeitoController extends Controller
     {
         
         $clinica = Clinica::select('nome', 'id')->where('clinicas.id', '=', $id)->get();
-       
+        $leitos = Leito::all();
         
-        
-        return view('leito.create', compact('clinica'));
+        return view('leito.create', compact('clinica', 'leitos'));
     }
     
     public function store(Request $request)
@@ -35,11 +34,11 @@ class LeitoController extends Controller
             'observacao' => 'required',
         ]);
         
-       
-        Leito::create($request->all());
+        //dd($request->all());
+        $leito = Leito::create($request->all());
 
-        return redirect()->route('leito.index')
-                        ->with('success','Leito cadastrado com sucesso!');
+        return redirect()->route('leito.create', $leito->clinica->id );
+                        
     }
     
     public function edit($id)

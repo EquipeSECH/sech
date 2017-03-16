@@ -19,6 +19,8 @@ class CreateInternacaosTable extends Migration {
             $table->foreign('idleito')->references('id')->on('leitos');
             $table->integer('idcid10');
             $table->foreign('idcid10')->references('id')->on('cid10s');
+            $table->date('dataadmissao');
+            $table->date('saida')->nullable();
             $table->timestamps();
         });
     }
