@@ -32,40 +32,66 @@
             <div class="col-xs-11 col-sm-11 col-md-11">
                 <div class="form-group">
                     <strong>Paciente:</strong>
-                    {!! Form::select('idpaciente', $pacientes, null, array('class' => 'form-control')) !!}
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </span>
+                        {!! Form::select('idpaciente', $pacientes, null, array('class' => 'form-control')) !!}
+                    </div>
                 </div>
             </div>
             <div class="col-xs-1 col-sm-1 col-md-1">
                 <div class="form-group">
                     <br>
-                    <a class="btn btn-default" data-toggle="modal" data-target="#paciente" title="Adicionar paciente"><i class="fa fa-plus"></i></a>
+                    <a class="btn btn-danger" data-toggle="modal" data-target="#paciente" title="Adicionar paciente"><i class="fa fa-plus" style="color: #fff;"></i></a>
                 </div>
             </div>
-            <div class="col-xs-8 col-sm-8 col-md-8">
+            <div class="col-xs-9 col-sm-9 col-md-9">
                 <div class="form-group">
                     <strong>Clínica:</strong>
-                    {!! Form::select('idclinica', $clinicas, null, array('class' => 'form-control')) !!}
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-hospital-o"></i>
+                        </span>
+                        {!! Form::select('idclinica', $clinicas, null, array('class' => 'form-control')) !!}
+                    </div>
                 </div>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3">
                 <div class="form-group">
                     <strong>Leito:</strong>
-                    {!! Form::select('idleito', [] , null, array('class' => 'form-control')) !!}
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-hotel"></i>
+                        </span>
+                        {!! Form::select('idleito', $leitos , null, array('class' => 'form-control')) !!}
+                    </div>
                 </div>
             </div>
             <div class="col-xs-8 col-sm-8 col-md-8">
                 <div class="form-group">
                     <strong>Diagnóstico:</strong>
-                    {!! Form::select('idcid10', $cid10s , null, array('class' => 'form-control')) !!}
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-paste"></i>
+                        </span>
+                        {!! Form::select('idcid10', $cid10s , null, array('class' => 'form-control')) !!}
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
                     <strong>Data de admissão:</strong>
-                    {!! Form::text('admissao', $dataadmissao, array('class' => 'form-control date-picker', 'id' => 'admissao')) !!}
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                        {!! Form::text('dataadmissao', $dataadmissao, array('class' => 'form-control', 'id' => 'dataadmissao')) !!}
+                    </div>
                 </div>
             </div>
             <div class="pull-right" style="margin-right: 1%;">
+                <br>
                 <a class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Voltar" href="{{ route('internacao.index') }}"><i class="fa fa-mail-reply"></i></a>
                 <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Salvar"><i class="fa fa-save"></i></button>
             </div>
@@ -128,7 +154,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="submit" class="btn btn-danger">Salvar</button>
             </div>
             {!! Form::close() !!}
         </div>

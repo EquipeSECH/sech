@@ -14,7 +14,7 @@
         @endsection
         <div class="pull-right" style="margin-right: 2%;">
             @permission('internacao-create')
-            <a class="btn btn-default"  href="{{ route('internacao.create') }}">Cadastrar</a>
+            <a class="btn btn-default"  href="{{ route('internacao.create') }}">Internar paciente</a>
             @endpermission
         </div>
     </div>

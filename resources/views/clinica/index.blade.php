@@ -58,14 +58,46 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel"><strong>{{$clinica->nome}}</strong></h4>
+                                            <h4 class="modal-title" id="myModalLabel"><strong>Dados da clínica: {{$clinica->nome}}</strong></h4>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <div class="form-group">
-                                                        <strong>Descrição:</strong>
-                                                        {{ $clinica->descricao}}
+                                                    <strong>Nome:</strong>
+                                                    {{ $clinica->nome}}
+                                                    <br><br>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <strong>Descrição:</strong>
+                                                    {{ $clinica->descricao}}
+                                                    <br><br>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <strong>Total de leitos:</strong>
+                                                    {{ count($clinica->leitos)}}
+                                                    <br><br> 
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <div class="box box-danger" style="margin-left: 2%; margin-right: 2%; width: 96%;">
+                                                        <h4><center><b>Leitos</b></center></h4>
+                                                        <div class="box-body">
+                                                            <table id="table" class="table table-bordered table-hover dataTable" role="grid">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Leito</th>
+                                                                        <th>Observação</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach ($clinica->leitos as $key => $leito)
+                                                                    <tr>
+                                                                        <td>{{$leito->leito}}</td>
+                                                                        <td>{{$leito->observacao}}</td>
+                                                                    </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

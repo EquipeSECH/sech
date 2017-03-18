@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Internacao extends Model {
 
-    public $fillable = ['idpaciente', 'idclinica', 'idleito', 'idci10', 'dataadmissao'];
+    public $fillable = ['idpaciente', 'idclinica', 'idleito', 'idcid10', 'dataadmissao'];
 
     public function paciente() {
 

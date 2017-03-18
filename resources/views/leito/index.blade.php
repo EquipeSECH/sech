@@ -26,7 +26,7 @@
                         <th class="text-center">Leito</th>
                         <th class="text-center">Observação</th>
                         <th class="text-center">Clínica</th>
-                        <th class="text-center no-sort" width="14%">Ação</th>
+                        <th class="text-center no-sort" width="14%">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,15 +36,10 @@
                         <td>{{ $leito->leito }}</td>
                         <td>{{ $leito->observacao }}</td>
                         <td>{{ $leito->clinica->nome }}</td>
-                        <td width="14.5%">
+                        <td width="10%">
                             <a class="btn btn-default" data-target="#{{$leito->id}}" data-toggle="modal" href="{{ route('leito.show',$leito->id) }}">
                                 <i class="fa fa-eye"> </i>
                             </a>
-                            @permission('leito-edit')
-                            <a class="btn btn-default" href="{{ route('leito.edit',$leito->id) }}">
-                                <i class="fa fa-edit"> </i>
-                            </a>
-                            @endpermission
                             @permission('leito-delete')
                             {!! Form::open(['style'=>'display:inline']) !!}
                             {{ Form::button('<i class=" fa fa-trash"></i>', array('class' => 'btn btn-default', 'data-toggle' => 'modal', 'data-target' => '#excluir', 'title' => 'Excluir')) }}

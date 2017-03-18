@@ -8,6 +8,7 @@ use App\Internacao;
 use App\Paciente; 
 use App\Clinica;
 use App\Cid10;
+use App\Leito;
 
 class InternacaoController extends Controller {
 
@@ -22,8 +23,9 @@ class InternacaoController extends Controller {
         $pacientes = Paciente::orderBy('id', 'DESC')->lists('nomecompleto', 'id');  
         $clinicas = Clinica::lists('nome', 'id');
         $cid10s = Cid10::lists('descricao', 'id');
+        $leitos = Leito::lists('leito', 'id');
         $dataadmissao = date ("d-m-Y");
-        return view('internacao.create', compact('pacientes', 'clinicas', 'cid10s', 'dataadmissao'));
+        return view('internacao.create', compact('pacientes', 'clinicas', 'cid10s', 'dataadmissao', 'leitos'));
     }
 
     public function store(Request $request) {
@@ -35,7 +37,7 @@ class InternacaoController extends Controller {
         ]);
 
         $campos = $request->all();
-        dd($campos);
+        //dd($campos);
         Internacao::create($campos);
 
         return redirect()->route('internacao.index')
@@ -43,8 +45,8 @@ class InternacaoController extends Controller {
     }
 
     public function edit($id) {
-        $cid = Cid10::find($id);
-        return view('cid.edit', compact('cid'));
+        $internacao = Internacao::find($id);
+        return view('internacao', compact('internacao'));
     }
 
     public function update(Request $request, $id) {
@@ -60,9 +62,9 @@ class InternacaoController extends Controller {
     }
 
     public function destroy($id) {
-        Cid10::find($id)->delete();
-        return redirect()->route('cid10.index')
-                        ->with('success', 'Cid10 excluído com sucesso!');
+        Internacao::find($id)->delete();
+        return redirect()->route('internacao.index')
+                        ->with('success', 'Internação excluída com sucesso!');
     }
 
     public function show($id) {

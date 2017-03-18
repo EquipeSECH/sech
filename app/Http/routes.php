@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'especialidade.update', 'uses' => 'EspecialidadeController@update', 'middleware' => ['permission:especialidade-edit']]);
         Route::delete('/{id}', ['as' => 'especialidade.destroy', 'uses' => 'EspecialidadeController@destroy', 'middleware' => ['permission:especialidade-delete']]);
     });
-    
+
     //rotas de clínica
     Route::group(['prefix' => 'clinica', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'clinica.index', 'uses' => 'ClinicaController@index', 'middleware' => ['permission:clinica-list|clinica-create|clinica-edit|clinica-delete']]);
@@ -66,7 +66,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'clinica.update', 'uses' => 'ClinicaController@update', 'middleware' => ['permission:clinica-edit']]);
         Route::delete('/{id}', ['as' => 'clinica.destroy', 'uses' => 'ClinicaController@destroy', 'middleware' => ['permission:clinica-delete']]);
     });
-     
+
     //rotas de leito
     Route::group(['prefix' => 'leito', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'leito.index', 'uses' => 'LeitoController@index', 'middleware' => ['permission:leito-list|leito-create|leito-edit|leito-delete']]);
@@ -77,8 +77,8 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'leito.update', 'uses' => 'LeitoController@update', 'middleware' => ['permission:leito-edit']]);
         Route::delete('/{id}', ['as' => 'leito.destroy', 'uses' => 'LeitoController@destroy', 'middleware' => ['permission:leito-delete']]);
     });
-    
-     //rotas de cid10
+
+    //rotas de cid10
     Route::group(['prefix' => 'cid10', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'cid10.index', 'uses' => 'Cid10Controller@index', 'middleware' => ['permission:cid-list|cid-create|cid-edit|cid-delete']]);
         Route::get('/create', ['as' => 'cid10.create', 'uses' => 'Cid10Controller@create', 'middleware' => ['permission:cid-create']]);
@@ -88,7 +88,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'cid10.update', 'uses' => 'Cid10Controller@update', 'middleware' => ['permission:cid-edit']]);
         Route::delete('/{id}', ['as' => 'cid10.destroy', 'uses' => 'Cid10Controller@destroy', 'middleware' => ['permission:cid-delete']]);
     });
-    
+
     //rotas de formafarmaceutica
     Route::group(['prefix' => 'formafarmaceutica', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'formafarmaceutica.index', 'uses' => 'FormafarmaceuticaController@index', 'middleware' => ['permission:formafarmaceutica-list|formafarmaceutica-create|formafarmaceutica-edit|formafarmaceutica-delete']]);
@@ -99,7 +99,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'formafarmaceutica.update', 'uses' => 'FormafarmaceuticaController@update', 'middleware' => ['permission:formafarmaceutica-edit']]);
         Route::delete('/{id}', ['as' => 'formafarmaceutica.destroy', 'uses' => 'FormafarmaceuticaController@destroy', 'middleware' => ['permission:formafarmaceutica-delete']]);
     });
-   
+
     //rotas de substancia ativa
     Route::group(['prefix' => 'substanciaativa', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'substanciaativa.index', 'uses' => 'SubstanciaativaController@index', 'middleware' => ['permission:substanciaativa-list|substanciaativa-create|substanciaativa-edit|substanciaativa-delete']]);
@@ -120,7 +120,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'interacaomedicamentosa.update', 'uses' => 'InteracaomedicamentosaController@update', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
         Route::delete('/{id}', ['as' => 'interacaomedicamentosa.destroy', 'uses' => 'InteracaomedicamentosaController@destroy', 'middleware' => ['permission:interacaomedicamentosa-delete']]);
     });
-    
+
     //rotas de internação
     Route::group(['prefix' => 'internacao', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'internacao.index', 'uses' => 'InternacaoController@index', 'middleware' => ['permission:internacao-list|internacao-create|internacao-edit|internacao-delete']]);
@@ -131,7 +131,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'internacao.update', 'uses' => 'InternacaoController@update', 'middleware' => ['permission:internacao-edit']]);
         Route::delete('/{id}', ['as' => 'internacao.destroy', 'uses' => 'InternacaoController@destroy', 'middleware' => ['permission:internacao-delete']]);
     });
-    
+
     //rotas de paciente
     Route::group(['prefix' => 'paciente', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'paciente.index', 'uses' => 'PacienteController@index', 'middleware' => ['permission:interacaomedicamentosa-list|interacaomedicamentosa-create|interacaomedicamentosa-edit|interacaomedicamentosa-delete']]);
@@ -142,8 +142,5 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'paciente.update', 'uses' => 'PacienteController@update', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
         Route::delete('/{id}', ['as' => 'paciente.destroy', 'uses' => 'PacienteController@destroy', 'middleware' => ['permission:interacaomedicamentosa-delete']]);
     });
-    
-   
-
 });
 
