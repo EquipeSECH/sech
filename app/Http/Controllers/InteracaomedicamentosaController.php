@@ -59,8 +59,9 @@ class InteracaomedicamentosaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $interacaomedicamentosa = Interacaomedicamentosa::find($id);
-        return view('interacaomedicamentosa.edit',compact('interacaomedicamentosa'));
+        $interacaomedicamentosa = Interacaomedicamentosa::find($id);               
+        $substanciaativas = Substanciaativa::lists('nome', 'id');
+        return view('interacaomedicamentosa.show',compact('interacaomedicamentosa','substanciaativas' ));
     }
 
     /**
@@ -70,8 +71,9 @@ class InteracaomedicamentosaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $interacaomedicamentosa = Interacaomedicamentosa::find($id);
-        return view('intercaomedicamentosa.edit',compact('interacaomedicamentosa'));
+        $interacaomedicamentosa = Interacaomedicamentosa::find($id);        
+        $substanciaativas = Substanciaativa::lists('nome', 'id');
+        return view('interacaomedicamentosa.edit',compact('interacaomedicamentosa','substanciaativas'));
     }
 
     /**
@@ -93,6 +95,7 @@ class InteracaomedicamentosaController extends Controller {
 
         return redirect()->route('interacaomedicamentosa.index')
                         ->with('success','Interação medicamentosa atualizada com sucesso!');
+
     }
 
     /**

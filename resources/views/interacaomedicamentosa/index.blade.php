@@ -35,7 +35,27 @@
     <tr>
         <td>{{ ++$i }}</td>
         <td>{{ $interacaomedicamentosa->substanciaativa1->nome}} e {{ $interacaomedicamentosa->substanciaativa2->nome }} </td>        
-        <td>{{ $interacaomedicamentosa->gravidade}}</td>
+        <td>            
+         <?php
+            $nomegravidade = ''; 
+            switch ($interacaomedicamentosa->gravidade) {
+                case 0:
+                    $nomegravidade = '<span class="label label-default">Menor</span>';
+                    break;
+                case 1:
+                    $nomegravidade = '<span class="label label-primary">Moderada</span>';
+                    break;
+                case 2:
+                    $nomegravidade = '<span class="label label-warning">Maior</span>';
+                    break;
+                case 3:
+                    $nomegravidade = '<span class="label label-danger">Contraindiado</span>';
+                    break;  
+            }
+            echo"$nomegravidade";
+          
+            ?>
+        </td>
         <td>{{ $interacaomedicamentosa->consequencia }}</td>
         <td>
             <a class="btn btn-info" href="{{ route('interacaomedicamentosa.show',$interacaomedicamentosa->id) }}">Visualizar</a>

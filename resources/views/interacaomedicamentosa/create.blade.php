@@ -5,7 +5,7 @@
     <div class="col-lg-12 margin-tb">
         @section('contentheader_title')
         <div class="pull-left">
-            <h2>Cadastrar interação medicamnetosa</h2>
+            <h2>Cadastrar interação medicamentosa</h2>
         </div>
         @endsection 
         <div class="pull-right">
@@ -39,13 +39,17 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Gravidade:</strong>
-            {!! Form::text('gravidade', null, array('placeholder' => '0: menor, 1: moderada, 2: maior, 3: contra indicado ','class' => 'form-control','style'=>'height:100px')) !!}
+            {!!Form::select('gravidade', array(0 => 'Menor', 
+                                                1 => 'Moderada', 
+                                                2 => 'Maior', 
+                                                3 => 'Contraindicado'
+                                                ) ,null, array('placeholder'=>'--Selecione--','class' => 'form-control'))!!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Consequencia:</strong>
-            {!! Form::textarea('consequencia', null, array('placeholder' => '0: menor, 1: moderada, 2: maior, 3: contra indicado ','class' => 'form-control','style'=>'height:100px')) !!}
+            {!! Form::textarea('consequencia', null, array('placeholder' => '','class' => 'form-control','style'=>'height:100px')) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
