@@ -5,7 +5,7 @@
         <div class="col-lg-12 margin-tb">
             @section('contentheader_title')
             <div class="pull-left">
-                <h2>Substância ativa</h2>
+                <h2>Forma farmacêutica</h2>
             </div>
              @endsection
             <div class="pull-right">
