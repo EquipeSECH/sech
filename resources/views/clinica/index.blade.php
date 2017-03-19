@@ -139,6 +139,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                <?php $i = 0;?>  
                     @foreach ($leitos as $key => $leito)
                     <tr>
                         <td>{{ ++$i }}</td>
