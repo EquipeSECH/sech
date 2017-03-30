@@ -55,22 +55,6 @@ class PermissionTableSeeder extends Seeder {
                 'display_name' => 'Excluir usuário',
                 'description' => 'Excluir usuário'
             ],
-//            // Telas iniciais            
-//            [
-//                'name' => 'viewTelaProfessor',
-//                'display_name' => 'Tela de professor',
-//                'description' => 'Tela de professor'
-//            ],
-//            [
-//                'name' => 'viewTelaAdministradorDoSistema',
-//                'display_name' => 'Tela de administrador do sistema',
-//                'description' => 'Tela de administrador do sistema'
-//            ],
-//            [
-//                'name' => 'relatorioUsuario',
-//                'display_name' => 'Gerar relatório de usuários',
-//                'description' => 'Gerar relatório de usuários'
-//            ],
             //Especialidade
             ['name' => 'especialidade-list',
                 'display_name' => 'Listagem de especialidades',
@@ -420,26 +404,6 @@ class PermissionTableSeeder extends Seeder {
                 'name' => 'enfermeiro',
                 'display_name' => 'Enfermeiro',
                 'description' => 'Solicita medicamentos da farmacia central para as farmácias satélites'
-            ],
-            //Fornecedor
-            [   'name' => 'fornecedor-list',
-                'display_name' => 'Listagem de fornecedor',
-                'description' => 'Listar fornecedor' 
-            ],
-            [
-                'name' => 'fornecedor-create',
-                'display_name' => 'Cadastrar fornecedor',
-                'description' => 'Cadastrar nova fornecedor'
-            ],
-            [
-                'name' => 'fornecedor-edit',
-                'display_name' => 'Editar fornecedor',
-                'description' => 'Editar fornecedor'
-            ],
-            [
-                'name' => 'fornecedor-delete',
-                'display_name' => 'Excluir fornecedor',
-                'description' => 'Excluir fornecedor'
             ],
         ];
 
