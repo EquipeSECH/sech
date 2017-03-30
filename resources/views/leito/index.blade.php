@@ -43,6 +43,7 @@
                             @permission('leito-delete')
                             {!! Form::open(['style'=>'display:inline']) !!}
                             {{ Form::button('<i class=" fa fa-trash"></i>', array('class' => 'btn btn-default', 'data-toggle' => 'modal', 'data-target' => '#excluir', 'title' => 'Excluir')) }}
+
                             <!--                        {!! Form::submit('Excluir', ['class' => 'btn btn-danger']) !!}-->
                             {!! Form::close() !!}
                             @endpermission
@@ -140,6 +141,7 @@ $(function ($) {
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                 {!! Form::open(['method' => 'DELETE','route' => ['leito.destroy', $leito->id],'style'=>'display:inline']) !!}
                 {!! Form::submit('OK', ['class' => 'btn btn-danger']) !!}
+                {!! Form::hidden('flag', "index", array('class' => 'form-control')) !!}
                 {!! Form::close() !!}
             </div>
         </div>

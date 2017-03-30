@@ -20,7 +20,7 @@
     </div>
 </div>
 <br>
-<div class="box box-danger" style="margin-left: 2%; margin-right: 2%; width: 96%;">
+<div class="box box-primary " style="margin-left: 2%; margin-right: 2%; width: 96%;">
     <div class="box-body">
         <div class="table-responsive col-lg-12 col-md-12 col-sm-12">
             <table id="table" class="table table-bordered table-hover dataTable" role="grid">
@@ -29,7 +29,7 @@
                         <th class="text-center" width="4%">Nº</th>
                         <th class="text-center">Nome</th>
                         <th class="text-center">Descrição</th>
-                        <th class="text-center no-sort">Ação</th>
+                        <th class="text-center no-sort">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,7 +78,7 @@
                                                     <br><br> 
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <div class="box box-danger" style="margin-left: 2%; margin-right: 2%; width: 96%;">
+                                                    <div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
                                                         <h4><center><b>Leitos</b></center></h4>
                                                         <div class="box-body">
                                                             <table id="table" class="table table-bordered table-hover dataTable" role="grid">
@@ -126,7 +126,7 @@
     </div>
 </div>
 <br>
-<div class="box box-danger" style="margin-left: 2%; margin-right: 2%; width: 96%;">
+<div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
     <div class="box-body">
         <div class="table-responsive col-lg-12 col-md-12 col-sm-12">
             <table  id="table2" class="table table-bordered table-hover dataTable">
@@ -139,7 +139,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php $i = 0;?>  
+                    <?php $i = 0; ?>  
                     @foreach ($leitos as $key => $leito)
                     <tr>
                         <td>{{ ++$i }}</td>

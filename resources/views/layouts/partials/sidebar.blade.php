@@ -42,14 +42,14 @@
             <!--<li class="active"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.home') }}</span></a></li>-->
             <li class="tree view active">
                 <a href="{{ url('home') }}">
-                    <i style="font-size:18px; color:#e64225; " class='fa fa-home'></i> 
+                    <i style="font-size:18px; color:#3c8dbc; " class='fa fa-home'></i> 
                     <span> Início</span>
                 </a>
             </li>
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i style="font-size:18px; color:#e64225; " class='fa fa-users' data-toggle="dropdown"></i> 
+                    <i style="font-size:18px; color:#3c8dbc; " class='fa fa-users' data-toggle="dropdown"></i> 
                     <span> Funcionários</span> 
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -61,7 +61,7 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i style="font-size:18px; color:#e64225; " class='fa fa-h-square' data-toggle="dropdown"></i> 
+                    <i style="font-size:18px; color:#3c8dbc; " class='fa fa-h-square' data-toggle="dropdown"></i> 
                     <span> Hospital</span> 
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -73,7 +73,7 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i style="font-size:18px; color:#e64225; " class='fa fa-heartbeat' data-toggle="dropdown"></i> 
+                    <i style="font-size:18px; color:#3c8dbc; " class='fa fa-heartbeat' data-toggle="dropdown"></i> 
                     <span> Internação</span> 
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -85,13 +85,13 @@
 
             <li>
                 <a href="{{ url('home') }}">
-                    <i style="font-size:18px; color:#e64225; " class='fa  fa-medkit' data-toggle="dropdown"></i> 
+                    <i style="font-size:18px; color:#3c8dbc; " class='fa  fa-medkit' data-toggle="dropdown"></i> 
                     <span> Medicamentos</span> 
                 </a>
             </li>
             <li>
                 <a href="{{ url('home') }}">
-                    <i style="font-size:18px; color:#e64225; " class='fa  fa-cube' data-toggle="dropdown"></i> 
+                    <i style="font-size:18px; color:#3c8dbc; " class='fa  fa-cube' data-toggle="dropdown"></i> 
                     <span> Estoque</span> 
                 </a>
             </li>

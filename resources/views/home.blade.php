@@ -17,7 +17,7 @@
 					</div>
 				</div>-->
                              <div style="margin-top: 11%; margin-left: 30%;">
-                                 <img src="{{asset('/img/logosech2.png')}}"  alt="Logo" width="100%;" style="opacity: 0.3;" />
+                                 <img src="{{asset('/img/logosech.png')}}"  alt="Logo" width="100%;" style="opacity: 0.3;" />
                             </div>
 			</div>
 		</div>

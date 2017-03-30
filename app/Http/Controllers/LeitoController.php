@@ -17,29 +17,24 @@ class LeitoController extends Controller {
     }
 
     public function create($id) {
-
+        
         $clinica = Clinica::select('nome', 'id', 'descricao')->where('clinicas.id', '=', $id)->get();
        // dd($clinica[0]);
         return view('leito.create', compact('clinica'));
     }
 
-    public function store(Request $request) {
-        $this->validate($request, [
-            'leito' => 'required',
-            'observacao' => 'required',
-        ]);
-
-        $campos = $request->all();
-        //dd($campos['flag']);
-        $leito = Leito::create($request->all());
-
-        if ($campos['flag'] == "cadastrar") {
-            return redirect()->route('leito.create', $leito->clinica->id)
-                            ->with('success', 'Leito cadastrado com sucesso!');
-        } else {
-            return redirect()->route('clinica.edit', $leito->clinica->id)
-                            ->with('success', 'Leito cadastrado com sucesso!');
+    public function store(Request $request, $id) {
+        
+        $leitos = $request->all();
+        for($i=0; $i<sizeof($leitos['leitos']); $i++){
+            $novoLeito = new Leito();
+            $novoLeito->leito = $leitos['leitos'][$i]['leito'];
+            $novoLeito->observacao = $leitos['leitos'][$i]['obs'];
+            $novoLeito->idclinica = $id;
+            $novoLeito->save();
         }
+//        return redirect()->route('clinica.index')
+//                        ->with('success','Leito cadastrado com sucesso!');
     }
 
     public function edit($id) {
@@ -69,9 +64,12 @@ class LeitoController extends Controller {
         if ($campos['flag'] == "cadastrar") {
             return redirect()->route('leito.create', $leito->clinica->id)
                             ->with('success', 'Leito excluído com sucesso!');
-        } else {
+        } else if ($campos['flag'] == "editar"){
             return redirect()->route('clinica.edit', $leito->clinica->id)
                             ->with('success', 'Leito excluído com sucesso!');
+        }else{
+            return redirect()->route('leito.index')
+                            ->with('success', 'Leito cadastrado com sucesso!');
         }
     }
 

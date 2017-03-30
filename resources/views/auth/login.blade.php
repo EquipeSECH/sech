@@ -5,12 +5,12 @@ Log in
 @endsection
 
 @section('content')
-<body class="hold-transition login-page" style="background-color:rgba(240, 216, 189, 0.11);">
+<body class="hold-transition login-page" style="background-color:rgba(194, 226, 239, 0.11);">
     <div id="lg-box">
         <div class="login-box">
             <div class="login-logo">
                 <a href="{{ url('/home') }}">
-                    <img src="{{asset('/img/logosech2.png')}}" width="150" height="100" /> 
+                    <img src="{{asset('/img/logosech.png')}}" width="150" height="100" /> 
                 </a>
             </div><!-- /.login-logo -->
 
@@ -54,7 +54,7 @@ Log in
                                 <a href="{{ url('/password/reset') }}" style="color: #666; float:right;">Esqueceu sua senha?</a>
                             </div>
                             <br>
-                            <button type="submit" class="btn btn-danger btn-block btn-flat" style="margin-left: 35%; margin-right: 35%; width: 30%;">Entrar</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-flat" style="margin-left: 35%; margin-right: 35%; width: 30%;">Entrar</button>
                     </div>
                 </form>
 
@@ -72,8 +72,8 @@ Log in
     <script>
         $(function () {
             $('input').iCheck({
-                checkboxClass: 'icheckbox_square-red',
-                radioClass: 'iradio_square-red',
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
                 increaseArea: '20%' // optional
             });
         });

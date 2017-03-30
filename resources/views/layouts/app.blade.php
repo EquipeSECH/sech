@@ -35,7 +35,7 @@ desired effect
             border-left: 1px solid white;
     }
 </style>
-<body class="skin-red-light sidebar-mini" style="border-left: white;">
+<body class="skin-blue-light sidebar-mini" style="border-left: white;">
 <div class="wrapper">
 
     @include('layouts.partials.mainheader')

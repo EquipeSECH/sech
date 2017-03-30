@@ -19,6 +19,9 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/home', 'HomeController@index');
     Route::get('/areas/{id}', 'AreaController@getAreas');
+    Route::post('/test', function (){
+        return "s";
+    });
 
     //rotas de users
     Route::group(['prefix' => 'users', 'where' => ['id' => '[0-9]+']], function() {
@@ -76,6 +79,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/{id}/edit', ['as' => 'leito.edit', 'uses' => 'LeitoController@edit', 'middleware' => ['permission:leito-edit']]);
         Route::patch('/{id}', ['as' => 'leito.update', 'uses' => 'LeitoController@update', 'middleware' => ['permission:leito-edit']]);
         Route::delete('/{id}', ['as' => 'leito.destroy', 'uses' => 'LeitoController@destroy', 'middleware' => ['permission:leito-delete']]);
+        Route::resource('leitos/{id}','LeitoController');
     });
 
     //rotas de cid10
@@ -142,8 +146,8 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'paciente.update', 'uses' => 'PacienteController@update', 'middleware' => ['permission:interacaomedicamentosa-edit']]);
         Route::delete('/{id}', ['as' => 'paciente.destroy', 'uses' => 'PacienteController@destroy', 'middleware' => ['permission:interacaomedicamentosa-delete']]);
     });
-    
-      //rotas de fornecedor
+
+    //rotas de fornecedor
     Route::group(['prefix' => 'fornecedor', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'fornecedor.index', 'uses' => 'FornecedorController@index', 'middleware' => ['permission:fornecedor-list|fornecedor-create|fornecedor-edit|fornecedor-delete']]);
         Route::get('/create', ['as' => 'fornecedor.create', 'uses' => 'FornecedorController@create', 'middleware' => ['permission:fornecedor-create']]);
@@ -153,6 +157,5 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'fornecedor.update', 'uses' => 'FornecedorController@update', 'middleware' => ['permission:fornecedor-edit']]);
         Route::delete('/{id}', ['as' => 'fornecedor.destroy', 'uses' => 'FornecedorController@destroy', 'middleware' => ['permission:fornecedor-delete']]);
     });
-
 });
 
