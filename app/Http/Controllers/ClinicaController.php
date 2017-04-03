@@ -25,35 +25,66 @@ class ClinicaController extends Controller
     
     public function store(Request $request)
     {
+        
         $this->validate($request, [
             'nome' => 'required',
             'descricao' => 'required',
         ]);
-
-        $clinica = Clinica::create($request->all());
-            
         
-        return redirect()->route('leito.create', $clinica->id)
-                        ->with('success','Clínica cadastrada com sucesso!');
+        //clinica
+        $clinica = new Clinica();
+        $clinica->nome = $request->get('nome');
+        $clinica->descricao = $request->get('descricao');
+        $clinica->save();
+        $fk_clinica = $clinica->id;
+        //leitos
+        $leitos = $request->get('leitos');
+        for($i=0; $i<sizeof($leitos); $i++){
+            $novoLeito = new Leito();
+            $novoLeito->leito = $leitos[$i]['leito'];
+            $novoLeito->observacao = $leitos[$i]['obs'];
+            $novoLeito->idclinica = $fk_clinica;
+            $novoLeito->save();
+        }       
+        
+//        return redirect()->route('clinica.index')
+//                        ->with('success','Clínica cadastrada com sucesso!');
     }
     
     public function edit($id)
     {
         $clinica = Clinica::find($id);
-        return view('clinica.edit',compact('clinica'));
+        $leitos = Leito::where('idclinica', '=', $id)->get();
+        $qtdleitos = count($clinica->leitos);
+        return view('clinica.edit',compact('clinica', 'leitos', 'qtdleitos'));
     }
     
     public function update(Request $request, $id)
     {
+       //dd($request->all()) and die();
         $this->validate($request, [
             'nome' => 'required',
             'descricao' => 'required',
         ]);
-
-        Clinica::find($id)->update($request->all());
-
-        return redirect()->route('clinica.index')
-                        ->with('success','Clínica atualizada com sucesso!');
+        
+        //atualizando a clínica
+        $clinica = Clinica::find($id);
+        $clinica->nome = $request->get('nome');
+        $clinica->descricao = $request->get('descricao');
+        $clinica->save();
+        
+        //atualizando os leitos
+        Leito::where('idclinica', '=', $id)->delete();
+        $leitos = $request->get('leitos');
+        for($i=0; $i<sizeof($leitos); $i++){
+            $leito = new Leito();
+            $leito->leito = $leitos[$i]['leito'];
+            $leito->observacao = $leitos[$i]['observacao'];
+            $leito->idclinica = $id;
+            $leito->save();
+        }
+//        return redirect()->route('clinica.index')
+//                        ->with('success','Clínica atualizada com sucesso!');
     }
     
     public function destroy($id)

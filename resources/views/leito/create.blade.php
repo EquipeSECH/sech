@@ -24,7 +24,7 @@
 </div>
 @endif
 <br>
-<div id="app">
+<div>
     <vc-leitos clinica="{{$clinica}}"></vc-leitos>
 </div>
 

@@ -1,10 +1,12 @@
 
 import Vue from 'vue/dist/vue'
 import VueResource from 'vue-resource/dist/vue-resource'
+import VueRouter from 'vue-router/dist/vue-router'
 
-Vue.use(VueResource)
+Vue.use(VueResource);
 
-import VcLeitos from './components/leitos.vue'
+import VcClinica from './components/clinica.vue'
+import VcClinicaedit from './components/clinicaedit.vue'
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
 
@@ -12,7 +14,8 @@ var app = new Vue({
     el: '#app',
     
     components: {
-        VcLeitos
+        VcClinica,
+        VcClinicaedit
     }
     
 })

@@ -9,7 +9,9 @@
 
 
 <script src="{{ asset('/js/main.js') }}"  type="text/javascript"></script>
+<script src="{{ asset('/js/validacao.js') }}"  type="text/javascript"></script>
 <script src="{{ asset('js/iziToast.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/sweetalert.min.js')}}" type="text/javascript"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
       Both of these plugins are recommended to enhance the

@@ -78,7 +78,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                    <li style="margin-left: 20px;"><a href="{{ url('internacao') }}"> Internação</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ route('internacao.index') }}"> Internação</a></li>
                 </ul>
             </li>
 

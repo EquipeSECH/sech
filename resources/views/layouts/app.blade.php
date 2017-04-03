@@ -48,7 +48,7 @@ desired effect
         @include('layouts.partials.contentheader')
 
         <!-- Main content -->
-        <section class="content">
+        <section class="content" id="app">
             <!-- Your Page Content Here -->
           
             @yield('main-content')
