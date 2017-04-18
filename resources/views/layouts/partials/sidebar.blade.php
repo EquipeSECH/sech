@@ -67,7 +67,6 @@
                 </a>
                 <ul class="treeview-menu" style="display: none;">
                     <li style="margin-left: 20px;"><a href="{{ url('clinica') }}"></i> Clínica</a></li> 
-                    <li style="margin-left: 20px;"><a href="{{ url('leito') }}"></i>Leito</a></li>
                     <li style="margin-left: 20px;"><a href="{{ url('') }}"> Farmácia</a></li>
                 </ul>
             </li>
@@ -79,6 +78,7 @@
                 </a>
                 <ul class="treeview-menu" style="display: none;">
                     <li style="margin-left: 20px;"><a href="{{ route('internacao.index') }}"> Internação</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ route('cid10.index') }}"> Diagnóstico (CID 10)</a></li> 
                 </ul>
             </li>
 

@@ -31,13 +31,13 @@ class Cid10Controller extends Controller
         Cid10::create($request->all());
 
         return redirect()->route('cid10.index')
-                        ->with('success','Cid10 cadastrado com sucesso!');
+                        ->with('success','Doença cadastrada com sucesso!');
     }
     
     public function edit($id)
     {
         $cid = Cid10::find($id);
-        return view('cid.edit',compact('cid'));
+        return view('cid10.edit',compact('cid'));
     }
     
     public function update(Request $request, $id)
@@ -50,19 +50,13 @@ class Cid10Controller extends Controller
         Cid10::find($id)->update($request->all());
 
         return redirect()->route('cid10.index')
-                        ->with('success','Cid10 atualizado com sucesso!');
+                        ->with('success','Doença atualizada com sucesso!');
     }
     
     public function destroy($id)
     {
         Cid10::find($id)->delete();
         return redirect()->route('cid10.index')
-                        ->with('success','Cid10 excluído com sucesso!');
-    }
-    
-    public function show($id)
-    {
-        $cid = Cid10::find($id);
-        return view('cid10.show',compact('cid'));
+                        ->with('success','Doença excluída com sucesso!');
     }
 }

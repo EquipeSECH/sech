@@ -37,7 +37,7 @@
                     this.clinica.leitos.splice(index, 1)                
                 }
             },
-            adicionar(){
+            atualizar(){
                 this.$http.patch('/clinica/' + this.clinica.id, this.clinica).then(response => {
                     swal({
                         title: "Salvo!",
@@ -109,7 +109,7 @@
                         </div> 
                 </div>
                 <div class="pull-right" style="margin-right: 1%;">
-                    <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Salvar" @click="adicionar"><i class="fa fa-save"></i></button>
+                    <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Salvar" @click="atualizar"><i class="fa fa-save"></i></button>
                 </div>
             </div>
         </div>

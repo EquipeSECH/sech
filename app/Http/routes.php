@@ -61,7 +61,6 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('', ['as' => 'clinica.index', 'uses' => 'ClinicaController@index', 'middleware' => ['permission:clinica-list|clinica-create|clinica-edit|clinica-delete']]);
         Route::get('/create', ['as' => 'clinica.create', 'uses' => 'ClinicaController@create', 'middleware' => ['permission:clinica-create']]);
         Route::post('/create', ['as' => 'clinica.store', 'uses' => 'ClinicaController@store', 'middleware' => ['permission:clinica-create']]);
-        Route::get('/{id}', ['as' => 'clinica.show', 'uses' => 'ClinicaController@show']);
         Route::get('/{id}/edit', ['as' => 'clinica.edit', 'uses' => 'ClinicaController@edit', 'middleware' => ['permission:clinica-edit']]);
         Route::patch('/{id}', ['as' => 'clinica.update', 'uses' => 'ClinicaController@update', 'middleware' => ['permission:clinica-edit']]);
         Route::delete('/{id}', ['as' => 'clinica.destroy', 'uses' => 'ClinicaController@destroy', 'middleware' => ['permission:clinica-delete']]);
@@ -70,13 +69,12 @@ Route::group(['middleware' => ['auth']], function() {
 //    //rotas de leito
 //    Route::group(['prefix' => 'leito', 'where' => ['id' => '[0-9]+']], function() {
 //        Route::get('', ['as' => 'leito.index', 'uses' => 'LeitoController@index', 'middleware' => ['permission:leito-list|leito-create|leito-edit|leito-delete']]);
-//        Route::get('/create/{id}', ['as' => 'leito.create', 'uses' => 'LeitoController@create', 'middleware' => ['permission:leito-create']]);
-//        Route::post('/create/{id}', ['as' => 'leito.store', 'uses' => 'LeitoController@store', 'middleware' => ['permission:leito-create']]);
+//        Route::get('/create/', ['as' => 'leito.create', 'uses' => 'LeitoController@create', 'middleware' => ['permission:leito-create']]);
+//        Route::post('/create/', ['as' => 'leito.store', 'uses' => 'LeitoController@store', 'middleware' => ['permission:leito-create']]);
 //        Route::get('/{id}', ['as' => 'leito.show', 'uses' => 'LeitoController@show']);
 //        Route::get('/{id}/edit', ['as' => 'leito.edit', 'uses' => 'LeitoController@edit', 'middleware' => ['permission:leito-edit']]);
 //        Route::patch('/{id}', ['as' => 'leito.update', 'uses' => 'LeitoController@update', 'middleware' => ['permission:leito-edit']]);
 //        Route::delete('/{id}', ['as' => 'leito.destroy', 'uses' => 'LeitoController@destroy', 'middleware' => ['permission:leito-delete']]);
-//        Route::resource('leitos/{id}','LeitoController');
 //    });
 
     //rotas de cid10
@@ -84,7 +82,6 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('', ['as' => 'cid10.index', 'uses' => 'Cid10Controller@index', 'middleware' => ['permission:cid-list|cid-create|cid-edit|cid-delete']]);
         Route::get('/create', ['as' => 'cid10.create', 'uses' => 'Cid10Controller@create', 'middleware' => ['permission:cid-create']]);
         Route::post('/create', ['as' => 'cid10.store', 'uses' => 'Cid10Controller@store', 'middleware' => ['permission:cid-create']]);
-        Route::get('/{id}', ['as' => 'cid10.show', 'uses' => 'Cid10Controller@show']);
         Route::get('/{id}/edit', ['as' => 'cid10.edit', 'uses' => 'Cid10Controller@edit', 'middleware' => ['permission:cid-edit']]);
         Route::patch('/{id}', ['as' => 'cid10.update', 'uses' => 'Cid10Controller@update', 'middleware' => ['permission:cid-edit']]);
         Route::delete('/{id}', ['as' => 'cid10.destroy', 'uses' => 'Cid10Controller@destroy', 'middleware' => ['permission:cid-delete']]);

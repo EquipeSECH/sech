@@ -41,16 +41,92 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'fk_role' => 'required',
-            'cpf' => 'required',
-            'rg' => 'required',
-            'nascimento' => 'required',
-            'telefone' => 'required',
-        ]);
+
+        //dd($request->input('fk_role'));
+
+        $tipo = $request->input('fk_role');
+
+        if ($tipo == "1") {
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|same:confirm-password',
+                'fk_role' => 'required',
+                'cpf' => 'required',
+                'rg' => 'required',
+                'nascimento' => 'required',
+                'telefone' => 'required',
+                'endereco' => 'required'
+            ]);
+        } else if ($tipo == "2") {
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|same:confirm-password',
+                'fk_role' => 'required',
+                'cpf' => 'required',
+                'rg' => 'required',
+                'nascimento' => 'required',
+                'telefone' => 'required',
+                'endereco' => 'required',
+                'codigoprofissional' => 'required'
+            ]);
+        } else if ($tipo == "3") {
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|same:confirm-password',
+                'fk_role' => 'required',
+                'cpf' => 'required',
+                'rg' => 'required',
+                'nascimento' => 'required',
+                'telefone' => 'required',
+                'endereco' => 'required',
+                'codigoprofissional' => 'required',
+                'idespecialidade' => 'required',
+                'assinatura' => 'required'
+            ]);
+        } else if ($tipo == "4") {
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|same:confirm-password',
+                'fk_role' => 'required',
+                'cpf' => 'required',
+                'rg' => 'required',
+                'nascimento' => 'required',
+                'telefone' => 'required',
+                'endereco' => 'required',
+                'codigoprofissional' => 'required',
+                'idespecialidade' => 'required'
+            ]);
+        } else if ($tipo == "5") {
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|same:confirm-password',
+                'fk_role' => 'required',
+                'cpf' => 'required',
+                'rg' => 'required',
+                'nascimento' => 'required',
+                'telefone' => 'required',
+                'endereco' => 'required',
+                'codigoprofissional' => 'required',
+            ]);
+        } else {
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|same:confirm-password',
+                'fk_role' => 'required',
+                'cpf' => 'required',
+                'rg' => 'required',
+                'nascimento' => 'required',
+                'telefone' => 'required',
+                'endereco' => 'required'
+            ]);
+        }
+
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);

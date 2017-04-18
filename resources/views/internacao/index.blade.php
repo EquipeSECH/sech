@@ -20,7 +20,7 @@
     </div>
 </div>
 <br>
-<div class="box box-danger" style="margin-left: 2%; margin-right: 2%; width: 96%;">
+<div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
     <div class="box-body">
         <div class="table-responsive col-lg-12 col-md-12 col-sm-12">
             <table id="table" class="table table-bordered table-hover dataTable" role="grid">

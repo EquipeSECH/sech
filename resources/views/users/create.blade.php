@@ -10,14 +10,12 @@
     <div class="col-lg-12 margin-tb">
         @section('contentheader_title')
         <div class="pull-left">
-            <h2>Cadastrar usuário</h2>
+            Cadastrar usuário
         </div>
-        @endsection  
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Voltar</a>
-        </div>
+        @endsection 
     </div>
 </div>
+<br>
 @if (count($errors) > 0)
 <div class="alert alert-danger"
      <ul>
@@ -29,7 +27,7 @@
 @endif
 {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
 <br>
-<div class="box box-danger">
+<div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
     <div class="row">
         <div class="box-body">
             <div class="col-xs-6 col-sm-6 col-md-6">
@@ -147,9 +145,8 @@
                 </div>
             </div>
             <!------------------------------------->
-
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Salvar</button>
+            <div class="pull-right" style="margin-right: 1%;">
+                <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Salvar" @click="adicionar"><i class="fa fa-save"></i></button>
             </div>
         </div>
     </div>
@@ -184,6 +181,11 @@ $(document).ready(function () {
             $("#den").hide();
             $("#far").hide();
             $("#enf").show();
+        } else {
+            $("#med").hide();
+            $("#den").hide();
+            $("#far").hide();
+            $("#enf").hide();
         }
     });
 });

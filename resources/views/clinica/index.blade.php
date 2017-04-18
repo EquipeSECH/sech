@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 <link href="{{ asset('js/jquery-ui-themes-1.12.0/themes/base/jquery-ui.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/iziToast.min.css')}}">
 <link rel="stylesheet" href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}">
 
 @section('main-content')
@@ -39,7 +38,7 @@
                         <td>{{ $clinica->nome }}</td>
                         <td>{{ $clinica->descricao }}</td>
                         <td width="14.5%">
-                            <a class="btn btn-default" data-target="#{{$clinica->id}}" data-toggle="modal" title="Visualizar" href="{{ route('clinica.show',$clinica->id) }}">
+                            <a class="btn btn-default" data-target="#{{$clinica->id}}" data-toggle="modal" title="Visualizar">
                                 <i class="fa fa-eye"> </i>
                             </a>
                             @permission('clinica-edit')
@@ -48,10 +47,32 @@
                             </a>
                             @endpermission
                             @permission('clinica-delete')
-                            {!! Form::open(['style'=>'display:inline']) !!}
-                            {{ Form::button('<i class=" fa fa-trash"></i>', array('class' => 'btn btn-default', 'data-toggle' => 'modal', 'data-target' => '#excluir', 'title' => 'Excluir')) }}
-                            {!! Form::close() !!}
+                            <a class="btn btn-default" data-toggle="modal" data-target="#e{{$clinica->id}}" title="Excluir">
+                                <i class="fa fa-trash"> </i>
+                            </a>
                             @endpermission
+
+                            @if(!empty($clinica))
+                            <div class="modal fade" id="e{{$clinica->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Excluir</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Tem certeza que deseja excluir?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                            {!! Form::open(['method' => 'DELETE','route' => ['clinica.destroy', $clinica->id],'style'=>'display:inline']) !!}
+                                            {!! Form::submit('OK', ['class' => 'btn btn-primary']) !!}
+                                            {!! Form::close() !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif 
 
                             <div class="modal fade" id="{{$clinica->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                 <div class="modal-dialog" role="document">
@@ -108,7 +129,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </td>
                     </tr>
                     @endforeach
@@ -160,7 +180,6 @@
 <script src = "{{ asset('js/jquery-3.1.0.js') }}"></script>
 <script src = "{{ asset('js/jquery.maskedinput.js') }}" type = "text/javascript" ></script>
 <script src = "{{ asset('js/jquery-ui-1.12.0/jquery-ui.js') }}" type = "text/javascript" ></script>
-<script src="{{ asset('js/iziToast.min.js')}}" type="text/javascript"></script>
 <!-- DataTables -->
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}" type = "text/javascript"></script>
 <script src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
@@ -199,33 +218,14 @@ $(function ($) {
     @if (Session::get('success'))
             $(function () {
                 var msg = "{{Session::get('success')}}"
-                iziToast.success({
-                    title: 'OK',
-                    message: msg,
+                swal({
+                    title: '',
+                    text: msg,
+                    confirmButtonColor: "#66BB6A",
+                    type: "success",
+                    html: true
                 });
             });
-            @endif
+    @endif
 </script>
-
-@if(!empty($clinica))
-<div class="modal fade" id="excluir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Excluir</h4>
-            </div>
-            <div class="modal-body">
-                Tem certeza que deseja excluir?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                {!! Form::open(['method' => 'DELETE','route' => ['clinica.destroy', $clinica->id],'style'=>'display:inline']) !!}
-                {!! Form::submit('OK', ['class' => 'btn btn-danger']) !!}
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-</div>
-@endif
 

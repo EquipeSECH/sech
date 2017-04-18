@@ -86,7 +86,7 @@
                                         <tr v-for = "leito in clinica.leitos">
                                             <td>{{leito.leito}}</td>
                                             <td>{{leito.obs}}</td>
-                                            <td>
+                                            <td>             
                                                 <center>
                                                 <a class="btn btn-default"  @click="removeLeito(leito)"><i class="fa fa-trash"></i></a>
                                                 </center>
