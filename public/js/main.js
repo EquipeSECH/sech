@@ -485,7 +485,7 @@ function format (id) {
 
 },{}],4:[function(require,module,exports){
 /*!
- * vue-resource v1.2.1
+ * vue-resource v1.3.1
  * https://github.com/pagekit/vue-resource
  * Released under the MIT License.
  */
@@ -1143,7 +1143,15 @@ function Url(url, params) {
     options$$1 = merge({}, Url.options, self.$options, options$$1);
 
     Url.transforms.forEach(function (handler) {
-        transform = factory(handler, transform, self.$vm);
+
+        if (isString(handler)) {
+            handler = Url.transform[handler];
+        }
+
+        if (isFunction(handler)) {
+            transform = factory(handler, transform, self.$vm);
+        }
+
     });
 
     return transform(options$$1);
@@ -1163,7 +1171,8 @@ Url.options = {
  * Url transforms.
  */
 
-Url.transforms = [template, query, root];
+Url.transform = {template: template, query: query, root: root};
+Url.transforms = ['template', 'query', 'root'];
 
 /**
  * Encodes a Url parameter string.
@@ -1498,8 +1507,6 @@ var header = function (request, next) {
  * XMLHttp client (Browser).
  */
 
-var SUPPORTS_BLOB = typeof Blob !== 'undefined' && typeof FileReader !== 'undefined';
-
 var xhrClient = function (request) {
     return new PromiseObj(function (resolve) {
 
@@ -1535,16 +1542,16 @@ var xhrClient = function (request) {
             xhr.timeout = request.timeout;
         }
 
-        if (request.credentials === true) {
+        if (request.responseType && 'responseType' in xhr) {
+            xhr.responseType = request.responseType;
+        }
+
+        if (request.withCredentials || request.credentials) {
             xhr.withCredentials = true;
         }
 
         if (!request.crossOrigin) {
             request.headers.set('X-Requested-With', 'XMLHttpRequest');
-        }
-
-        if ('responseType' in xhr && SUPPORTS_BLOB) {
-            xhr.responseType = 'blob';
         }
 
         request.headers.forEach(function (value, name) {
@@ -1843,7 +1850,15 @@ function Http(options$$1) {
     defaults(options$$1 || {}, self.$options, Http.options);
 
     Http.interceptors.forEach(function (handler) {
-        client.use(handler);
+
+        if (isString(handler)) {
+            handler = Http.interceptor[handler];
+        }
+
+        if (isFunction(handler)) {
+            client.use(handler);
+        }
+
     });
 
     return client(new Request(options$$1)).then(function (response) {
@@ -1871,7 +1886,8 @@ Http.headers = {
     custom: {}
 };
 
-Http.interceptors = [before, method, body, jsonp, header, cors];
+Http.interceptor = {before: before, method: method, body: body, jsonp: jsonp, header: header, cors: cors};
+Http.interceptors = ['before', 'method', 'body', 'jsonp', 'header', 'cors'];
 
 ['get', 'delete', 'head', 'jsonp'].forEach(function (method$$1) {
 
@@ -2021,7 +2037,7 @@ return plugin;
 
 },{"got":1}],5:[function(require,module,exports){
 /**
-  * vue-router v2.3.1
+  * vue-router v2.4.0
   * (c) 2017 Evan You
   * @license MIT
   */
@@ -2040,7 +2056,7 @@ function assert (condition, message) {
 }
 
 function warn (condition, message) {
-  if (!condition) {
+  if ("development" !== 'production' && !condition) {
     typeof console !== 'undefined' && console.warn(("[vue-router] " + message));
   }
 }
@@ -2095,17 +2111,12 @@ var View = {
 
     var component = cache[name] = matched.components[name];
 
-    // inject instance registration hooks
-    var hooks = data.hook || (data.hook = {});
-    hooks.init = function (vnode) {
-      matched.instances[name] = vnode.child;
-    };
-    hooks.prepatch = function (oldVnode, vnode) {
-      matched.instances[name] = vnode.child;
-    };
-    hooks.destroy = function (vnode) {
-      if (matched.instances[name] === vnode.child) {
-        matched.instances[name] = undefined;
+    // attach instance registration hook
+    // this will be called in the instance's injected lifecycle hooks
+    data.registerRouteInstance = function (vm, val) {
+      // val could be undefined for unregistration
+      if (matched.instances[name] !== vm) {
+        matched.instances[name] = val;
       }
     };
 
@@ -2127,7 +2138,13 @@ function resolveProps (route, config) {
     case 'boolean':
       return config ? route.params : undefined
     default:
-      warn(false, ("props in \"" + (route.path) + "\" is a " + (typeof config) + ", expecting an object, function or boolean."));
+      {
+        warn(
+          false,
+          "props in \"" + (route.path) + "\" is a " + (typeof config) + ", " +
+          "expecting an object, function or boolean."
+        );
+      }
   }
 }
 
@@ -2137,7 +2154,7 @@ var encodeReserveRE = /[!'()*]/g;
 var encodeReserveReplacer = function (c) { return '%' + c.charCodeAt(0).toString(16); };
 var commaRE = /%2C/g;
 
-// fixed encodeURIComponent which is more comformant to RFC3986:
+// fixed encodeURIComponent which is more conformant to RFC3986:
 // - escapes [!'()*]
 // - preserve commas
 var encode = function (str) { return encodeURIComponent(str)
@@ -2148,25 +2165,24 @@ var decode = decodeURIComponent;
 
 function resolveQuery (
   query,
-  extraQuery
+  extraQuery,
+  _parseQuery
 ) {
   if ( extraQuery === void 0 ) extraQuery = {};
 
-  if (query) {
-    var parsedQuery;
-    try {
-      parsedQuery = parseQuery(query);
-    } catch (e) {
-      "development" !== 'production' && warn(false, e.message);
-      parsedQuery = {};
-    }
-    for (var key in extraQuery) {
-      parsedQuery[key] = extraQuery[key];
-    }
-    return parsedQuery
-  } else {
-    return extraQuery
+  var parse = _parseQuery || parseQuery;
+  var parsedQuery;
+  try {
+    parsedQuery = parse(query || '');
+  } catch (e) {
+    "development" !== 'production' && warn(false, e.message);
+    parsedQuery = {};
   }
+  for (var key in extraQuery) {
+    var val = extraQuery[key];
+    parsedQuery[key] = Array.isArray(val) ? val.slice() : val;
+  }
+  return parsedQuery
 }
 
 function parseQuery (query) {
@@ -2231,13 +2247,16 @@ function stringifyQuery (obj) {
 
 /*  */
 
+
 var trailingSlashRE = /\/?$/;
 
 function createRoute (
   record,
   location,
-  redirectedFrom
+  redirectedFrom,
+  router
 ) {
+  var stringifyQuery$$1 = router && router.options.stringifyQuery;
   var route = {
     name: location.name || (record && record.name),
     meta: (record && record.meta) || {},
@@ -2245,11 +2264,11 @@ function createRoute (
     hash: location.hash || '',
     query: location.query || {},
     params: location.params || {},
-    fullPath: getFullPath(location),
+    fullPath: getFullPath(location, stringifyQuery$$1),
     matched: record ? formatMatch(record) : []
   };
   if (redirectedFrom) {
-    route.redirectedFrom = getFullPath(redirectedFrom);
+    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery$$1);
   }
   return Object.freeze(route)
 }
@@ -2268,12 +2287,16 @@ function formatMatch (record) {
   return res
 }
 
-function getFullPath (ref) {
+function getFullPath (
+  ref,
+  _stringifyQuery
+) {
   var path = ref.path;
   var query = ref.query; if ( query === void 0 ) query = {};
   var hash = ref.hash; if ( hash === void 0 ) hash = '';
 
-  return (path || '/') + stringifyQuery(query) + hash
+  var stringify = _stringifyQuery || stringifyQuery;
+  return (path || '/') + stringify(query) + hash
 }
 
 function isSameRoute (a, b) {
@@ -2350,7 +2373,10 @@ var Link = {
     exact: Boolean,
     append: Boolean,
     replace: Boolean,
-    activeClass: String,
+    activeClass: {
+      type: String,
+      default: 'router-link-active'
+    },
     event: {
       type: eventTypes,
       default: 'click'
@@ -2365,9 +2391,16 @@ var Link = {
     var location = ref.location;
     var route = ref.route;
     var href = ref.href;
+
     var classes = {};
-    var activeClass = this.activeClass || router.options.linkActiveClass || 'router-link-active';
-    var compareTarget = location.path ? createRoute(null, location) : route;
+    var globalActiveClass = router.options.linkActiveClass;
+    var activeClass = globalActiveClass == null
+      ? this.activeClass
+      : globalActiveClass;
+    var compareTarget = location.path
+      ? createRoute(null, location, null, router)
+      : route;
+
     classes[activeClass] = this.exact
       ? isSameRoute(current, compareTarget)
       : isIncludedRoute(current, compareTarget);
@@ -2425,8 +2458,8 @@ function guardEvent (e) {
   // don't redirect on right click
   if (e.button !== undefined && e.button !== 0) { return }
   // don't redirect if `target="_blank"`
-  if (e.target && e.target.getAttribute) {
-    var target = e.target.getAttribute('target');
+  if (e.currentTarget && e.currentTarget.getAttribute) {
+    var target = e.currentTarget.getAttribute('target');
     if (/\b_blank\b/i.test(target)) { return }
   }
   // this may be a Weex event which doesn't have this method
@@ -2467,13 +2500,26 @@ function install (Vue) {
     get: function get () { return this.$root._route }
   });
 
+  var isDef = function (v) { return v !== undefined; };
+
+  var registerInstance = function (vm, callVal) {
+    var i = vm.$options._parentVnode;
+    if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
+      i(vm, callVal);
+    }
+  };
+
   Vue.mixin({
     beforeCreate: function beforeCreate () {
-      if (this.$options.router) {
+      if (isDef(this.$options.router)) {
         this._router = this.$options.router;
         this._router.init(this);
         Vue.util.defineReactive(this, '_route', this._router.history.current);
       }
+      registerInstance(this, this);
+    },
+    destroyed: function destroyed () {
+      registerInstance(this);
     }
   });
 
@@ -2496,11 +2542,12 @@ function resolvePath (
   base,
   append
 ) {
-  if (relative.charAt(0) === '/') {
+  var firstChar = relative.charAt(0);
+  if (firstChar === '/') {
     return relative
   }
 
-  if (relative.charAt(0) === '?' || relative.charAt(0) === '#') {
+  if (firstChar === '?' || firstChar === '#') {
     return base + relative
   }
 
@@ -2517,11 +2564,9 @@ function resolvePath (
   var segments = relative.replace(/^\//, '').split('/');
   for (var i = 0; i < segments.length; i++) {
     var segment = segments[i];
-    if (segment === '.') {
-      continue
-    } else if (segment === '..') {
+    if (segment === '..') {
       stack.pop();
-    } else {
+    } else if (segment !== '.') {
       stack.push(segment);
     }
   }
@@ -3160,10 +3205,12 @@ function fillParams (
 
 /*  */
 
+
 function normalizeLocation (
   raw,
   current,
-  append
+  append,
+  router
 ) {
   var next = typeof raw === 'string' ? { path: raw } : raw;
   // named target
@@ -3193,7 +3240,13 @@ function normalizeLocation (
   var path = parsedPath.path
     ? resolvePath(parsedPath.path, basePath, append || next.append)
     : (current && current.path) || '/';
-  var query = resolveQuery(parsedPath.query, next.query);
+
+  var query = resolveQuery(
+    parsedPath.query,
+    next.query,
+    router && router.options.parseQuery
+  );
+
   var hash = next.hash || parsedPath.hash;
   if (hash && hash.charAt(0) !== '#') {
     hash = "#" + hash;
@@ -3216,7 +3269,11 @@ function assign (a, b) {
 
 /*  */
 
-function createMatcher (routes) {
+
+function createMatcher (
+  routes,
+  router
+) {
   var ref = createRouteMap(routes);
   var pathMap = ref.pathMap;
   var nameMap = ref.nameMap;
@@ -3230,7 +3287,7 @@ function createMatcher (routes) {
     currentRoute,
     redirectedFrom
   ) {
-    var location = normalizeLocation(raw, currentRoute);
+    var location = normalizeLocation(raw, currentRoute, false, router);
     var name = location.name;
 
     if (name) {
@@ -3276,7 +3333,7 @@ function createMatcher (routes) {
   ) {
     var originalRedirect = record.redirect;
     var redirect = typeof originalRedirect === 'function'
-        ? originalRedirect(createRoute(record, location))
+        ? originalRedirect(createRoute(record, location, null, router))
         : originalRedirect;
 
     if (typeof redirect === 'string') {
@@ -3284,9 +3341,11 @@ function createMatcher (routes) {
     }
 
     if (!redirect || typeof redirect !== 'object') {
-      "development" !== 'production' && warn(
-        false, ("invalid redirect option: " + (JSON.stringify(redirect)))
-      );
+      {
+        warn(
+          false, ("invalid redirect option: " + (JSON.stringify(redirect)))
+        );
+      }
       return _createRoute(null, location)
     }
 
@@ -3326,7 +3385,9 @@ function createMatcher (routes) {
         hash: hash
       }, undefined, location)
     } else {
-      warn(false, ("invalid redirect option: " + (JSON.stringify(redirect))));
+      {
+        warn(false, ("invalid redirect option: " + (JSON.stringify(redirect))));
+      }
       return _createRoute(null, location)
     }
   }
@@ -3361,7 +3422,7 @@ function createMatcher (routes) {
     if (record && record.matchAs) {
       return alias(record, location, record.matchAs)
     }
-    return createRoute(record, location, redirectedFrom)
+    return createRoute(record, location, redirectedFrom, router)
   }
 
   return {
@@ -3577,7 +3638,6 @@ function runQueue (queue, fn, cb) {
 
 /*  */
 
-
 var History = function History (router, base) {
   this.router = router;
   this.base = normalizeBase(base);
@@ -3586,18 +3646,27 @@ var History = function History (router, base) {
   this.pending = null;
   this.ready = false;
   this.readyCbs = [];
+  this.readyErrorCbs = [];
+  this.errorCbs = [];
 };
 
 History.prototype.listen = function listen (cb) {
   this.cb = cb;
 };
 
-History.prototype.onReady = function onReady (cb) {
+History.prototype.onReady = function onReady (cb, errorCb) {
   if (this.ready) {
     cb();
   } else {
     this.readyCbs.push(cb);
+    if (errorCb) {
+      this.readyErrorCbs.push(errorCb);
+    }
   }
+};
+
+History.prototype.onError = function onError (errorCb) {
+  this.errorCbs.push(errorCb);
 };
 
 History.prototype.transitionTo = function transitionTo (location, onComplete, onAbort) {
@@ -3612,18 +3681,29 @@ History.prototype.transitionTo = function transitionTo (location, onComplete, on
     // fire ready cbs once
     if (!this$1.ready) {
       this$1.ready = true;
-      this$1.readyCbs.forEach(function (cb) {
-        cb(route);
-      });
+      this$1.readyCbs.forEach(function (cb) { cb(route); });
     }
-  }, onAbort);
+  }, function (err) {
+    if (onAbort) {
+      onAbort(err);
+    }
+    if (err && !this$1.ready) {
+      this$1.ready = true;
+      this$1.readyErrorCbs.forEach(function (cb) { cb(err); });
+    }
+  });
 };
 
 History.prototype.confirmTransition = function confirmTransition (route, onComplete, onAbort) {
     var this$1 = this;
 
   var current = this.current;
-  var abort = function () { onAbort && onAbort(); };
+  var abort = function (err) {
+    if (err instanceof Error) {
+      this$1.errorCbs.forEach(function (cb) { cb(err); });
+    }
+    onAbort && onAbort(err);
+  };
   if (
     isSameRoute(route, current) &&
     // in the case the route map has been dynamically appended to
@@ -3656,20 +3736,28 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
     if (this$1.pending !== route) {
       return abort()
     }
-    hook(route, current, function (to) {
-      if (to === false) {
-        // next(false) -> abort navigation, ensure current URL
-        this$1.ensureURL(true);
-        abort();
-      } else if (typeof to === 'string' || typeof to === 'object') {
-        // next('/') or next({ path: '/' }) -> redirect
-        (typeof to === 'object' && to.replace) ? this$1.replace(to) : this$1.push(to);
-        abort();
-      } else {
-        // confirm transition and pass on the value
-        next(to);
-      }
-    });
+    try {
+      hook(route, current, function (to) {
+        if (to === false || to instanceof Error) {
+          // next(false) -> abort navigation, ensure current URL
+          this$1.ensureURL(true);
+          abort(to);
+        } else if (typeof to === 'string' || typeof to === 'object') {
+          // next('/') or next({ path: '/' }) -> redirect
+          abort();
+          if (typeof to === 'object' && to.replace) {
+            this$1.replace(to);
+          } else {
+            this$1.push(to);
+          }
+        } else {
+          // confirm transition and pass on the value
+          next(to);
+        }
+      });
+    } catch (e) {
+      abort(e);
+    }
   };
 
   runQueue(queue, iterator, function () {
@@ -3686,7 +3774,7 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
       onComplete(route);
       if (this$1.router.app) {
         this$1.router.app.$nextTick(function () {
-          postEnterCbs.forEach(function (cb) { return cb(); });
+          postEnterCbs.forEach(function (cb) { cb(); });
         });
       }
     });
@@ -3830,31 +3918,71 @@ function poll (
 }
 
 function resolveAsyncComponents (matched) {
-  return flatMapComponents(matched, function (def, _, match, key) {
-    // if it's a function and doesn't have Vue options attached,
+  var _next;
+  var pending = 0;
+  var error = null;
+
+  flatMapComponents(matched, function (def, _, match, key) {
+    // if it's a function and doesn't have cid attached,
     // assume it's an async component resolve function.
     // we are not using Vue's default async resolving mechanism because
     // we want to halt the navigation until the incoming component has been
     // resolved.
-    if (typeof def === 'function' && !def.options) {
-      return function (to, from, next) {
-        var resolve = once(function (resolvedDef) {
-          match.components[key] = resolvedDef;
-          next();
-        });
+    if (typeof def === 'function' && def.cid === undefined) {
+      pending++;
 
-        var reject = once(function (reason) {
-          warn(false, ("Failed to resolve async component " + key + ": " + reason));
-          next(false);
-        });
+      var resolve = once(function (resolvedDef) {
+        // save resolved on async factory in case it's used elsewhere
+        def.resolved = typeof resolvedDef === 'function'
+          ? resolvedDef
+          : _Vue.extend(resolvedDef);
+        match.components[key] = resolvedDef;
+        pending--;
+        if (pending <= 0 && _next) {
+          _next();
+        }
+      });
 
-        var res = def(resolve, reject);
-        if (res && typeof res.then === 'function') {
+      var reject = once(function (reason) {
+        var msg = "Failed to resolve async component " + key + ": " + reason;
+        "development" !== 'production' && warn(false, msg);
+        if (!error) {
+          error = reason instanceof Error
+            ? reason
+            : new Error(msg);
+          if (_next) { _next(error); }
+        }
+      });
+
+      var res;
+      try {
+        res = def(resolve, reject);
+      } catch (e) {
+        reject(e);
+      }
+      if (res) {
+        if (typeof res.then === 'function') {
           res.then(resolve, reject);
+        } else {
+          // new syntax in Vue 2.3
+          var comp = res.component;
+          if (comp && typeof comp.then === 'function') {
+            comp.then(resolve, reject);
+          }
         }
       }
     }
-  })
+  });
+
+  return function (to, from, next) {
+    if (error) {
+      next(error);
+    } else if (pending <= 0) {
+      next();
+    } else {
+      _next = next;
+    }
+  }
 }
 
 function flatMapComponents (
@@ -4136,7 +4264,7 @@ var VueRouter = function VueRouter (options) {
   this.options = options;
   this.beforeHooks = [];
   this.afterHooks = [];
-  this.matcher = createMatcher(options.routes || []);
+  this.matcher = createMatcher(options.routes || [], this);
 
   var mode = options.mode || 'hash';
   this.fallback = mode === 'history' && !supportsPushState;
@@ -4227,8 +4355,12 @@ VueRouter.prototype.afterEach = function afterEach (fn) {
   this.afterHooks.push(fn);
 };
 
-VueRouter.prototype.onReady = function onReady (cb) {
-  this.history.onReady(cb);
+VueRouter.prototype.onReady = function onReady (cb, errorCb) {
+  this.history.onReady(cb, errorCb);
+};
+
+VueRouter.prototype.onError = function onError (errorCb) {
+  this.history.onError(errorCb);
 };
 
 VueRouter.prototype.push = function push (location, onComplete, onAbort) {
@@ -4270,7 +4402,12 @@ VueRouter.prototype.resolve = function resolve (
   current,
   append
 ) {
-  var location = normalizeLocation(to, current || this.history.current, append);
+  var location = normalizeLocation(
+    to,
+    current || this.history.current,
+    append,
+    this
+  );
   var route = this.match(location, current);
   var fullPath = route.redirectedFrom || route.fullPath;
   var base = this.history.base;
@@ -4300,7 +4437,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '2.3.1';
+VueRouter.version = '2.4.0';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
@@ -4313,7 +4450,7 @@ return VueRouter;
 },{}],6:[function(require,module,exports){
 (function (global){
 /*!
- * Vue.js v2.2.5
+ * Vue.js v2.2.6
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -6409,6 +6546,9 @@ function lifecycleMixin (Vue) {
     }
     // call the last hook...
     vm._isDestroyed = true;
+    // invoke destroy hooks on current rendered tree
+    vm.__patch__(vm._vnode, null);
+    // fire destroyed hook
     callHook(vm, 'destroyed');
     // turn off all instance listeners.
     vm.$off();
@@ -6416,8 +6556,8 @@ function lifecycleMixin (Vue) {
     if (vm.$el) {
       vm.$el.__vue__ = null;
     }
-    // invoke destroy hooks on current rendered tree
-    vm.__patch__(vm._vnode, null);
+    // remove reference to DOM nodes (prevents leak)
+    vm.$options._parentElm = vm.$options._refElm = null;
   };
 }
 
@@ -7078,6 +7218,15 @@ function initComputed (vm, computed) {
   for (var key in computed) {
     var userDef = computed[key];
     var getter = typeof userDef === 'function' ? userDef : userDef.get;
+    {
+      if (getter === undefined) {
+        warn(
+          ("No getter function has been defined for computed property \"" + key + "\"."),
+          vm
+        );
+        getter = noop;
+      }
+    }
     // create internal watcher for the computed property.
     watchers[key] = new Watcher(vm, getter, noop, computedWatcherOptions);
 
@@ -7490,7 +7639,7 @@ function extractProps (data, Ctor, tag) {
         ) {
           tip(
             "Prop \"" + keyInLowerCase + "\" is passed to component " +
-            (formatComponentName(tag || Ctor)) + ", but the delared prop name is" +
+            (formatComponentName(tag || Ctor)) + ", but the declared prop name is" +
             " \"" + key + "\". " +
             "Note that HTML attributes are case-insensitive and camelCased " +
             "props need to use their kebab-case equivalents when using in-DOM " +
@@ -8469,7 +8618,7 @@ Object.defineProperty(Vue$3.prototype, '$isServer', {
   get: isServerRendering
 });
 
-Vue$3.version = '2.2.5';
+Vue$3.version = '2.2.6';
 
 /*  */
 
@@ -13621,7 +13770,7 @@ return Vue$3;
 },{}],7:[function(require,module,exports){
 (function (process,global){
 /*!
- * Vue.js v2.2.5
+ * Vue.js v2.2.6
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -15709,6 +15858,9 @@ function lifecycleMixin (Vue) {
     }
     // call the last hook...
     vm._isDestroyed = true;
+    // invoke destroy hooks on current rendered tree
+    vm.__patch__(vm._vnode, null);
+    // fire destroyed hook
     callHook(vm, 'destroyed');
     // turn off all instance listeners.
     vm.$off();
@@ -15716,8 +15868,8 @@ function lifecycleMixin (Vue) {
     if (vm.$el) {
       vm.$el.__vue__ = null;
     }
-    // invoke destroy hooks on current rendered tree
-    vm.__patch__(vm._vnode, null);
+    // remove reference to DOM nodes (prevents leak)
+    vm.$options._parentElm = vm.$options._refElm = null;
   };
 }
 
@@ -16382,6 +16534,15 @@ function initComputed (vm, computed) {
   for (var key in computed) {
     var userDef = computed[key];
     var getter = typeof userDef === 'function' ? userDef : userDef.get;
+    if (process.env.NODE_ENV !== 'production') {
+      if (getter === undefined) {
+        warn(
+          ("No getter function has been defined for computed property \"" + key + "\"."),
+          vm
+        );
+        getter = noop;
+      }
+    }
     // create internal watcher for the computed property.
     watchers[key] = new Watcher(vm, getter, noop, computedWatcherOptions);
 
@@ -16794,7 +16955,7 @@ function extractProps (data, Ctor, tag) {
         ) {
           tip(
             "Prop \"" + keyInLowerCase + "\" is passed to component " +
-            (formatComponentName(tag || Ctor)) + ", but the delared prop name is" +
+            (formatComponentName(tag || Ctor)) + ", but the declared prop name is" +
             " \"" + key + "\". " +
             "Note that HTML attributes are case-insensitive and camelCased " +
             "props need to use their kebab-case equivalents when using in-DOM " +
@@ -17779,7 +17940,7 @@ Object.defineProperty(Vue$2.prototype, '$isServer', {
   get: isServerRendering
 });
 
-Vue$2.version = '2.2.5';
+Vue$2.version = '2.2.6';
 
 /*  */
 
@@ -20492,15 +20653,15 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div _v-e08a8452=\"\">\n        <div class=\"row\" _v-e08a8452=\"\">\n            <div class=\"box-body\" _v-e08a8452=\"\">   \n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-e08a8452=\"\">\n                    <div class=\"form-group\" _v-e08a8452=\"\">\n                        <strong _v-e08a8452=\"\">Nome:</strong>\n                        <input id=\"nome\" type=\"text\" name=\"nome\" class=\"form-control\" v-model=\"clinica.nome\" _v-e08a8452=\"\">\n                    </div>\n                </div>\n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-e08a8452=\"\">\n                    <div class=\"form-group\" _v-e08a8452=\"\">\n                        <strong _v-e08a8452=\"\">Descrição:</strong>  \n                        <textarea name=\"descricao\" placeholder=\"Descrição da clínica\" class=\"form-control\" style=\"height:100px\" v-model=\"clinica.descricao\" _v-e08a8452=\"\"></textarea>\n                    </div>\n                </div> \n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-e08a8452=\"\">\n                    <div class=\"form-group\" _v-e08a8452=\"\">\n                        <strong _v-e08a8452=\"\">Total de leitos:</strong>\n                        {{clinica.leitos.length}}\n                        <a class=\"btn btn-default\" style=\"border-radius: 45%; margin-left: 2%;\" data-toggle=\"modal\" data-target=\"#leito\" title=\"Adicionar leito\" _v-e08a8452=\"\"><i class=\"fa fa-plus\" _v-e08a8452=\"\"></i></a>\n                    </div>\n                </div>\n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-e08a8452=\"\">\n                <br _v-e08a8452=\"\">\n                <div class=\"box box-primary\" style=\"margin-left: 2%; margin-right: 2%; width: 96%;\" _v-e08a8452=\"\">\n                    <h4 _v-e08a8452=\"\"><center _v-e08a8452=\"\"><b _v-e08a8452=\"\">Leitos</b></center></h4>\n                        <div class=\"box-body\" _v-e08a8452=\"\">\n                            <div class=\"table-responsive col-lg-12 col-md-12 col-sm-12\" _v-e08a8452=\"\">\n                                <table id=\"table\" class=\"table table-condensed table-bordered table-hover dataTable\" role=\"grid\" _v-e08a8452=\"\">\n                                    <thead _v-e08a8452=\"\">\n                                        <tr _v-e08a8452=\"\">\n                                            <th class=\"text-center\" _v-e08a8452=\"\">Nome</th>\n                                            <th class=\"text-center\" _v-e08a8452=\"\">Observação</th>\n                                            <th width=\"3%\" class=\"text-center\" _v-e08a8452=\"\">Opções</th>\n                                        </tr>\n                                    </thead>\n                                    <tbody _v-e08a8452=\"\">\n                                        <tr v-for=\"leito in clinica.leitos\" _v-e08a8452=\"\">\n                                            <td _v-e08a8452=\"\">{{leito.leito}}</td>\n                                            <td _v-e08a8452=\"\">{{leito.obs}}</td>\n                                            <td _v-e08a8452=\"\">             \n                                                <center _v-e08a8452=\"\">\n                                                <a class=\"btn btn-default\" @click=\"removeLeito(leito)\" _v-e08a8452=\"\"><i class=\"fa fa-trash\" _v-e08a8452=\"\"></i></a>\n                                                </center>\n                                            </td>\n                                        </tr>\n                                    </tbody>\n                                </table>\n                            </div>\n                        </div> \n                </div>\n                <div class=\"pull-right\" style=\"margin-right: 1%;\" _v-e08a8452=\"\">\n                    <button type=\"submit\" class=\"btn btn-default\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Salvar\" @click=\"adicionar\" _v-e08a8452=\"\"><i class=\"fa fa-save\" _v-e08a8452=\"\"></i></button>\n                </div>\n            </div>\n        </div>\n        <div class=\"modal fade\" id=\"leito\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" _v-e08a8452=\"\">\n            <div class=\"modal-dialog\" role=\"document\" _v-e08a8452=\"\">\n                <div class=\"modal-content\" _v-e08a8452=\"\">\n                    <div class=\"modal-header\" _v-e08a8452=\"\">\n                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" _v-e08a8452=\"\"><span aria-hidden=\"true\" _v-e08a8452=\"\">×</span></button>\n                        <h4 class=\"modal-title\" id=\"myModalLabel\" _v-e08a8452=\"\"><strong _v-e08a8452=\"\">Cadastrar leito</strong></h4>\n                    </div>\n                    <div class=\"modal-body\" _v-e08a8452=\"\">\n                        <div class=\"box box-primary\" style=\"margin-left: 2%; margin-right: 2%; width: 96%;\" _v-e08a8452=\"\">\n                            <div class=\"row\" _v-e08a8452=\"\">\n                                <div class=\"box-body\" _v-e08a8452=\"\">\n                                    <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-e08a8452=\"\">\n                                        <div class=\"form-group\" _v-e08a8452=\"\">\n                                            <strong _v-e08a8452=\"\">Leito:</strong>\n                                            <input type=\"text\" name=\"leito\" class=\"form-control\" v-model=\"leito\" placeholder=\"Digite o número do leito\" onkeypress=\"return SomenteNumero(event)\" _v-e08a8452=\"\">\n                                        </div>\n                                    </div>\n                                    <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-e08a8452=\"\">\n                                        <div class=\"form-group\" _v-e08a8452=\"\">\n                                            <strong _v-e08a8452=\"\">Observação:</strong>\n                                            <textarea title=\"observacao\" class=\"form-control\" style=\"height: 100px\" v-model=\"obs\" _v-e08a8452=\"\"></textarea>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"modal-footer\" _v-e08a8452=\"\">\n                        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" _v-e08a8452=\"\">Fechar</button>\n                        <button type=\"submit\" class=\"btn btn-primary\" @click=\"addLeito\" _v-e08a8452=\"\">Salvar</button>\n                    </div>\n                </div>\n            </div>\n        </div>\n</div>\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div _v-f61ddada=\"\">\n        <div class=\"row\" _v-f61ddada=\"\">\n            <div class=\"box-body\" _v-f61ddada=\"\">   \n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-f61ddada=\"\">\n                    <div class=\"form-group\" _v-f61ddada=\"\">\n                        <strong _v-f61ddada=\"\">Nome:</strong>\n                        <input id=\"nome\" type=\"text\" name=\"nome\" class=\"form-control\" v-model=\"clinica.nome\" _v-f61ddada=\"\">\n                    </div>\n                </div>\n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-f61ddada=\"\">\n                    <div class=\"form-group\" _v-f61ddada=\"\">\n                        <strong _v-f61ddada=\"\">Descrição:</strong>  \n                        <textarea name=\"descricao\" placeholder=\"Descrição da clínica\" class=\"form-control\" style=\"height:100px\" v-model=\"clinica.descricao\" _v-f61ddada=\"\"></textarea>\n                    </div>\n                </div> \n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-f61ddada=\"\">\n                    <div class=\"form-group\" _v-f61ddada=\"\">\n                        <strong _v-f61ddada=\"\">Total de leitos:</strong>\n                        {{clinica.leitos.length}}\n                        <a class=\"btn btn-default\" style=\"border-radius: 45%; margin-left: 2%;\" data-toggle=\"modal\" data-target=\"#leito\" title=\"Adicionar leito\" _v-f61ddada=\"\"><i class=\"fa fa-plus\" _v-f61ddada=\"\"></i></a>\n                    </div>\n                </div>\n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-f61ddada=\"\">\n                <br _v-f61ddada=\"\">\n                <div class=\"box box-primary\" style=\"margin-left: 2%; margin-right: 2%; width: 96%;\" _v-f61ddada=\"\">\n                    <h4 _v-f61ddada=\"\"><center _v-f61ddada=\"\"><b _v-f61ddada=\"\">Leitos</b></center></h4>\n                        <div class=\"box-body\" _v-f61ddada=\"\">\n                            <div class=\"table-responsive col-lg-12 col-md-12 col-sm-12\" _v-f61ddada=\"\">\n                                <table id=\"table\" class=\"table table-condensed table-bordered table-hover dataTable\" role=\"grid\" _v-f61ddada=\"\">\n                                    <thead _v-f61ddada=\"\">\n                                        <tr _v-f61ddada=\"\">\n                                            <th class=\"text-center\" _v-f61ddada=\"\">Nome</th>\n                                            <th class=\"text-center\" _v-f61ddada=\"\">Observação</th>\n                                            <th width=\"3%\" class=\"text-center\" _v-f61ddada=\"\">Opções</th>\n                                        </tr>\n                                    </thead>\n                                    <tbody _v-f61ddada=\"\">\n                                        <tr v-for=\"leito in clinica.leitos\" _v-f61ddada=\"\">\n                                            <td _v-f61ddada=\"\">{{leito.leito}}</td>\n                                            <td _v-f61ddada=\"\">{{leito.obs}}</td>\n                                            <td _v-f61ddada=\"\">             \n                                                <center _v-f61ddada=\"\">\n                                                <a class=\"btn btn-default\" @click=\"removeLeito(leito)\" _v-f61ddada=\"\"><i class=\"fa fa-trash\" _v-f61ddada=\"\"></i></a>\n                                                </center>\n                                            </td>\n                                        </tr>\n                                    </tbody>\n                                </table>\n                            </div>\n                        </div> \n                </div>\n                <div class=\"pull-right\" style=\"margin-right: 1%;\" _v-f61ddada=\"\">\n                    <button type=\"submit\" class=\"btn btn-default\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Salvar\" @click=\"adicionar\" _v-f61ddada=\"\"><i class=\"fa fa-save\" _v-f61ddada=\"\"></i></button>\n                </div>\n            </div>\n        </div>\n        <div class=\"modal fade\" id=\"leito\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" _v-f61ddada=\"\">\n            <div class=\"modal-dialog\" role=\"document\" _v-f61ddada=\"\">\n                <div class=\"modal-content\" _v-f61ddada=\"\">\n                    <div class=\"modal-header\" _v-f61ddada=\"\">\n                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" _v-f61ddada=\"\"><span aria-hidden=\"true\" _v-f61ddada=\"\">×</span></button>\n                        <h4 class=\"modal-title\" id=\"myModalLabel\" _v-f61ddada=\"\"><strong _v-f61ddada=\"\">Cadastrar leito</strong></h4>\n                    </div>\n                    <div class=\"modal-body\" _v-f61ddada=\"\">\n                        <div class=\"box box-primary\" style=\"margin-left: 2%; margin-right: 2%; width: 96%;\" _v-f61ddada=\"\">\n                            <div class=\"row\" _v-f61ddada=\"\">\n                                <div class=\"box-body\" _v-f61ddada=\"\">\n                                    <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-f61ddada=\"\">\n                                        <div class=\"form-group\" _v-f61ddada=\"\">\n                                            <strong _v-f61ddada=\"\">Leito:</strong>\n                                            <input type=\"text\" name=\"leito\" class=\"form-control\" v-model=\"leito\" placeholder=\"Digite o número do leito\" onkeypress=\"return SomenteNumero(event)\" _v-f61ddada=\"\">\n                                        </div>\n                                    </div>\n                                    <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-f61ddada=\"\">\n                                        <div class=\"form-group\" _v-f61ddada=\"\">\n                                            <strong _v-f61ddada=\"\">Observação:</strong>\n                                            <textarea title=\"observacao\" class=\"form-control\" style=\"height: 100px\" v-model=\"obs\" _v-f61ddada=\"\"></textarea>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"modal-footer\" _v-f61ddada=\"\">\n                        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" _v-f61ddada=\"\">Fechar</button>\n                        <button type=\"submit\" class=\"btn btn-primary\" @click=\"addLeito\" _v-f61ddada=\"\">Salvar</button>\n                    </div>\n                </div>\n            </div>\n        </div>\n</div>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-e08a8452", module.exports)
+    hotAPI.createRecord("_v-f61ddada", module.exports)
   } else {
-    hotAPI.update("_v-e08a8452", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-f61ddada", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":7,"vue-hot-reload-api":3}],9:[function(require,module,exports){
@@ -20564,18 +20725,86 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div _v-1b8a5f61=\"\">\n        <div class=\"row\" _v-1b8a5f61=\"\">\n            <div class=\"box-body\" _v-1b8a5f61=\"\">   \n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-1b8a5f61=\"\">\n                    <div class=\"form-group\" _v-1b8a5f61=\"\">\n                        <strong _v-1b8a5f61=\"\">Nome:</strong>\n                        <input id=\"nome\" type=\"text\" name=\"nome\" class=\"form-control\" v-model=\"clinica.nome\" _v-1b8a5f61=\"\">\n                    </div>\n                </div>\n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-1b8a5f61=\"\">\n                    <div class=\"form-group\" _v-1b8a5f61=\"\">\n                        <strong _v-1b8a5f61=\"\">Descrição:</strong>  \n                        <textarea name=\"descricao\" placeholder=\"Descrição da clínica\" class=\"form-control\" style=\"height:100px\" v-model=\"clinica.descricao\" _v-1b8a5f61=\"\"></textarea>\n                    </div>\n                </div> \n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-1b8a5f61=\"\">\n                    <div class=\"form-group\" _v-1b8a5f61=\"\">\n                        <strong _v-1b8a5f61=\"\">Total de leitos:</strong>\n                        {{clinica.leitos.length}}\n                        <a class=\"btn btn-default\" style=\"border-radius: 45%; margin-left: 2%;\" data-toggle=\"modal\" data-target=\"#leito\" title=\"Adicionar leito\" _v-1b8a5f61=\"\"><i class=\"fa fa-plus\" _v-1b8a5f61=\"\"></i></a>\n                    </div>\n                </div>\n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-1b8a5f61=\"\">\n                <br _v-1b8a5f61=\"\">\n                <div class=\"box box-primary\" style=\"margin-left: 2%; margin-right: 2%; width: 96%;\" _v-1b8a5f61=\"\">\n                    <h4 _v-1b8a5f61=\"\"><center _v-1b8a5f61=\"\"><b _v-1b8a5f61=\"\">Leitos</b></center></h4>\n                        <div class=\"box-body\" _v-1b8a5f61=\"\">\n                            <div class=\"table-responsive col-lg-12 col-md-12 col-sm-12\" _v-1b8a5f61=\"\">\n                                <table id=\"table\" class=\"table table-condensed table-bordered table-hover dataTable\" role=\"grid\" _v-1b8a5f61=\"\">\n                                    <thead _v-1b8a5f61=\"\">\n                                        <tr _v-1b8a5f61=\"\">\n                                            <th class=\"text-center\" _v-1b8a5f61=\"\">Nome</th>\n                                            <th class=\"text-center\" _v-1b8a5f61=\"\">Observação</th>\n                                            <th width=\"3%\" class=\"text-center\" _v-1b8a5f61=\"\">Opções</th>\n                                        </tr>\n                                    </thead>\n                                    <tbody _v-1b8a5f61=\"\">\n                                        <tr v-for=\"leito in clinica.leitos\" _v-1b8a5f61=\"\">\n                                            <td _v-1b8a5f61=\"\">{{leito.leito}}</td>\n                                            <td _v-1b8a5f61=\"\">{{leito.observacao}}</td>\n                                            <td _v-1b8a5f61=\"\">\n                                                <center _v-1b8a5f61=\"\">\n                                                <a class=\"btn btn-default\" @click=\"removeLeito(leito)\" _v-1b8a5f61=\"\"><i class=\"fa fa-trash\" _v-1b8a5f61=\"\"></i></a>\n                                                </center>\n                                            </td>\n                                        </tr>\n                                    </tbody>\n                                </table>\n                            </div>\n                        </div> \n                </div>\n                <div class=\"pull-right\" style=\"margin-right: 1%;\" _v-1b8a5f61=\"\">\n                    <button type=\"submit\" class=\"btn btn-default\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Salvar\" @click=\"atualizar\" _v-1b8a5f61=\"\"><i class=\"fa fa-save\" _v-1b8a5f61=\"\"></i></button>\n                </div>\n            </div>\n        </div>\n        <div class=\"modal fade\" id=\"leito\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" _v-1b8a5f61=\"\">\n            <div class=\"modal-dialog\" role=\"document\" _v-1b8a5f61=\"\">\n                <div class=\"modal-content\" _v-1b8a5f61=\"\">\n                    <div class=\"modal-header\" _v-1b8a5f61=\"\">\n                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" _v-1b8a5f61=\"\"><span aria-hidden=\"true\" _v-1b8a5f61=\"\">×</span></button>\n                        <h4 class=\"modal-title\" id=\"myModalLabel\" _v-1b8a5f61=\"\"><strong _v-1b8a5f61=\"\">Cadastrar leito</strong></h4>\n                    </div>\n                    <div class=\"modal-body\" _v-1b8a5f61=\"\">\n                        <div class=\"box box-primary\" style=\"margin-left: 2%; margin-right: 2%; width: 96%;\" _v-1b8a5f61=\"\">\n                            <div class=\"row\" _v-1b8a5f61=\"\">\n                                <div class=\"box-body\" _v-1b8a5f61=\"\">\n                                    <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-1b8a5f61=\"\">\n                                        <div class=\"form-group\" _v-1b8a5f61=\"\">\n                                            <strong _v-1b8a5f61=\"\">Leito:</strong>\n                                            <input type=\"text\" name=\"leito\" class=\"form-control\" v-model=\"leito\" placeholder=\"Digite o número do leito\" onkeypress=\"return SomenteNumero(event)\" _v-1b8a5f61=\"\">\n                                        </div>\n                                    </div>\n                                    <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-1b8a5f61=\"\">\n                                        <div class=\"form-group\" _v-1b8a5f61=\"\">\n                                            <strong _v-1b8a5f61=\"\">Observação:</strong>\n                                            <textarea title=\"observacao\" class=\"form-control\" style=\"height: 100px\" v-model=\"observacao\" _v-1b8a5f61=\"\"></textarea>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"modal-footer\" _v-1b8a5f61=\"\">\n                        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" _v-1b8a5f61=\"\">Fechar</button>\n                        <button type=\"submit\" class=\"btn btn-primary\" @click=\"addLeito\" _v-1b8a5f61=\"\">Salvar</button>\n                    </div>\n                </div>\n            </div>\n        </div>\n</div>\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div _v-2fcff61d=\"\">\n        <div class=\"row\" _v-2fcff61d=\"\">\n            <div class=\"box-body\" _v-2fcff61d=\"\">   \n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-2fcff61d=\"\">\n                    <div class=\"form-group\" _v-2fcff61d=\"\">\n                        <strong _v-2fcff61d=\"\">Nome:</strong>\n                        <input id=\"nome\" type=\"text\" name=\"nome\" class=\"form-control\" v-model=\"clinica.nome\" _v-2fcff61d=\"\">\n                    </div>\n                </div>\n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-2fcff61d=\"\">\n                    <div class=\"form-group\" _v-2fcff61d=\"\">\n                        <strong _v-2fcff61d=\"\">Descrição:</strong>  \n                        <textarea name=\"descricao\" placeholder=\"Descrição da clínica\" class=\"form-control\" style=\"height:100px\" v-model=\"clinica.descricao\" _v-2fcff61d=\"\"></textarea>\n                    </div>\n                </div> \n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-2fcff61d=\"\">\n                    <div class=\"form-group\" _v-2fcff61d=\"\">\n                        <strong _v-2fcff61d=\"\">Total de leitos:</strong>\n                        {{clinica.leitos.length}}\n                        <a class=\"btn btn-default\" style=\"border-radius: 45%; margin-left: 2%;\" data-toggle=\"modal\" data-target=\"#leito\" title=\"Adicionar leito\" _v-2fcff61d=\"\"><i class=\"fa fa-plus\" _v-2fcff61d=\"\"></i></a>\n                    </div>\n                </div>\n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-2fcff61d=\"\">\n                <br _v-2fcff61d=\"\">\n                <div class=\"box box-primary\" style=\"margin-left: 2%; margin-right: 2%; width: 96%;\" _v-2fcff61d=\"\">\n                    <h4 _v-2fcff61d=\"\"><center _v-2fcff61d=\"\"><b _v-2fcff61d=\"\">Leitos</b></center></h4>\n                        <div class=\"box-body\" _v-2fcff61d=\"\">\n                            <div class=\"table-responsive col-lg-12 col-md-12 col-sm-12\" _v-2fcff61d=\"\">\n                                <table id=\"table\" class=\"table table-condensed table-bordered table-hover dataTable\" role=\"grid\" _v-2fcff61d=\"\">\n                                    <thead _v-2fcff61d=\"\">\n                                        <tr _v-2fcff61d=\"\">\n                                            <th class=\"text-center\" _v-2fcff61d=\"\">Nome</th>\n                                            <th class=\"text-center\" _v-2fcff61d=\"\">Observação</th>\n                                            <th width=\"3%\" class=\"text-center\" _v-2fcff61d=\"\">Opções</th>\n                                        </tr>\n                                    </thead>\n                                    <tbody _v-2fcff61d=\"\">\n                                        <tr v-for=\"leito in clinica.leitos\" _v-2fcff61d=\"\">\n                                            <td _v-2fcff61d=\"\">{{leito.leito}}</td>\n                                            <td _v-2fcff61d=\"\">{{leito.observacao}}</td>\n                                            <td _v-2fcff61d=\"\">\n                                                <center _v-2fcff61d=\"\">\n                                                <a class=\"btn btn-default\" @click=\"removeLeito(leito)\" _v-2fcff61d=\"\"><i class=\"fa fa-trash\" _v-2fcff61d=\"\"></i></a>\n                                                </center>\n                                            </td>\n                                        </tr>\n                                    </tbody>\n                                </table>\n                            </div>\n                        </div> \n                </div>\n                <div class=\"pull-right\" style=\"margin-right: 1%;\" _v-2fcff61d=\"\">\n                    <button type=\"submit\" class=\"btn btn-default\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Salvar\" @click=\"atualizar\" _v-2fcff61d=\"\"><i class=\"fa fa-save\" _v-2fcff61d=\"\"></i></button>\n                </div>\n            </div>\n        </div>\n        <div class=\"modal fade\" id=\"leito\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" _v-2fcff61d=\"\">\n            <div class=\"modal-dialog\" role=\"document\" _v-2fcff61d=\"\">\n                <div class=\"modal-content\" _v-2fcff61d=\"\">\n                    <div class=\"modal-header\" _v-2fcff61d=\"\">\n                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" _v-2fcff61d=\"\"><span aria-hidden=\"true\" _v-2fcff61d=\"\">×</span></button>\n                        <h4 class=\"modal-title\" id=\"myModalLabel\" _v-2fcff61d=\"\"><strong _v-2fcff61d=\"\">Cadastrar leito</strong></h4>\n                    </div>\n                    <div class=\"modal-body\" _v-2fcff61d=\"\">\n                        <div class=\"box box-primary\" style=\"margin-left: 2%; margin-right: 2%; width: 96%;\" _v-2fcff61d=\"\">\n                            <div class=\"row\" _v-2fcff61d=\"\">\n                                <div class=\"box-body\" _v-2fcff61d=\"\">\n                                    <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-2fcff61d=\"\">\n                                        <div class=\"form-group\" _v-2fcff61d=\"\">\n                                            <strong _v-2fcff61d=\"\">Leito:</strong>\n                                            <input type=\"text\" name=\"leito\" class=\"form-control\" v-model=\"leito\" placeholder=\"Digite o número do leito\" onkeypress=\"return SomenteNumero(event)\" _v-2fcff61d=\"\">\n                                        </div>\n                                    </div>\n                                    <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-2fcff61d=\"\">\n                                        <div class=\"form-group\" _v-2fcff61d=\"\">\n                                            <strong _v-2fcff61d=\"\">Observação:</strong>\n                                            <textarea title=\"observacao\" class=\"form-control\" style=\"height: 100px\" v-model=\"observacao\" _v-2fcff61d=\"\"></textarea>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"modal-footer\" _v-2fcff61d=\"\">\n                        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" _v-2fcff61d=\"\">Fechar</button>\n                        <button type=\"submit\" class=\"btn btn-primary\" @click=\"addLeito\" _v-2fcff61d=\"\">Salvar</button>\n                    </div>\n                </div>\n            </div>\n        </div>\n</div>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-1b8a5f61", module.exports)
+    hotAPI.createRecord("_v-2fcff61d", module.exports)
   } else {
-    hotAPI.update("_v-1b8a5f61", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-2fcff61d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":7,"vue-hot-reload-api":3}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    data: function data() {
+        return {
+            medicamento: {
+                simpas: '',
+                nomecomercial: '',
+                formafarmaceutica: '',
+                conteudo: '',
+                quantidade: '',
+                unidade: '',
+                substancias: []
+            }
+        };
+    },
+
+
+    methods: {
+        addSubstancia: function addSubstancia() {
+            this.medicamento.substancias.push({
+                idsubstancia: this.idsubstancia,
+                quantidadedose: this.quantidadedose,
+                unidadedose: this.unidadedose
+            });
+            this.idsubstancia = '';
+            this.quantidadedose = '';
+            this.unidadedose = '';
+            $("#substancia").modal('hide');
+        },
+        removeSubstancia: function removeSubstancia(substancia) {
+            var index = this.clinica.substancias.indexOf(substancia);
+            if (index > -1) {
+                this.clinica.substancias.splice(index, 1);
+            }
+        },
+        adicionar: function adicionar() {
+            this.$http.post('/medicamento/create', this.medicamento).then(function (response) {
+                swal({
+                    title: "Salvo!",
+                    text: "Medicamento cadastrado com sucesso!",
+                    confirmButtonColor: "#66BB6A",
+                    type: "success"
+                }, function () {
+                    location.href = "../../medicamento";
+                });
+            }).catch(function (response) {
+                console.log('Erro:' + response);
+            });
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div _v-670d8910=\"\">\n                   <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-670d8910=\"\">\n                <div class=\"form-group\" _v-670d8910=\"\">\n                    <strong _v-670d8910=\"\">Código SIMPAS:</strong>\n                    <input type=\"text\" id=\"codigosimpas\" name=\"codigosimpas\" class=\"form-control\" placeholder=\"Digite o código simpas\" v-model=\"medicamento.simpas\" _v-670d8910=\"\">\n                </div>\n            </div>\n            <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-670d8910=\"\">\n                <div class=\"form-group\" _v-670d8910=\"\">\n                    <strong _v-670d8910=\"\">Nome Comercial:</strong>\n                    <input type=\"text\" id=\"nomecomercial\" name=\"nomecomercial\" class=\"form-control\" placeholder=\"Digite o nome comercial\" v-model=\"medicamento.nomecomercial\" _v-670d8910=\"\">\n                </div>\n            </div>\n            <div class=\"col-xs-6 col-sm-6 col-md-6\" _v-670d8910=\"\">\n                <div class=\"form-group\" _v-670d8910=\"\">\n                    <strong _v-670d8910=\"\">Forma farmacêutica:</strong>\n                    \n                    <select id=\"idformafarmaceutica\" name=\"idformafarmaceutica\" class=\"form-control\" v-model=\"medicamento.formafarmaceutica\" _v-670d8910=\"\">\n                    <option value=\"1\" _v-670d8910=\"\">Forma Famrcaêutica 01</option>    \n                    </select>\n            </div>\n            <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-670d8910=\"\">\n                <div class=\"form-group\" _v-670d8910=\"\">\n                    <strong _v-670d8910=\"\">Conteúdo:</strong>\n                    <select id=\"nomeconteudo\" name=\"nomeconteudo\" class=\"form-control\" v-model=\"medicamento.conteudo\" _v-670d8910=\"\">\n                        <option value=\"0\" _v-670d8910=\"\">frasco</option>\n                        <option value=\"1\" _v-670d8910=\"\">FA (frasco ampola)</option>\n                        <option value=\"2\" _v-670d8910=\"\">AMP (ampola)</option>\n                        <option value=\"3\" _v-670d8910=\"\">Caixa</option>\n                        <option value=\"4\" _v-670d8910=\"\">Envelope</option>\n                        <option value=\"5\" _v-670d8910=\"\">Tubo</option>\n                        <option value=\"6\" _v-670d8910=\"\">Bolsa</option>\n                        <option value=\"7\" _v-670d8910=\"\">Pote</option>\n                        <option value=\"8\" _v-670d8910=\"\">Caixa</option>\n                      </select>\n                </div>\n            </div>\n            <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-670d8910=\"\">\n                <div class=\"form-group\" _v-670d8910=\"\">\n                    <strong _v-670d8910=\"\">Quantidade:</strong>\n                       <input type=\"text\" id=\"quantidadeconteudo\" name=\"quantidadeconteudo\" class=\"form-control\" placeholder=\"Digite a quantidade do medicamento\" v-model=\"medicamento.quantidade\" _v-670d8910=\"\">\n                 </div>\n            </div>\n            <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-670d8910=\"\">\n                <div class=\"form-group\" _v-670d8910=\"\">\n                    <strong _v-670d8910=\"\">Unidade de medida:</strong>\n                    <select id=\"unidadeconteudo\" name=\"unidadeconteudo\" class=\"form-control\" placeholder=\"--Selecione--\" v-model=\"medicamento.unidade\" _v-670d8910=\"\">\n                        <option value=\"0\" _v-670d8910=\"\">mcg</option>\n                        <option value=\"1\" _v-670d8910=\"\">mg</option>\n                        <option value=\"2\" _v-670d8910=\"\">g</option>\n                        <option value=\"3\" _v-670d8910=\"\">UI</option>\n                        <option value=\"4\" _v-670d8910=\"\">unidades</option>\n                        <option value=\"5\" _v-670d8910=\"\">mg/g</option>\n                        <option value=\"6\" _v-670d8910=\"\">UI/g</option>\n                        <option value=\"7\" _v-670d8910=\"\">mEq/mL</option>\n                        <option value=\"8\" _v-670d8910=\"\">mg/gota</option>\n                        <option value=\"9\" _v-670d8910=\"\">mcg/mL</option>\n                        <option value=\"10\" _v-670d8910=\"\">UI/mL</option>\n                        <option value=\"11\" _v-670d8910=\"\">mEq</option>\n                    </select>\n                </div>\n            </div>\n            <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-670d8910=\"\">\n                    <div class=\"form-group\" _v-670d8910=\"\">\n                        <strong _v-670d8910=\"\">Total de substâncias:</strong>\n                        {{medicamento.substancias.length}}\n                        <a class=\"btn btn-default\" style=\"border-radius: 45%; margin-left: 2%;\" data-toggle=\"modal\" data-target=\"#substancia\" title=\"Adicionar substância\" _v-670d8910=\"\"><i class=\"fa fa-plus\" _v-670d8910=\"\"></i></a>\n                    </div>\n                </div>\n                <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-670d8910=\"\">\n                <br _v-670d8910=\"\">\n                <div class=\"box box-primary\" style=\"margin-left: 2%; margin-right: 2%; width: 96%;\" _v-670d8910=\"\">\n                    <h4 _v-670d8910=\"\"><center _v-670d8910=\"\"><b _v-670d8910=\"\">Substâncias</b></center></h4>\n                        <div class=\"box-body\" _v-670d8910=\"\">\n                            <div class=\"table-responsive col-lg-12 col-md-12 col-sm-12\" _v-670d8910=\"\">\n                                <table id=\"table\" class=\"table table-condensed table-bordered table-hover dataTable\" role=\"grid\" _v-670d8910=\"\">\n                                    <thead _v-670d8910=\"\">\n                                        <tr _v-670d8910=\"\">\n                                            <th class=\"text-center\" _v-670d8910=\"\">Nome</th>\n                                            <th class=\"text-center\" _v-670d8910=\"\">Observação</th>\n                                            <th width=\"3%\" class=\"text-center\" _v-670d8910=\"\">Opções</th>\n                                        </tr>\n                                    </thead>\n                                    <tbody _v-670d8910=\"\">\n                                        <tr v-for=\"substancia in medicamento.substancias\" _v-670d8910=\"\">\n                                            <td _v-670d8910=\"\">{{substancia.substancia}}</td>\n                                            <td _v-670d8910=\"\">{{substancia.quantidadedose}}</td>\n                                            <td _v-670d8910=\"\">{{substancia.unidadedose}}</td>\n\n                                            <td _v-670d8910=\"\">             \n                                                <center _v-670d8910=\"\">\n                                                <a class=\"btn btn-default\" @click=\"removeSubstancia(substancia)\" _v-670d8910=\"\"><i class=\"fa fa-trash\" _v-670d8910=\"\"></i></a>\n                                                </center>\n                                            </td>\n                                        </tr>\n                                    </tbody>\n                                </table>\n                            </div>\n                        </div> \n                </div>\n\n                <div class=\"pull-right\" style=\"margin-right: 1%;\" _v-670d8910=\"\">\n                    <button type=\"submit\" class=\"btn btn-default\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Salvar\" @click=\"adicionar\" _v-670d8910=\"\"><i class=\"fa fa-save\" _v-670d8910=\"\"></i></button>\n                </div>\n        </div>\n        <div class=\"modal fade\" id=\"substancia\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" _v-670d8910=\"\">\n            <div class=\"modal-dialog\" role=\"document\" _v-670d8910=\"\">\n                <div class=\"modal-content\" _v-670d8910=\"\">\n                    <div class=\"modal-header\" _v-670d8910=\"\">\n                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" _v-670d8910=\"\"><span aria-hidden=\"true\" _v-670d8910=\"\">×</span></button>\n                        <h4 class=\"modal-title\" id=\"myModalLabel\" _v-670d8910=\"\"><strong _v-670d8910=\"\">Cadastrar Substância</strong></h4>\n                    </div>\n                    <div class=\"modal-body\" _v-670d8910=\"\">\n                        <div class=\"box box-primary\" style=\"margin-left: 2%; margin-right: 2%; width: 96%;\" _v-670d8910=\"\">\n                            <div class=\"row\" _v-670d8910=\"\">\n                                <div class=\"box-body\" _v-670d8910=\"\">\n                                    <div class=\"col-xs-12 col-sm-12 col-md-12\" _v-670d8910=\"\">\n                                        <div class=\"form-group\" _v-670d8910=\"\">\n                                            <strong _v-670d8910=\"\">Substancia ativa:</strong>\n                                            <select id=\"unidadeconteudo\" name=\"unidadeconteudo\" class=\"form-control\" placeholder=\"--Selecione--\" v-model=\"idsubstancia\" _v-670d8910=\"\">\n                                                <option value=\"0\" _v-670d8910=\"\">SA1</option>\n                                                <option value=\"1\" _v-670d8910=\"\">SA2</option>\n                                            </select>\n                                        </div>\n                                    </div>\n                                    <div class=\"col-xs-6 col-sm-6 col-md-6\" _v-670d8910=\"\">\n                                        <div class=\"form-group\" _v-670d8910=\"\">\n                                            <strong _v-670d8910=\"\">Dose:</strong>\n                                            <input type=\"text\" title=\"dose\" class=\"form-control\" style=\"height: 100px\" v-model=\"quantidadedose\" _v-670d8910=\"\">\n                                        </div>\n                                    </div>\n                                    <div class=\"col-xs-6 col-sm-6 col-md-6\" _v-670d8910=\"\">\n                                        <div class=\"form-group\" _v-670d8910=\"\">\n                                        <select id=\"unidadeconteudo\" name=\"unidadeconteudo\" class=\"form-control\" placeholder=\"--Selecione--\" v-model=\"unidadedose\" _v-670d8910=\"\">\n                                            <option value=\"0\" _v-670d8910=\"\">mcg</option>\n                                            <option value=\"1\" _v-670d8910=\"\">mg</option>\n                                            <option value=\"2\" _v-670d8910=\"\">g</option>\n                                        </select>\n                                    </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"modal-footer\" _v-670d8910=\"\">\n                        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" _v-670d8910=\"\">Fechar</button>\n                        <button type=\"submit\" class=\"btn btn-primary\" @click=\"addSubstancia\" _v-670d8910=\"\">Salvar</button>\n                    </div>\n                </div>\n            </div>\n        </div>\n</div></div>"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-670d8910", module.exports)
+  } else {
+    hotAPI.update("_v-670d8910", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":7,"vue-hot-reload-api":3}],11:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue/dist/vue');
@@ -20598,6 +20827,10 @@ var _clinicaedit = require('./components/clinicaedit.vue');
 
 var _clinicaedit2 = _interopRequireDefault(_clinicaedit);
 
+var _medicamento = require('./components/medicamento.vue');
+
+var _medicamento2 = _interopRequireDefault(_medicamento);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.use(_vueResource2.default);
@@ -20609,11 +20842,12 @@ var app = new _vue2.default({
 
     components: {
         VcClinica: _clinica2.default,
-        VcClinicaedit: _clinicaedit2.default
+        VcClinicaedit: _clinicaedit2.default,
+        VcMedicamento: _medicamento2.default
     }
 
 });
 
-},{"./components/clinica.vue":8,"./components/clinicaedit.vue":9,"vue-resource/dist/vue-resource":4,"vue-router/dist/vue-router":5,"vue/dist/vue":6}]},{},[10]);
+},{"./components/clinica.vue":8,"./components/clinicaedit.vue":9,"./components/medicamento.vue":10,"vue-resource/dist/vue-resource":4,"vue-router/dist/vue-router":5,"vue/dist/vue":6}]},{},[11]);
 
 //# sourceMappingURL=main.js.map

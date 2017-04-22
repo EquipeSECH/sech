@@ -7,6 +7,7 @@ Vue.use(VueResource);
 
 import VcClinica from './components/clinica.vue'
 import VcClinicaedit from './components/clinicaedit.vue'
+import VcMedicamento from './components/medicamento.vue'
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
 
@@ -15,7 +16,8 @@ var app = new Vue({
     
     components: {
         VcClinica,
-        VcClinicaedit
+        VcClinicaedit,
+        VcMedicamento
     }
     
 })
