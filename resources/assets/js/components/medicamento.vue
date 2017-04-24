@@ -1,5 +1,8 @@
 <script language= "text/javascript">
     export default{
+        
+        props: ['ff', 'sa'],
+        
         data(){
             return {
                 medicamento: {
@@ -9,22 +12,31 @@
                     formafarmaceutica: '',
                     quantidade: '',
                     unidade: '',
-                    substancias: [],
+                    substancias: [],        
                 },
+                formasfarmaceuticas: [],
+                substanciasativas: [],
             }
         },
+        
+        mounted(){
+                this.formasfarmaceuticas = JSON.parse(this.ff);
+                this.substanciasativas = JSON.parse(this.sa);
+               
+        },
+
 
         methods: {
             addSubstancia(){
                 this.medicamento.substancias.push({
                     substancia: this.substancia,
                     quantidadedose: this.quantidadedose,
-                    unidadedose: this.unidadedose
+                    unidadedose: this.unidadedose,
                  });
                 this.substancia = '';
                 this.quantidadedose = '';
                 this.unidadedose = '';
-                $("#substancia").modal('hide')
+                $("#substancia").modal('hide');
             },
             removeSubstancia(substancia) {
                 var index = this.medicamento.substancias.indexOf(substancia)
@@ -58,13 +70,13 @@
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>SIMPAS:</strong>
-                        <input id="simpas" type="text" name="simpas" class="form-control" v-model="medicamento.simpas">
+                        <input id="simpas" type="text" name="simpas" class="form-control" v-model="medicamento.simpas" placeholder="Digite o código simpas">
                     </div>
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Nome comercial:</strong>
-                        <input id="nomecomercial" type="text" name="nomecomercial" class="form-control" v-model="medicamento.nomecomercial">
+                        <input id="nomecomercial" type="text" name="nomecomercial" class="form-control" v-model="medicamento.nomecomercial" placeholder="Digite o nome comercial">
                     </div>
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
@@ -85,17 +97,10 @@
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
-                        <strong>Forma farmacêutica:</strong>
-                        <select id="formafarmaceutica" name="formafarmaceutica" class="form-control" v-model="medicamento.formafarmaceutica">
-                            <?php 
-                                while($formafarmaceuticas as $key => $formafarmaceutica) {
-                                    echo "<option>". $formafarmaceutica["nome"]."</option>";
-                                }                                
-                            ?>
-                            <option value="0">Gel</option>
-                            <option value="1">Comprimido</option>
-                            <option value="2">Ampola</option>
-                        </select>
+                        <strong>Forma farmacêutica:</strong> 
+                            <select id="formafarmaceutica" name="formafarmaceutica" class="form-control" v-model="medicamento.formafarmaceutica">
+                                <option v-for = "forma in formasfarmaceuticas" v-bind:value=forma.id>{{forma.nome}}</option>
+                            </select>
                     </div>
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
@@ -141,14 +146,17 @@
                                         <tr>
                                             <th class="text-center">Substância</th>
                                             <th class="text-center">Quantidade</th>
-                                            <th class="text-center">Unidadde</th>
+                                            <th class="text-center">Unidade</th>
                                             <th width="3%" class="text-center">Opções</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for = "substancia in medicamento.substancias">
-                                            <td>{{substancia.substancia}}</td>
-                                            <td>{{substancia.quantidadedose}}</td>
+                                            <!--<td>{{substancia.substancia}}</td>-->
+                                            <td v-for="substancia2 in substanciasativas" v-if="substancia.id == substancia2.id ">
+                                              {{substancia2.nome}}
+                                            </td>
+                                            <td>{{substancia.quantidadedose}}</td>                                            
                                             <td>{{substancia.unidadedose}}</td>
                                             <td>             
                                                 <center>
@@ -180,10 +188,8 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <strong>Substância ativa:</strong>
-                                            <select id="substancia" name="substancia" class="form-control" v-model="substancia">
-						<option value="0">Substância 1</option>
-                                                <option value="1">Substancia 2</option>
-                                                <option value="2">Substancia 2</option>
+                                             <select id="substancia" name="substancia" class="form-control" v-model="substancia">
+                                                <option v-for = "substancia in substanciasativas" v-bind:value=substancia.id>{{substancia.nome}}</option>
                                             </select>
                                         </div>
                                     </div>

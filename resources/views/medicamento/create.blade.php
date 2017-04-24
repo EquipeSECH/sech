@@ -20,10 +20,11 @@
 </div>
 @endif
 <br>
+
 <div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
     <div class="row">
-        <div class="box-body">
-            <vc-medicamento></vc-medicamento>
+        <div class="box-body">                      
+            <vc-medicamento ff="{{$formafarmaceuticas}}" sa="{{$substanciaativas}}"></vc-medicamento>
         </div>
     </div>
 </div>

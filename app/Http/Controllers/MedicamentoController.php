@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Medicamento;
 use App\Formafarmaceutica;
 use App\Substanciaativa;
+use App\Medicamentosubstancia;
 
 class MedicamentoController extends Controller
 {
@@ -29,11 +30,9 @@ class MedicamentoController extends Controller
      */
     public function create()
     {
-  
-        $formafarmaceuticas = Formafarmaceutica::lists('nome', 'id'); 
-        $substanciaativas = Substanciaativa::lists('nome', 'id');
+        $formafarmaceuticas = Formafarmaceutica::get();
+        $substanciaativas = Substanciaativa::get();
         return view('medicamento.create', compact('formafarmaceuticas', 'substanciaativas'));
-    
     
     }
 
@@ -45,21 +44,37 @@ class MedicamentoController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'idformafarmaceutica' => 'required',
-            'codigosimpas' => 'required',  
-        ]);
-		$input = $request->all();
-		
-		$medicamentos = Medicamento::create($input);
-		
-//		$medicamentos->attach($request->input('idsubstanciaativa'));;;
-
-
-        return redirect()->route('medicamento.index')
-                        ->with('success', 'Medicamento cadastrado com sucesso!');
-    
-       
+        //dd($request->all());
+//        $this->validate($request, [
+//            'idformafarmaceutica' => 'required',
+//            'codigosimpas' => 'required',  
+//        ]);
+        
+        //medicamento
+        $medicamento = new Medicamento();
+        $medicamento->idformafarmaceutica = $request->get('formafarmaceutica'); 
+        $medicamento->nomeconteudo = $request->get('conteudo'); 
+        $medicamento->quantidadeconteudo = $request->get('quantidade'); 
+        $medicamento->unidadeconteudo = $request->get('unidade'); 
+        $medicamento->codigosimpas = $request->get('simpas'); 
+        $medicamento->nomecomercial = $request->get('nomecomercial'); 
+        
+        $medicamento->save();
+        $fk_medicamento = $medicamento->id;
+        //substancias
+        $substancias = $request->get('substancias');
+        for($i=0; $i<sizeof($substancias); $i++){
+            $medicamentoSubstancia = new Medicamentosubstancia();
+            $medicamentoSubstancia->idsubstanciaativa = $substancias[$i]['substancia'];
+            $medicamentoSubstancia->quantidadedose = $substancias[$i]['quantidadedose'];
+            $medicamentoSubstancia->unidadedose = $substancias[$i]['unidadedose'];
+            $medicamentoSubstancia->idmedicamento = $fk_medicamento;
+            $medicamentoSubstancia->save();
+            echo "salvou";
+        }          
+               
+//        return redirect()->route('medicamento.index')
+//                        ->with('success','Medicamento cadastrado com sucesso!');
     }
 	
     /**

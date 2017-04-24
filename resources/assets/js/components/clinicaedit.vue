@@ -19,6 +19,7 @@
             this.clinica.nome = JSON.parse(this.cli).nome;
             this.clinica.descricao = JSON.parse(this.cli).descricao;
             this.clinica.leitos = JSON.parse(this.leitosdaclinica);
+console.log(this.clinica.leitos);
         },
 
         methods: {
