@@ -1,11 +1,12 @@
 <script language= "text/javascript">
     export default{
-        
-        props: ['ff', 'sa'],
-        
+
+        props: ['med', 'sm', 'ff', 'sa'],
+
         data(){
             return {
                 medicamento: {
+                    id: '',
                     simpas: '',
                     nomecomercial: '',
                     conteudo: '',
@@ -18,11 +19,22 @@
                 substanciasativas: [],
             }
         },
-        
+
+
         mounted(){
-                this.formasfarmaceuticas = JSON.parse(this.ff);
-                this.substanciasativas = JSON.parse(this.sa);
+            this.formasfarmaceuticas = JSON.parse(this.ff);
+            this.substanciasativas = JSON.parse(this.sa);
+
+            this.medicamento.id = JSON.parse(this.med).id;
+            this.medicamento.simpas = JSON.parse(this.med).codigosimpas;
+            this.medicamento.nomecomercial = JSON.parse(this.med).nomecomercial;
+            this.medicamento.conteudo = JSON.parse(this.med).nomeconteudo;
+            this.medicamento.formafarmaceutica = JSON.parse(this.med).idformafarmaceutica;
+            this.medicamento.quantidade = JSON.parse(this.med).quantidadeconteudo;
+            this.medicamento.unidade = JSON.parse(this.med).unidadeconteudo;
+            this.medicamento.substancias = JSON.parse(this.sm);
         },
+
         methods: {
             addSubstancia(){
                 this.medicamento.substancias.push({
@@ -42,11 +54,11 @@
                     this.medicamento.substancias.splice(index, 1)                  
                 }
             },
-            adicionar(){
-                this.$http.post('/medicamento/create', this.medicamento).then(response => {
+            atualizar(){
+                this.$http.patch('/medicamento/' + this.medicamento.id, this.medicamento).then(response => {
                     swal({
                         title: "Salvo!",
-                        text: "Medicamento cadastrado com sucesso!",
+                        text: "Medicamento atualizado com sucesso!",
                         confirmButtonColor: "#66BB6A",
                         type: "success"
                    },
@@ -97,7 +109,7 @@
                             <option value="5">Tubo</option>
                             <option value="6">Bolsa</option>
                             <option value="7">Pote</option>
-                        </select>
+                          </select>
                     </div>
                 </div>
                 
@@ -170,7 +182,7 @@
                         </div> 
                 </div>
                 <div class="pull-right" style="margin-right: 1%;">
-                    <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Salvar" @click="adicionar"><i class="fa fa-save"></i></button>
+                    <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Salvar" @click="atualizar"><i class="fa fa-save"></i></button>
                 </div>
             </div>
         </div>

@@ -12,4 +12,7 @@ class Medicamento extends Model
     public function medicamentosubstancias() {
         return $this->hasMany(Medicamentosubstancia::class, 'idmedicamento');
     }
+     public function formafarmaceuticas() {
+        return $this->belongsTo(Formafarmaceutica::class, 'idformafarmaceutica');
+    }
 }

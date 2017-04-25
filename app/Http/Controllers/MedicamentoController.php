@@ -99,12 +99,12 @@ class MedicamentoController extends Controller
      */
     public function edit($id)
     {
-        $medicamentos = Medicamento::find($id);        
-        $formafarmaceuticas = Formafarmaceutica::lists('nome', 'id'); 
-        $substanciaativas = Substanciaativa::lists('nome', 'id');
-        $medicamentosubstancias = $medicamentos->substanciaativas->lists('id', 'id')->toArray();
+        $medicamento = Medicamento::find($id);        
+        $medicamentosubstancias = Medicamentosubstancia::where('idmedicamento', '=', $id)->get();
+        $formafarmaceuticas = Formafarmaceutica::get(); 
+        $substanciaativas = Substanciaativa::get();
 
-        return view('medicamento.edit',compact('medicamentos', 'formafarmaceuticas', 'substanciaativas', 'medicamentosubstancias'));
+        return view('medicamento.edit',compact('medicamento',  'medicamentosubstancias', 'formafarmaceuticas', 'substanciaativas'));
     }
 
     /**
@@ -116,22 +116,27 @@ class MedicamentoController extends Controller
      */
     public function update(Request $request, $id)
     {    
+        $medicamento = Medicamento::find($id);
+        $medicamento->idformafarmaceutica = $request->get('formafarmaceutica'); 
+        $medicamento->nomeconteudo = $request->get('conteudo'); 
+        $medicamento->quantidadeconteudo = $request->get('quantidade'); 
+        $medicamento->unidadeconteudo = $request->get('unidade'); 
+        $medicamento->codigosimpas = $request->get('simpas'); 
+        $medicamento->nomecomercial = $request->get('nomecomercial'); 
         
-        $this->validate($request, [
-            'idformafarmaceutica' => 'required',
-            'codigosimpas' => 'required',  
-        ]);
-		$input = $request->all();
-		$medicamentos = Medicamento::find($id);
-        $medicamentos->update($input);
-        DB::table('medicamentosubstancias')->where('idmedicamento', $id)->delete();
-
-//
-//        $Medicamento->attach($request->input('idsubstanciaativa'));
-
-
-        return redirect()->route('medicamento.index')
-                        ->with('success', 'Medicamento atualizado com sucesso!');
+        $medicamento->save();
+        $fk_medicamento = $medicamento->id;
+        //substancias
+        $substancias = $request->get('substancias');
+        for($i=0; $i<sizeof($substancias); $i++){
+            $medicamentoSubstancia = new Medicamentosubstancia();
+            $medicamentoSubstancia->idsubstanciaativa = $substancias[$i]['substancia'];
+            $medicamentoSubstancia->quantidadedose = $substancias[$i]['quantidadedose'];
+            $medicamentoSubstancia->unidadedose = $substancias[$i]['unidadedose'];
+            $medicamentoSubstancia->idmedicamento = $id;
+            $medicamentoSubstancia->save();
+            echo "atualizou";
+        }          
     }
 
     /**
@@ -146,5 +151,6 @@ class MedicamentoController extends Controller
         Medicamento::find($id)->delete();
         return redirect()->route('medicamento.index')
                         ->with('success','Medicamento excluído com sucesso!');
+        
     }
 }
