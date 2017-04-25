@@ -24,19 +24,68 @@
         <div class="table-responsive col-lg-12 col-md-12 col-sm-12">
             <table id="table" class="table table-bordered table-hover dataTable" role="grid">
                 <thead>
-                    <tr>                        
+                    <tr>
                         <th class="text-center" width="4%">Nº</th>
-                        <th class="text-center">Nome Comercial</th>
-                        <th class="text-center">Codigo SIMPAS</th>
-                        <th class="text-center no-sort">Ação</th>                      
+                        <th clsss="text-center" width="45%">Medicamento</th>
+                        <th class="text-center">SIMPAS</th>
+                        <th class="text-center">Nome comercial</th>
+                        <th class="text-center no-sort">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($medicamentos as $key => $medicamento)
                     <tr>
                         <td>{{ ++$i }}</td>
-                        <td>{{ $medicamento->nomecomercial }}</td>
+                        <td>
+                        @foreach ($medicamento->medicamentosubstancias as $key => $medicamentosubstancia)
+                            {{$medicamentosubstancia->substanciaativa->nome}}
+                            {{$medicamentosubstancia->quantidadedose}}
+                            <?php
+                                $nomeunidade = ''; 
+                                switch ($medicamentosubstancia->unidadedose) {
+                                case 0:
+                                    $nomeunidade = 'mcg';
+                                    break;
+                                case 1:
+                                    $nomeunidade = 'mg';
+                                    break;
+                                case 2:
+                                    $nomeunidade = 'g';
+                                    break;
+                                case 3:
+                                    $nomeunidade = 'UI';
+                                    break;
+                                case 4:
+                                    $nomeunidade = 'unidades';
+                                    break;
+                                case 5:
+                                    $nomeunidade = 'mg/g';
+                                    break;
+                                case 6:
+                                    $nomeunidade = 'UI/g';
+                                    break;
+                                case 7:
+                                    $nomeunidade = 'mEq/mL';
+                                    break;
+                                case 8:
+                                    $nomeunidade = 'mg/gota';
+                                    break;
+                                case 9:
+                                    $nomeunidade = 'mcg/mL';
+                                    break;
+                                case 10:
+                                    $nomeunidade = 'UI/mL';
+                                    break;
+                                case 11:
+                                    $nomeunidade = 'mEq';
+                                    break;
+                                }
+                                echo"$nomeunidade, ";
+                            ?>
+                        @endforeach
+                        </td>
                         <td>{{ $medicamento->codigosimpas }}</td>
+                        <td>{{ $medicamento->nomecomercial }}</td>
                         <td width="14.5%">
                             <a class="btn btn-default" data-target="#{{$medicamento->id}}" data-toggle="modal" title="Visualizar">
                                 <i class="fa fa-eye"> </i>
@@ -81,43 +130,6 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             <h4 class="modal-title" id="myModalLabel"><strong>Dados do medicamento: {{$medicamento->simpas}}</strong></h4>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Nome:</strong>
-                                                    {{ $medicamento->nomecomercial}}
-                                                    <br><br>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Quantidade:</strong>
-                                                    {{ $medicamento->quantidade}}
-                                                    <br><br>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
-                                                        <h4><center><b>Substâncias ativas</b></center></h4>
-                                                        <div class="box-body">
-                                                            <table id="table" class="table table-bordered table-hover dataTable" role="grid">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Substancia</th>
-                                                                        <th>Dose</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @foreach ($medicamento->substancias as $key => $substancia)
-                                                                    <tr>
-                                                                        <td>{{$substancia->substancia}}</td>
-                                                                        <td>{{$substancia->substancia}}</td>
-                                                                    </tr>
-                                                                    @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                                         </div>
@@ -132,8 +144,6 @@
         </div>
     </div>
 </div>
-
-
 
 @endsection
 <script src = "{{ asset('js/jquery-3.1.0.js') }}"></script>
