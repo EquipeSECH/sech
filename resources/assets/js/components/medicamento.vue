@@ -31,8 +31,9 @@
                 this.medicamento.substancias.push({
                     substancia: this.substancia,
                     quantidadedose: this.quantidadedose,
-                    unidadedose: this.unidadedose,
+                    unidadedose: this.unidadedose,    
                  });
+ console.log(this.medicamento.substancias);
                 this.substancia = '';
                 this.quantidadedose = '';
                 this.unidadedose = '';
@@ -152,9 +153,11 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for = "substancia in medicamento.substancias">
-                                            <!--<td>{{substancia.substancia}}</td>-->
-                                            <td v-for="substancia2 in substanciasativas" v-if="substancia.id == substancia2.id ">
-                                              {{substancia2.nome}}
+                                            <!--<td>{{substancia.substancia}}</td>-->                                            
+                                            <td v-for="substancia2 in substanciasativas">
+                                                <div v-if="(substancia.substancia === substancia2.id)">
+                                                    {{substancia2.nome}}
+                                                </div>                            
                                             </td>
                                             <td>{{substancia.quantidadedose}}</td>                                            
                                             <td>{{substancia.unidadedose}}</td>
