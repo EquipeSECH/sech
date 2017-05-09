@@ -151,8 +151,8 @@
                                     <tbody>
                                         <tr v-for = "substancia in medicamento.substancias">
                                             <!--<td>{{substancia.substancia}}</td>-->                                            
-                                            <td>
-                                                <div v-for="substancia2 in substanciasativas" v-if="(substancia.substancia === substancia2.id)">
+                                            <td v-for="substancia2 in substanciasativas">
+                                                <div v-if="(substancia.substancia === substancia2.id)">
                                                     {{substancia2.nome}}
                                                 </div>                            
                                             </td>
