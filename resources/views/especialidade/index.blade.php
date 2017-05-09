@@ -13,7 +13,7 @@
         </div>
         @endsection
         <div class="pull-right" style="margin-right: 2%;">
-            @permission('cid-create')
+            @permission('especialidade-create')
             <a class="btn btn-default" href="{{ route('especialidade.create') }}"> Cadastrar</a>
             @endpermission
         </div>

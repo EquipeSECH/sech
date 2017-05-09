@@ -97,7 +97,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'formafarmaceutica.update', 'uses' => 'FormafarmaceuticaController@update', 'middleware' => ['permission:formafarmaceutica-edit']]);
         Route::delete('/{id}', ['as' => 'formafarmaceutica.destroy', 'uses' => 'FormafarmaceuticaController@destroy', 'middleware' => ['permission:formafarmaceutica-delete']]);
     });
-
+    
     //rotas de substancia ativa
     Route::group(['prefix' => 'substanciaativa', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'substanciaativa.index', 'uses' => 'SubstanciaativaController@index', 'middleware' => ['permission:substanciaativa-list|substanciaativa-create|substanciaativa-edit|substanciaativa-delete']]);
