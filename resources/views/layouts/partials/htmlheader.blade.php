@@ -19,7 +19,7 @@
     <!-- iCheck -->
     <link href="{{ asset('/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
     
-    <link rel="stylesheet" href="{{ asset('css/iziToast.min.css')}}">
+    <link href="{{ asset('js/jquery-ui-themes-1.12.0/themes/base/jquery-ui.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/sweetalert.css')}}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
