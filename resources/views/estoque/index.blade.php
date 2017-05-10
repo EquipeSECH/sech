@@ -8,12 +8,12 @@
     <div class="col-lg-12 margin-tb">
         @section('contentheader_title')
         <div class="pull-left">
-            <h2>Fornecedores</h2>
+            <h2>Estoque</h2>
         </div>
         @endsection
         <div class="pull-right" style="margin-right: 2%;">
-            @permission('fornecedor-create')
-            <a class="btn btn-default"  href="{{ route('fornecedor.create') }}">Cadastrar</a>
+            @permission('estoque-create')
+            <a class="btn btn-default"  href="{{ route('estoque.create') }}">Cadastrar</a>
             @endpermission
         </div>
     </div>
@@ -26,34 +26,40 @@
                 <thead>
                     <tr>
                         <th class="text-center" width="4%">Nº</th>
-                        <th class="text-center">Nome</th>
-                        <th class="text-center">Descrição</th>
+                        <th class="text-center">Lote</th>
+                        <th class="text-center">Medicamento</th>
+                        <th class="text-center">Quantidade</th>
+                        <th class="text-center">Entrada</th>
+                        <th class="text-center">Validade</th>
                         <th class="text-center no-sort">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($fornecedors as $key => $fornecedor)
+                    @foreach ($estoques as $key => $estoque)
                     <tr>
                         <td>{{ ++$i }}</td>
-                        <td>{{ $fornecedor->razaosocial }}</td>
-                        <td>{{ $fornecedor->nomefantasia }}</td>
+                        <td>{{ $estoque->lote }}</td>
+                        <td>{{ $estoque->medicamento->nome }}</td>                        
+                        <td>{{ $estoque->quantidade }}</td>
+                        <td>{{ $estoque->entrada }}</td>
+                        <td>{{ $estoque->validade }}</td>
                         <td width="14.5%">
-                            <a class="btn btn-default" data-target="#{{$fornecedor->id}}" data-toggle="modal" title="Visualizar">
+                            <a class="btn btn-default" data-target="#{{$estoque->id}}" data-toggle="modal" title="Visualizar">
                                 <i class="fa fa-eye"> </i>
                             </a>
-                            @permission('fornecedor-edit')
-                            <a class="btn btn-default" title="Editar" href="{{ route('fornecedor.edit',$fornecedor->id) }}">
+                            @permission('estoque-edit')
+                            <a class="btn btn-default" title="Editar" href="{{ route('estoque.edit',$estoque->id) }}">
                                 <i class="fa fa-edit"> </i>
                             </a>
                             @endpermission
-                            @permission('fornecedor-delete')
-                            <a class="btn btn-default" data-toggle="modal" data-target="#e{{$fornecedor->id}}" title="Excluir">
+                            @permission('estoque-delete')
+                            <a class="btn btn-default" data-toggle="modal" data-target="#e{{$estoque->id}}" title="Excluir">
                                 <i class="fa fa-trash"> </i>
                             </a>
                             @endpermission
 
-                            @if(!empty($fornecedor))
-                            <div class="modal fade" id="e{{$fornecedor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            @if(!empty($estoque))
+                            <div class="modal fade" id="e{{$estoque->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -65,7 +71,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                            {!! Form::open(['method' => 'DELETE','route' => ['fornecedor.destroy', $fornecedor->id],'style'=>'display:inline']) !!}
+                                            {!! Form::open(['method' => 'DELETE','route' => ['estoque.destroy', $estoque->id],'style'=>'display:inline']) !!}
                                             {!! Form::submit('OK', ['class' => 'btn btn-primary']) !!}
                                             {!! Form::close() !!}
                                         </div>
@@ -74,26 +80,21 @@
                             </div>
                             @endif 
 
-                            <div class="modal fade" id="{{$fornecedor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal fade" id="{{$estoque->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel"><strong>Dados da clínica: {{$fornecedor->nome}}</strong></h4>
+                                            <h4 class="modal-title" id="myModalLabel"><strong>Dados da clínica: {{$estoque->nome}}</strong></h4>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
-                                                
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                                     <strong>Nome:</strong>
-                                                    {{ $fornecedor->nome}}
+                                                    {{ $estoque->quantidade}}
                                                     <br><br>
                                                 </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Descrição:</strong>
-                                                    {{ $fornecedor->descricao}}
-                                                    <br><br>
-                                                </div>                                               
+                                                
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -110,8 +111,6 @@
         </div>
     </div>
 </div>
-
-
 
 @endsection
 <script src = "{{ asset('js/jquery-3.1.0.js') }}"></script>

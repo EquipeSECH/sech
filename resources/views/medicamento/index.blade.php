@@ -13,7 +13,13 @@
         @endsection
         <div class="pull-right" style="margin-right: 2%;">
             @permission('medicamento-create')
-            <a class="btn btn-default"  href="{{ route('medicamento.create') }}">Cadastrar</a>
+            
+            <div class="pull-right" style="margin-right: 1%;">
+                <a class="btn btn-default" href="{{ route('medicamento.create') }}" title="Cadastrar" data-toggle="tooltip"> 
+                    <i class="fa  fa-plus"></i>
+                </a>
+            </div>
+            
             @endpermission
         </div>
     </div>

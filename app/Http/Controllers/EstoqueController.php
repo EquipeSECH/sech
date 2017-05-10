@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Estoque;
+use App\Medicamento;
+use App\Formafarmaceutica;
 
 class EstoqueController extends Controller {
 
@@ -25,7 +27,9 @@ class EstoqueController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('estoque.create');
+        
+        $medicamentos = Medicamento::get();  
+        return view('estoque.create', compact('medicamentos'));
     }
 
     /**
@@ -48,7 +52,7 @@ class EstoqueController extends Controller {
         ]);
 
         Estoque::create($request->all());
-
+        
         return redirect()->route('estoque.index')
                         ->with('success', 'Enrtada cadastrada com sucesso!');
     }
@@ -60,8 +64,10 @@ class EstoqueController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+        $medicamentos = Medicamento::find($id);
+        $formafarmaceuticas = Formafarmaceutica::lists('nome', 'id'); 
         $estoque = Estoque::find($id);
-        return view('estoque.show', compact('estoque'));
+        return view('estoque.show', compact('estoque', 'medicamentos', 'formafarmaceuticas'));
     }
 
     /**

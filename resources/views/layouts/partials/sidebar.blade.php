@@ -80,22 +80,35 @@
                     <li style="margin-left: 20px;"><a href="{{ route('internacao.index') }}"> Internação</a></li>
                     <li style="margin-left: 20px;"><a href="{{ route('cid10.index') }}"> Diagnóstico (CID 10)</a></li> 
                 </ul>
-            </li>
-
-
-            <li>
-                <a href="{{ url('home') }}">
+            </li>          
+            <li class="treeview">
+                <a href="#">
                     <i style="font-size:18px; color:#3c8dbc; " class='fa  fa-medkit' data-toggle="dropdown"></i> 
                     <span> Medicamentos</span> 
+                    <i class="fa fa-angle-left pull-right"></i>
                 </a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li style="margin-left: 20px;"><a href="{{ url('interacaomedicamentosa') }}"></i> Interação Medicamentosa</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('formafarmaceutica') }}"></i> Forma Farmacêutica</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('substanciaativa') }}"> Substância Ativa</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('medicamento') }}"></i> Medicamento</a></li>
+                </ul>
             </li>
-            <li>
-                <a href="{{ url('home') }}">
+            
+            
+            <li class="treeview">
+                <a href="#">
                     <i style="font-size:18px; color:#3c8dbc; " class='fa  fa-cube' data-toggle="dropdown"></i> 
                     <span> Estoque</span> 
+                    <i class="fa fa-angle-left pull-right"></i>
                 </a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li style="margin-left: 20px;"><a href="{{ url('fornecedor') }}"></i> Fornecedor</a></li>                 
+                    <li style="margin-left: 20px;"><a href="{{ url('estoque') }}"></i> Estoque</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('precricaoestoque') }}"> Prescrição</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('transferencia') }}"></i> Transferência</a></li>
+                </ul>
             </li>
-
 
 
             <?php /*

@@ -162,6 +162,16 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'medicamento.update', 'uses' => 'MedicamentoController@update', 'middleware' => ['permission:medicamento-edit']]);
         Route::delete('/{id}', ['as' => 'medicamento.destroy', 'uses' => 'MedicamentoController@destroy', 'middleware' => ['permission:medicamento-delete']]);
     });
+    //rotas de estoque
+    Route::group(['prefix' => 'estoque', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('', ['as' => 'estoque.index', 'uses' => 'EstoqueController@index', 'middleware' => ['permission:estoque-list|estoque-create|estoque-edit|estoque-delete']]);
+        Route::get('/create', ['as' => 'estoque.create', 'uses' => 'EstoqueController@create', 'middleware' => ['permission:estoque-create']]);
+        Route::post('/create', ['as' => 'estoque.store', 'uses' => 'EstoqueController@store', 'middleware' => ['permission:estoque-create']]);
+        Route::get('/{id}', ['as' => 'estoque.show', 'uses' => 'EstoqueController@show']);
+        Route::get('/{id}/edit', ['as' => 'estoque.edit', 'uses' => 'EstoqueController@edit', 'middleware' => ['permission:estoque-edit']]);
+        Route::patch('/{id}', ['as' => 'estoque.update', 'uses' => 'EstoqueController@update', 'middleware' => ['permission:estoque-edit']]);
+        Route::delete('/{id}', ['as' => 'estoque.destroy', 'uses' => 'EstoqueController@destroy', 'middleware' => ['permission:estoque-delete']]);
+    });
 
 });
 
