@@ -9,31 +9,28 @@ use App\Formafarmaceutica;
 use App\Substanciaativa;
 use App\Medicamentosubstancia;
 
-class MedicamentoController extends Controller
-{
+class MedicamentoController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        $medicamentos = Medicamento::orderBy('id','desc')->paginate(15);
+    public function index(Request $request) {
+        $medicamentos = Medicamento::orderBy('id', 'desc')->paginate(15);
         return view('medicamento.index', compact('medicamentos'))
-            ->with('i', ($request->input('page', 1) - 1) * 15);
+                        ->with('i', ($request->input('page', 1) - 1) * 15);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         $formafarmaceuticas = Formafarmaceutica::get();
         $substanciaativas = Substanciaativa::get();
         return view('medicamento.create', compact('formafarmaceuticas', 'substanciaativas'));
-    
     }
 
     /**
@@ -42,28 +39,26 @@ class MedicamentoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //dd($request->all());
 //        $this->validate($request, [
 //            'idformafarmaceutica' => 'required',
 //            'codigosimpas' => 'required',  
 //        ]);
-        
         //medicamento
         $medicamento = new Medicamento();
-        $medicamento->idformafarmaceutica = $request->get('formafarmaceutica'); 
-        $medicamento->nomeconteudo = $request->get('conteudo'); 
-        $medicamento->quantidadeconteudo = $request->get('quantidade'); 
-        $medicamento->unidadeconteudo = $request->get('unidade'); 
-        $medicamento->codigosimpas = $request->get('simpas'); 
-        $medicamento->nomecomercial = $request->get('nomecomercial'); 
-        
+        $medicamento->idformafarmaceutica = $request->get('formafarmaceutica');
+        $medicamento->nomeconteudo = $request->get('conteudo');
+        $medicamento->quantidadeconteudo = $request->get('quantidade');
+        $medicamento->unidadeconteudo = $request->get('unidade');
+        $medicamento->codigosimpas = $request->get('simpas');
+        $medicamento->nomecomercial = $request->get('nomecomercial');
+
         $medicamento->save();
         $fk_medicamento = $medicamento->id;
         //substancias
         $substancias = $request->get('substancias');
-        for($i=0; $i<sizeof($substancias); $i++){
+        for ($i = 0; $i < sizeof($substancias); $i++) {
             $medicamentoSubstancia = new Medicamentosubstancia();
             $medicamentoSubstancia->idsubstanciaativa = $substancias[$i]['substancia'];
             $medicamentoSubstancia->quantidadedose = $substancias[$i]['quantidadedose'];
@@ -71,25 +66,23 @@ class MedicamentoController extends Controller
             $medicamentoSubstancia->idmedicamento = $fk_medicamento;
             $medicamentoSubstancia->save();
             echo "salvou";
-        }          
-               
+        }
+
 //        return redirect()->route('medicamento.index')
 //                        ->with('success','Medicamento cadastrado com sucesso!');
     }
-	
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $medicamentos = Medicamento::find($id);
-        $formafarmaceuticas = Formafarmaceutica::lists('nome', 'id'); 
-        return view('medicamento.show',compact('medicamentos', 'formafarmaceuticas'));
+        $formafarmaceuticas = Formafarmaceutica::lists('nome', 'id');
+        return view('medicamento.show', compact('medicamentos', 'formafarmaceuticas'));
     }
-	
 
     /**
      * Show the form for editing the specified resource.
@@ -97,14 +90,13 @@ class MedicamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $medicamento = Medicamento::find($id);        
+    public function edit($id) {
+        $medicamento = Medicamento::find($id);
         $medicamentosubstancias = Medicamentosubstancia::where('idmedicamento', '=', $id)->get();
-        $formafarmaceuticas = Formafarmaceutica::get(); 
+        $formafarmaceuticas = Formafarmaceutica::get();
         $substanciaativas = Substanciaativa::get();
 
-        return view('medicamento.edit',compact('medicamento',  'medicamentosubstancias', 'formafarmaceuticas', 'substanciaativas'));
+        return view('medicamento.edit', compact('medicamento', 'medicamentosubstancias', 'formafarmaceuticas', 'substanciaativas'));
     }
 
     /**
@@ -114,21 +106,20 @@ class MedicamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {    
+    public function update(Request $request, $id) {
         $medicamento = Medicamento::find($id);
-        $medicamento->idformafarmaceutica = $request->get('formafarmaceutica'); 
-        $medicamento->nomeconteudo = $request->get('conteudo'); 
-        $medicamento->quantidadeconteudo = $request->get('quantidade'); 
-        $medicamento->unidadeconteudo = $request->get('unidade'); 
-        $medicamento->codigosimpas = $request->get('simpas'); 
-        $medicamento->nomecomercial = $request->get('nomecomercial'); 
-        
+        $medicamento->idformafarmaceutica = $request->get('formafarmaceutica');
+        $medicamento->nomeconteudo = $request->get('conteudo');
+        $medicamento->quantidadeconteudo = $request->get('quantidade');
+        $medicamento->unidadeconteudo = $request->get('unidade');
+        $medicamento->codigosimpas = $request->get('simpas');
+        $medicamento->nomecomercial = $request->get('nomecomercial');
+
         $medicamento->save();
         $fk_medicamento = $medicamento->id;
         //substancias
         $substancias = $request->get('substancias');
-        for($i=0; $i<sizeof($substancias); $i++){
+        for ($i = 0; $i < sizeof($substancias); $i++) {
             $medicamentoSubstancia = new Medicamentosubstancia();
             $medicamentoSubstancia->idsubstanciaativa = $substancias[$i]['substancia'];
             $medicamentoSubstancia->quantidadedose = $substancias[$i]['quantidadedose'];
@@ -136,7 +127,7 @@ class MedicamentoController extends Controller
             $medicamentoSubstancia->idmedicamento = $id;
             $medicamentoSubstancia->save();
             echo "atualizou";
-        }          
+        }
     }
 
     /**
@@ -145,12 +136,144 @@ class MedicamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        
+    public function destroy($id) {
+
         Medicamento::find($id)->delete();
         return redirect()->route('medicamento.index')
-                        ->with('success','Medicamento excluído com sucesso!');
-        
+                        ->with('success', 'Medicamento excluído com sucesso!');
     }
+
+    public function autocomplete(Request $req) {
+        $term = $req->get('term');
+
+        $data = Medicamento::join('medicamentosubstancias', 'medicamentosubstancias.idmedicamento', '=', 'medicamentos.id')
+                ->join('substanciaativas', 'substanciaativas.id', '=', 'medicamentosubstancias.idsubstanciaativa')
+                ->join('formafarmaceuticas', 'formafarmaceuticas.id', '=', 'medicamentos.idformafarmaceutica')
+                ->select('medicamentos.id', 'substanciaativas.nome', 'medicamentosubstancias.quantidadedose', 'medicamentosubstancias.unidadedose', 'formafarmaceuticas.nome as fnome', 'medicamentos.nomeconteudo', 'medicamentos.quantidadeconteudo', 'medicamentos.unidadeconteudo', 'medicamentos.codigosimpas')
+                ->where('substanciaativas.nome', 'ilike', '%' . $term . '%')
+                ->take(10)
+                ->get();
+        $results = array();
+        foreach ($data as $key => $value) {
+            $nomeunidade = '';
+            switch ($value->unidadedose) {
+                case 0:
+                    $nomeunidade = 'mcg';
+                    break;
+                case 1:
+                    $nomeunidade = 'mg';
+                    break;
+                case 2:
+                    $nomeunidade = 'g';
+                    break;
+                case 3:
+                    $nomeunidade = 'UI';
+                    break;
+                case 4:
+                    $nomeunidade = 'unidades';
+                    break;
+                case 5:
+                    $nomeunidade = 'mg/g';
+                    break;
+                case 6:
+                    $nomeunidade = 'UI/g';
+                    break;
+                case 7:
+                    $nomeunidade = 'mEq/mL';
+                    break;
+                case 8:
+                    $nomeunidade = 'mg/gota';
+                    break;
+                case 9:
+                    $nomeunidade = 'mcg/mL';
+                    break;
+                case 10:
+                    $nomeunidade = 'UI/mL';
+                    break;
+                case 11:
+                    $nomeunidade = 'mEq';
+                    break;
+            }
+            $conteudo = '';
+            switch ($value->nomeconteudo) {
+                case 0:
+                    $conteudo = 'Frasco';
+                    break;
+                case 1:
+                    $conteudo = 'FA (frasco ampola)';
+                    break;
+                case 2:
+                    $conteudo = 'AMP (ampola)';
+                    break;
+                case 3:
+                    $conteudo = 'Caixa';
+                    break;
+                case 4:
+                    $conteudo = 'Envelope';
+                    break;
+                case 5:
+                    $conteudo = 'Tubo';
+                    break;
+                case 6:
+                    $conteudo = 'Bolsa';
+                    break;
+                case 7:
+                    $conteudo = 'Pote';
+                    break;
+            }
+            switch ($value->unidadeconteudo) {
+                case 0:
+                    $uc = 'mcg';
+                    break;
+                case 1:
+                    $uc = 'mg';
+                    break;
+                case 2:
+                    $uc = 'g';
+                    break;
+                case 3:
+                    $uc = 'UI';
+                    break;
+                case 4:
+                    $uc = 'unidades';
+                    break;
+                case 5:
+                    $uc = 'mg/g';
+                    break;
+                case 6:
+                    $uc = 'UI/g';
+                    break;
+                case 7:
+                    $uc = 'mEq/mL';
+                    break;
+                case 8:
+                    $uc = 'mg/gota';
+                    break;
+                case 9:
+                    $uc = 'mcg/mL';
+                    break;
+                case 10:
+                    $uc = 'UI/mL';
+                    break;
+                case 11:
+                    $uc = 'mEq';
+                    break;
+            }
+            $results[] = ['id' => $value->id,
+                'value' => $value->nome . ' ' . $value->quantidadedose . ' ' . $nomeunidade . ', ' . $value->fnome . ' ' . $conteudo . ' com ' . $value->quantidadeconteudo . ' ' . $uc
+            ];
+            $simpas = $value->codigosimpas;
+        }
+        return response()->json($results);
+    }
+
+    public function getCodigoSimpas(Request $req) {
+
+        $id = $req->get('id');
+
+        $codsimpas = Medicamento::find($id)->select('medicamentos.codigosimpas')->get();
+
+        return response()->json($codsimpas[0]->codigosimpas);
+    }
+
 }

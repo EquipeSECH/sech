@@ -18,7 +18,9 @@ Route::auth();
 Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/home', 'HomeController@index');
-    Route::get('/areas/{id}', 'AreaController@getAreas');
+    Route::post('/buscapaciente', 'InternacaoController@buscarPaciente');
+    Route::get('/autocomplete', 'MedicamentoController@autocomplete');
+    Route::post('/simpas', 'MedicamentoController@getCodigoSimpas');
 
     //rotas de users
     Route::group(['prefix' => 'users', 'where' => ['id' => '[0-9]+']], function() {
@@ -76,7 +78,6 @@ Route::group(['middleware' => ['auth']], function() {
 //        Route::patch('/{id}', ['as' => 'leito.update', 'uses' => 'LeitoController@update', 'middleware' => ['permission:leito-edit']]);
 //        Route::delete('/{id}', ['as' => 'leito.destroy', 'uses' => 'LeitoController@destroy', 'middleware' => ['permission:leito-delete']]);
 //    });
-
     //rotas de cid10
     Route::group(['prefix' => 'cid10', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'cid10.index', 'uses' => 'Cid10Controller@index', 'middleware' => ['permission:cid-list|cid-create|cid-edit|cid-delete']]);
@@ -140,7 +141,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'paciente.update', 'uses' => 'PacienteController@update', 'middleware' => ['permission:paciente-edit']]);
         Route::delete('/{id}', ['as' => 'paciente.destroy', 'uses' => 'PacienteController@destroy', 'middleware' => ['permission:paciente-delete']]);
     });
-    
+
     //rotas de fornecedor
     Route::group(['prefix' => 'fornecedor', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'fornecedor.index', 'uses' => 'FornecedorController@index', 'middleware' => ['permission:fornecedor-list|fornecedor-create|fornecedor-edit|fornecedor-delete']]);
@@ -151,7 +152,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'fornecedor.update', 'uses' => 'FornecedorController@update', 'middleware' => ['permission:fornecedor-edit']]);
         Route::delete('/{id}', ['as' => 'fornecedor.destroy', 'uses' => 'FornecedorController@destroy', 'middleware' => ['permission:fornecedor-delete']]);
     });
-    
+
     //rotas de medicamento
     Route::group(['prefix' => 'medicamento', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'medicamento.index', 'uses' => 'MedicamentoController@index', 'middleware' => ['permission:medicamento-list|medicamento-create|medicamento-edit|medicamento-delete']]);
@@ -173,5 +174,15 @@ Route::group(['middleware' => ['auth']], function() {
         Route::delete('/{id}', ['as' => 'estoque.destroy', 'uses' => 'EstoqueController@destroy', 'middleware' => ['permission:estoque-delete']]);
     });
 
+    //rotas de prescrição
+    Route::group(['prefix' => 'prescricao', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('', ['as' => 'prescricao.index', 'uses' => 'PrescricaoController@index', 'middleware' => ['permission:prescricao-list|prescricao-create|prescricao-edit|prescricao-delete']]);
+        Route::get('/create', ['as' => 'prescricao.create', 'uses' => 'PrescricaoController@create', 'middleware' => ['permission:prescricao-create']]);
+        Route::post('/create', ['as' => 'prescricao.store', 'uses' => 'PrescricaoController@store', 'middleware' => ['permission:prescricao-create']]);
+        Route::get('/{id}', ['as' => 'prescricao.show', 'uses' => 'PrescricaoController@show']);
+        Route::get('/{id}/edit', ['as' => 'prescricao.edit', 'uses' => 'PrescricaoController@edit', 'middleware' => ['permission:prescricao-edit']]);
+        Route::patch('/{id}', ['as' => 'prescricao.update', 'uses' => 'PrescricaoController@update', 'middleware' => ['permission:prescricao-edit']]);
+        Route::delete('/{id}', ['as' => 'prescricao.destroy', 'uses' => 'PrescricaoController@destroy', 'middleware' => ['permission:prescricao-delete']]);
+    });
 });
 

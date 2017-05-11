@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Internacao;
-use App\Paciente; 
+use App\Paciente;
 use App\Clinica;
 use App\Cid10;
 use App\Leito;
@@ -19,12 +19,12 @@ class InternacaoController extends Controller {
     }
 
     public function create() {
-        
-        $pacientes = Paciente::orderBy('id', 'DESC')->lists('nomecompleto', 'id');  
+
+        $pacientes = Paciente::orderBy('id', 'DESC')->lists('nomecompleto', 'id');
         $clinicas = Clinica::lists('nome', 'id');
         $cid10s = Cid10::lists('descricao', 'id');
         $leitos = Leito::lists('leito', 'id');
-        $dataadmissao = date ("d-m-Y");
+        $dataadmissao = date("d-m-Y");
         return view('internacao.create', compact('pacientes', 'clinicas', 'cid10s', 'dataadmissao', 'leitos'));
     }
 
@@ -70,6 +70,22 @@ class InternacaoController extends Controller {
     public function show($id) {
         $cid = Cid10::find($id);
         return view('cid10.show', compact('cid'));
+    }
+
+    public function buscarPaciente(Request $req) {
+
+        $rg = $req->rg;
+        $paciente = Internacao::where('internacaos.saida', '<>', NULL)
+                ->join('pacientes', 'pacientes.id', '=', 'internacaos.idpaciente')
+                ->join('clinicas', 'clinicas.id', '=', 'internacaos.idclinica')
+                ->join('leitos', 'leitos.id', '=', 'internacaos.idleito')
+                ->join('cid10s', 'cid10s.id', '=', 'internacaos.idcid10')
+                ->where('pacientes.rg', $rg)->select('pacientes.nomecompleto', 'pacientes.nascimento', 'internacaos.id', 'clinicas.nome', 'leitos.leito', 'cid10s.descricao', 'internacaos.dataadmissao')
+                ->get();
+
+        //dd($paciente);
+
+        return response()->json($paciente);
     }
 
 }

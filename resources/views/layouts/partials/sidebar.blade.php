@@ -88,10 +88,10 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                    <li style="margin-left: 20px;"><a href="{{ url('interacaomedicamentosa') }}"></i> Interação Medicamentosa</a></li>
-                    <li style="margin-left: 20px;"><a href="{{ url('formafarmaceutica') }}"></i> Forma Farmacêutica</a></li>
-                    <li style="margin-left: 20px;"><a href="{{ url('substanciaativa') }}"> Substância Ativa</a></li>
                     <li style="margin-left: 20px;"><a href="{{ url('medicamento') }}"></i> Medicamento</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('substanciaativa') }}"> Substância Ativa</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('formafarmaceutica') }}"></i> Forma Farmacêutica</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('interacaomedicamentosa') }}"></i> Interação Medicamentosa</a></li>
                 </ul>
             </li>
             
