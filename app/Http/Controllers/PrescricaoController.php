@@ -21,7 +21,7 @@ class PrescricaoController extends Controller {
     }
 
     public function store(Request $request) {
-        dd($request->all());
+        //dd($request->all());
 
         $prescricao = new Prescricao();
         $prescricao->idusuario = Auth::user()->id;
@@ -41,7 +41,7 @@ class PrescricaoController extends Controller {
             if ($medicamentos[$i]['idmedicamento'] == "") {
                 $prescricaomedicamento->idmedicamento = $medicamentos[$i]['idmedicamento'];
                 $prescricaomedicamento->posologia = $medicamentos[$i]['obs'];
-                $prescricaomedicamento->outros = $medicamentos[$i]['outros'];
+                $prescricaomedicamento->outros = $medicamentos[$i]['med'];
             } else {
                 $prescricaomedicamento->idmedicamento = $medicamentos[$i]['idmedicamento'];
                 $prescricaomedicamento->qtdpedida = $medicamentos[$i]['qtd'];

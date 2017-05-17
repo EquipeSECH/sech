@@ -151,8 +151,8 @@
                                     <tbody>
                                         <tr v-for = "substancia in medicamento.substancias">
                                             <!--<td>{{substancia.substancia}}</td>-->                                            
-                                            <td v-for="substancia2 in substanciasativas">
-                                                <div v-if="(substancia.substancia === substancia2.id)">
+                                            <td>
+                                                <div v-for="substancia2 in substanciasativas" v-if="(substancia.substancia === substancia2.id)">
                                                     {{substancia2.nome}}
                                                 </div>                            
                                             </td>
@@ -171,6 +171,11 @@
                 </div>
                 <div class="pull-right" style="margin-right: 1%;">
                     <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Salvar" @click="adicionar"><i class="fa fa-save"></i></button>
+                </div>
+                <div class="pull-right" style="margin-right: 1%;">
+                    <a class="btn btn-default" data-toggle="tooltip"  title="Voltar" onclick="window.history.go(-1);"> 
+                        <i class="fa  fa-mail-reply"></i>
+                    </a>
                 </div>
             </div>
         </div>

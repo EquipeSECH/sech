@@ -8,9 +8,6 @@
             Cadastrar fornecedor
              @endsection 
         </div>
-        <div class="pull-right" style="margin-right: 2%;">
-            <a class="btn btn-primary" href="{{ route('fornecedor.index') }}"> Voltar</a>
-        </div>
     </div>
 </div>
 @if (count($errors) > 0)
@@ -24,84 +21,69 @@
 @endif
 {!! Form::open(array('route' => 'fornecedor.store','method'=>'POST')) !!}
 <br>
-<div class="box box-danger" style="margin-left: 2%; margin-right: 2%; width: 96%;">
+<div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
     <div class="row">
         <div class="box-body">
-            <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="col-xs-8 col-sm-8 col-md-8">
                 <div class="form-group">
                     <strong>Razão Social:</strong>
                     {!! Form::text('razaosocial', null, array('placeholder' => 'Digite o nome fantasia','class' => 'form-control')) !!}
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
                     <strong>Nome Fantasia:</strong>
                     {!! Form::text('nomefantasia', null, array('placeholder' => 'Digite o nome fantasia','class' => 'form-control')) !!}
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
                     <strong>CNPJ:</strong>
-                    {!! Form::textarea('cnpj', null, array('placeholder' => '','class' => 'form-control','style'=>'height:100px')) !!}
+                    {!! Form::text('cnpj', null, array('placeholder' => '','class' => 'form-control')) !!}
                 </div>
             </div>
-              <div class="col-xs-12 col-sm-12 col-md-12">
+              <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
                     <strong>Telefone:</strong>
-                    {!! Form::textarea('telefone', null, array('placeholder' => '','class' => 'form-control','style'=>'height:100px')) !!}
+                    {!! Form::text('telefone', null, array('placeholder' => '','class' => 'form-control')) !!}
                 </div>
             </div>
-             <div class="col-xs-12 col-sm-12 col-md-12">
+             <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
                     <strong>Endereço:</strong>
-                    {!! Form::textarea('endereco', null, array('placeholder' => '','class' => 'form-control','style'=>'height:100px')) !!}
+                    {!! Form::text('endereco', null, array('placeholder' => '','class' => 'form-control')) !!}
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
-                    <strong>Email:</strong>
-                    <div clas="input-group">
-                        <i class="fa fa-envelope"></i>
-                    {!! Form::textarea('email', null, array('placeholder' => 'exemplo@exemplo.com','class' => 'form-control','style'=>'height:100px')) !!}
+                    <strong>Email:</strong>                    
+                    {!! Form::text('email', null, array('placeholder' => 'exemplo@exemplo.com','class' => 'form-control')) !!}
                 </div>
-                    </div>
             </div>
-             <div class="col-xs-12 col-sm-12 col-md-6">
-                 <div class="form-group">
-                <strong>Telefone:</strong>
-                 <div class="input-group">
-                    <span class="input-group-phone">
-                        <i class="fa fa-phone"></i>
-                    </span>
-                    {!! Form::textarea('telefone', null, array('placeholder' => '','class' => 'form-control','style'=>'height:100px')) !!}
-                </div>
-                 </div>
-            </div>  
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
+            <div class="col-xs-4 col-sm-4 col-md-4">
                <strong>Nome do responsável:</strong>
-                <div class="input-group">
-                    <span class="input-group-user">
-                        <i class="fa fa-user"></i>
-                    </span>
-                    {!! Form::textarea('nomeresponsavel', null, array('placeholder' => 'Nome do Fornecedor','class' => 'form-control','style'=>'height:100px')) !!}
-                </div>
+                <div class="form-group">
+                    {!! Form::text('nomeresponsavel', null, array('placeholder' => 'Nome do Fornecedor','class' => 'form-control')) !!}
                 </div>
             </div>
-             <div class="col-xs-12 col-sm-12 col-md-12">
+             <div class="col-xs-4 col-sm-4 col-md-4">
                  <div class="form-group">
                  <strong>Telefone do responsável:</strong>
-                <div class="input-group">
-                    <span class="input-group-phone">
-                        <i class="fa fa-phone"></i>
-                    </span>
-                    {!! Form::textarea('telefoneresponsavel', null, array('placeholder' => 'Nome do Fornecedor','class' => 'form-control','style'=>'height:100px')) !!}
+                    {!! Form::text('telefoneresponsavel', null, array('placeholder' => 'Nome do Fornecedor','class' => 'form-control')) !!}
                 </div>
-                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <!--<div class="col-xs-12 col-sm-12 col-md-12">
                 <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>-->
+            <div class="pull-right" style="margin-right: 1%;">
+                <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Salvar" @click="adicionar"><i class="fa fa-save"></i></button>
             </div>
+            <div class="pull-right" style="margin-right: 1%;">
+                <a class="btn btn-default" href="{{ route('fornecedor.index') }}"> 
+                    <i class="fa  fa-mail-reply"></i>
+                </a>
+            </div>
+            
         </div>
     </div>
 </div>

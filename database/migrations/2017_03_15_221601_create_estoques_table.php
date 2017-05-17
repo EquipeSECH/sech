@@ -13,7 +13,7 @@ class CreateEstoquesTable extends Migration {
     public function up() {
         Schema::create('estoques', function (Blueprint $table) {
             $table->increments('id');
-             $table->string('lote');
+            $table->string('lote');
             $table->integer('quantidadeatual');
             $table->integer('quantidadereserva');
             $table->date('fabricacao');

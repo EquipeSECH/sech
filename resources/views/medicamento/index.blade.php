@@ -13,7 +13,13 @@
         @endsection
         <div class="pull-right" style="margin-right: 2%;">
             @permission('medicamento-create')
-            <a class="btn btn-default"  href="{{ route('medicamento.create') }}">Cadastrar</a>
+            
+            <div class="pull-right" style="margin-right: 1%;">
+                <a class="btn btn-default" href="{{ route('medicamento.create') }}" title="Cadastrar" data-toggle="tooltip"> 
+                    <i class="fa  fa-plus"></i>
+                </a>
+            </div>
+            
             @endpermission
         </div>
     </div>
@@ -199,7 +205,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel"><strong>Dados do medicamento: {{$medicamento->codigosimpas}}</strong></h4>
+                                            <h4 class="modal-title" id="myModalLabel"><strong>SIMPAS: {{$medicamento->codigosimpas}}</strong></h4>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
