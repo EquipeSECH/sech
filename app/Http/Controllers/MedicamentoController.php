@@ -65,7 +65,6 @@ class MedicamentoController extends Controller {
             $medicamentoSubstancia->unidadedose = $substancias[$i]['unidadedose'];
             $medicamentoSubstancia->idmedicamento = $fk_medicamento;
             $medicamentoSubstancia->save();
-            echo "salvou";
         }
 
 //        return redirect()->route('medicamento.index')
@@ -126,7 +125,6 @@ class MedicamentoController extends Controller {
             $medicamentoSubstancia->unidadedose = $substancias[$i]['unidadedose'];
             $medicamentoSubstancia->idmedicamento = $id;
             $medicamentoSubstancia->save();
-            echo "atualizou";
         }
     }
 
@@ -262,7 +260,6 @@ class MedicamentoController extends Controller {
             $results[] = ['id' => $value->id,
                 'value' => $value->nome . ' ' . $value->quantidadedose . ' ' . $nomeunidade . ', ' . $value->fnome . ' ' . $conteudo . ' com ' . $value->quantidadeconteudo . ' ' . $uc
             ];
-            $simpas = $value->codigosimpas;
         }
         return response()->json($results);
     }
@@ -271,9 +268,12 @@ class MedicamentoController extends Controller {
 
         $id = $req->get('id');
 
-        $codsimpas = Medicamento::find($id)->select('medicamentos.codigosimpas')->get();
-
-        return response()->json($codsimpas[0]->codigosimpas);
+        if ($id == null) {
+             return response()->json("-");
+        } else {
+            $codsimpas = Medicamento::find($id)->select('medicamentos.codigosimpas')->get();
+            return response()->json($codsimpas[0]->codigosimpas);
+        }
     }
 
 }

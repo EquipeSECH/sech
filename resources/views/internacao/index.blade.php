@@ -95,9 +95,12 @@ $(function ($) {
     @if (Session::get('success'))
             $(function () {
                 var msg = "{{Session::get('success')}}"
-                iziToast.success({
-                    title: 'OK',
-                    message: msg,
+                 swal({
+                    title: '',
+                    text: msg,
+                    confirmButtonColor: "#66BB6A",
+                    type: "success",
+                    html: true
                 });
             });
             @endif

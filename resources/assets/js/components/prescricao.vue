@@ -1,5 +1,8 @@
 <script language= "text/javascript">
     export default{
+
+        props: ['data'],
+
         data(){
             return {
                 paciente: '',
@@ -10,14 +13,17 @@
                 admissao: '',
                 prescricao: {
                     idinternacao: '',
-                    idusuario: '',
                     dataprescricao: '',
                     historicoatual: '',
                     evolucao: '',
+                    dataprescricao: '',
                     observacoesmedicas: '',
                     prescricaomedicamento: [],
                 },
             }
+        },
+        mounted(){
+            this.prescricao.dataprescricao = this.data;
         },
         methods: {
             addMed(){
@@ -26,16 +32,18 @@
                     var med = $("#med").val();
                     this.prescricao.prescricaomedicamento.push({
                         simpas: response.data,
+                        idmedicamento: id,
                         qtd: this.qtd,
                         med: med,
-                        apr: this.apr,
                         obs: this.obs               
                     });
                     this.simpas = '';
                     this.qtd = '';
-                    this.apr = '';
                     this.obs = '';
                     $("#med").val("");
+                    $('.qtd').css('display','none');
+                    $('.med').removeClass("col-xs-11 col-sm-11 col-md-11");
+                    $('.med').addClass("col-xs-12 col-sm-12 col-md-12");
                 }).catch(response => {
                      
                 });
@@ -47,10 +55,10 @@
                 }
             },
             adicionar(){
-                this.$http.post('/clinica/create', this.clinica).then(response => {
+                this.$http.post('/prescricao/create', this.prescricao).then(response => {
                     swal({
                         title: "Salvo!",
-                        text: "Clínica cadastrada com sucesso!",
+                        text: "Prescrição cadastrada com sucesso!",
                         confirmButtonColor: "#66BB6A",
                         type: "success"
                    },
@@ -71,6 +79,7 @@
                     this.leito = response.data[0].leito;
                     this.diag = response.data[0].descricao;
                     this.admissao = response.data[0].dataadmissao;
+                    this.prescricao.idinternacao = response.data[0].id; 
           
                 }).catch(response => {
                      $("#buscar").modal('hide')
@@ -88,34 +97,56 @@
     });
     
     $(document).ready(function(){
+        var a;
         $('#med').autocomplete({
             source: '/autocomplete',
             minlength: 1,
             autoFocus:true,
             select: function(event, ui){
                 $("#med").val(ui.item.value);
+                a = ui.item.value;
                 $("#idmed").val(ui.item.id);
-            }   
+                $('.qtd').css('display','block');
+                $('.med').removeClass("col-xs-12 col-sm-12 col-md-12");
+                $('.med').addClass("col-xs-11 col-sm-11 col-md-11");
+            },
+            change: function(event, ui){
+                var b = $("#med").val();
+                if(a != Trim(b)){
+                    $("#idmed").val(null);
+                    $('.qtd').css('display','none');
+                    $('.med').removeClass("col-xs-11 col-sm-11 col-md-11");
+                    $('.med').addClass("col-xs-12 col-sm-12 col-md-12");
+                }
+            }
         });
     });
-    $(document).on('click', '#add', function (){
-        
+
+    function Trim(str){
+        return str.replace(/^\s+|\s+$/g,"");
+    }
+
+    $(document).on('click', '.buscar', function (){
+        $("#buscar").modal('show');
     });
 
 </script>
 
 <template>
     <div>
-        <div class="row"> 
+        <div class="row">         
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="box-body pad table-responsive"> 
+                <div class="box-body pad table-responsive">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="pull-right"><small><p><strong>Data da prescrição: </strong>{{this.data}}</p></small></div><br> 
+                    </div>
                     <div class="col-xs-10 col-sm-10 col-md-10">
                         <div class="form-group">
                             <label for="paciente">Paciente:</label>
                             <div class="input-group input-group-sm">
                                 <input id="paciente" type="text" name="paciente" class="form-control" readonly="readonly" v-model="paciente">
                                 <span class="input-group-btn">
-                                  <button type="button" data-toggle="modal" data-target="#buscar" class="btn btn-primary btn-flat"><i class="fa fa-search"></i></button>
+                                  <button type="button" data-toggle="tooltip" title="Buscar paciente internado" class="btn btn-primary btn-flat buscar"><i class="fa fa-search"></i></button>
                                 </span>
                             </div>
                         </div>
@@ -153,48 +184,35 @@
                     <div class="col-xs-6 col-sm-6 col-md-6">
                         <div class="form-group">
                             <label for="hist">Histórico da doença atual:</label>
-                            <textarea id="hist" type="text" name="hist" class="form-control"></textarea>
+                            <textarea id="hist" type="text" name="hist" class="form-control" v-model="prescricao.historicoatual"></textarea>
                         </div>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6">
                         <div class="form-group">
                             <label for="evol">Evolução:</label>
-                            <textarea id="evol" type="text" name="evol" class="form-control"></textarea>
+                            <textarea id="evol" type="text" name="evol" class="form-control" v-model="prescricao.evolucao"></textarea>
                         </div>
                     </div>
-                    <div class="col-xs-9 col-sm-9 col-md-9">
+                    <div class="col-xs-12 col-sm-12 col-md-12 med">
                         <div class="form-group">
-                            <label for="med">Medicamento:</label>
-                            <input id="med" type="text" name="med" class="form-control">
+                            <label for="med">Medicamento/Outros:</label>
+                            <input id="med" type="text" name="med" class="form-control" placeholder="Pesquise pela substância ativa...">
                         </div>
                     </div>
                     <input id="idmed" type="hidden">
-                    <div class="col-xs-1 col-sm-1 col-md-1">
+                    <div class="col-xs-1 col-sm-1 col-md-1 qtd" style="display: none;">
                         <div class="form-group">
                             <label for="qtd">Quantidade:</label>
                             <input id="qtd" type="text" name="qtd" class="form-control" v-model="qtd">
                         </div>
                     </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2">
+                    <div class="col-xs-12 col-sm-12 col-md-12 obs">
                         <div class="form-group">
-                            <label for="apr">Aprazamento:</label>
-                            <select id="apr" type="text" name="apr" class="form-control">
-                                <option value="12">2/2h</option>
-                                <option value="6">4/4h</option>
-                                <option value="4">6/6h</option>
-                                <option value="3">8/8h</option>
-                                <option value="2">12/12h</option>
-                                <option value="1">24/24h</option>
-                            </select>
+                            <label for="apr">Posologia/Observações:</label>
+                            <input id="obs" type="text" name="obs" class="form-control" v-model="obs" placeholder="Administrar por via oral a cada 12 horas, durante 7 dias...">
                         </div>
                     </div>
-                    <div class="col-xs-10 col-sm-10 col-md-10">
-                        <div class="form-group">
-                            <label for="apr">Observação:</label>
-                            <input id="obs" type="text" name="obs" class="form-control" v-model="obs">
-                        </div>
-                    </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2">
+                    <div class="col-xs-2 col-sm-2 col-md-2 bt" style="margin-left: 83%;">
                         <div class="form-group"> 
                             <br>
                             <button type="button" class="btn btn-block btn-primary btn-flat" @click="addMed">Adicionar</button>
@@ -203,7 +221,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <br>
                         <div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
-                            <h4><center><b>Descrição dos medicamentos</b></center></h4>
+                            <h4><center><b>Descrição da prescrição</b></center></h4>
                                 <div class="box-body">
                                     <div class="table-responsive col-lg-12 col-md-12 col-sm-12">
                                         <table id="table" class="table table-condensed table-bordered table-hover dataTable" role="grid">
@@ -212,8 +230,7 @@
                                                     <th class="text-center">SIMPAS</th>
                                                     <th width="2%" class="text-center">Quantidade</th>
                                                     <th class="text-center">Medicamento</th>
-                                                    <th width="2%" class="text-center">Aprazamento</th>
-                                                    <th class="text-center">Observação</th>
+                                                    <th class="text-center">Posologia/Observação</th>
                                                     <th width="3%" class="text-center">Opções</th>
                                                 </tr>
                                             </thead>
@@ -222,7 +239,6 @@
                                                     <td>{{medicamento.simpas}}</td>
                                                     <td>{{medicamento.qtd}}</td>
                                                     <td>{{medicamento.med}}</td>
-                                                    <td>{{medicamento.apr}}</td>
                                                     <td>{{medicamento.obs}}</td>
                                                     <td>             
                                                         <center>
@@ -234,6 +250,12 @@
                                         </table>
                                     </div>
                                 </div> 
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <label for="obsmed">Observações médicas:</label>
+                            <textarea id="obsmed" type="text" name="obsmed" class="form-control" rows="5" v-model="observacoesmedicas"></textarea>
                         </div>
                     </div>
                     <div class="pull-right" style="margin-right: 1%;">

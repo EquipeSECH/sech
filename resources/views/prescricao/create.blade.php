@@ -22,7 +22,7 @@
 <br>
 <div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
     <div class="row">
-        <vc-prescricao></vc-prescricao>
+        <vc-prescricao data="{{$dataprescricao}}"></vc-prescricao>
     </div>
 </div>
 @endsection

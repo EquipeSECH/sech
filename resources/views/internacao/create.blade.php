@@ -43,7 +43,7 @@
             <div class="col-xs-1 col-sm-1 col-md-1">
                 <div class="form-group">
                     <br>
-                    <a class="btn btn-primary" data-toggle="modal" data-target="#paciente" title="Adicionar paciente"><i class="fa fa-plus" style="color: #fff;"></i></a>
+                    <a class="add btn btn-primary" data-toggle="tooltip" title="Adicionar paciente"><i class="fa fa-plus" style="color: #fff;"></i></a>
                 </div>
             </div>
             <div class="col-xs-9 col-sm-9 col-md-9">
@@ -174,5 +174,9 @@ jQuery(function ($) {
 
 jQuery(function ($) {
     $("#admissao").mask("99/99/9999");
+});
+
+$(document).on('click', '.add', function () {
+    $("#paciente").modal('show');
 });
 </script>
