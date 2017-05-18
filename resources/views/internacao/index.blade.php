@@ -43,7 +43,7 @@
                         <td>{{ $internacao->leito->leito }}</td>
                         <td>{{ $internacao->cid10->descricao}}</td>
                         <td width="14.5%">
-                            <a class="btn btn-default" href="{{ route('internacao.show',$internacao->id) }}">
+                            <a class="btn btn-default" data-target="#{{$internacao->id}}" data-toggle="modal" title="Visualizar">
                                 <i class="fa fa-eye"> </i>
                             </a>
                             @permission('internacao-edit')
@@ -52,11 +52,70 @@
                             </a>
                             @endpermission
                             @permission('internacao-delete')
-                            {!! Form::open(['method' => 'DELETE','route' => ['internacao.destroy', $internacao->id],'style'=>'display:inline']) !!}
-                            {{ Form::button('<i class=" fa fa-trash"></i>', array('class' => 'btn btn-default', 'type' => 'submit')) }}
-                            <!--{!! Form::submit('Excluir', ['class' => 'btn btn-danger']) !!}-->
-                            {!! Form::close() !!}
+                            <a class="btn btn-default" data-toggle="modal" data-target="#e{{$internacao->id}}" title="Excluir">
+                                <i class="fa fa-trash"> </i>
+                            </a>
                             @endpermission
+
+                            @if(!empty($internacao))
+                            <div class="modal fade" id="e{{$internacao->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Excluir</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Tem certeza que deseja excluir?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                            {!! Form::open(['method' => 'DELETE','route' => ['internacao.destroy', $internacao->id],'style'=>'display:inline']) !!}
+                                            {!! Form::submit('OK', ['class' => 'btn btn-primary']) !!}
+                                            {!! Form::close() !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif 
+
+                            <div class="modal fade" id="{{$internacao->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel"><strong>Dados da clínica do paciente: {{$internacao->paciente->nomecompleto}}</strong></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <strong>Diagnóstico:</strong>
+                                                    {{$internacao->cid10->descricao}}
+                                                    <br><br>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <strong>Clínica:</strong>
+                                                   {{$internacao->clinica->nome}}
+                                                    <br><br>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <strong>Leito:</strong>
+                                                   {{$internacao->leito->leito}}
+                                                    <br><br>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <strong>Admissão:</strong>
+                                                   {{$internacao->dataadmissao}}
+                                                    <br><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -95,7 +154,7 @@ $(function ($) {
     @if (Session::get('success'))
             $(function () {
                 var msg = "{{Session::get('success')}}"
-                 swal({
+                swal({
                     title: '',
                     text: msg,
                     confirmButtonColor: "#66BB6A",

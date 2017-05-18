@@ -46,7 +46,7 @@ class InternacaoController extends Controller {
 
     public function edit($id) {
         $internacao = Internacao::find($id);
-        return view('internacao', compact('internacao'));
+        return view('internacao.edit', compact('internacao'));
     }
 
     public function update(Request $request, $id) {
