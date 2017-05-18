@@ -133,7 +133,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <strong>RG:</strong>
-                                    {!! Form::text('rg', null, array('class' => 'form-control', 'id' => 'rg')) !!}
+                                    {!! Form::text('rg', null, array('class' => 'form-control', 'id' => 'teste')) !!}
                                 </div>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6">
@@ -164,12 +164,16 @@
 
 
 <script>
-jQuery(function ($) {
-    $("#rg").mask("99.999.999-99");
-});
+//jQuery(function ($) {
+//    $("#rg").mask("99.999.999-99");
+//});
 
 jQuery(function ($) {
     $("#cpf").mask("999.999.999-99");
+});
+
+jQuery(function ($) {
+    $("#teste").mask("99.999.999-99");
 });
 
 jQuery(function ($) {

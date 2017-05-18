@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Estoque;
 use App\Medicamento;
+use App\Fornecedor;
 use App\Formafarmaceutica;
 
 class EstoqueController extends Controller {
@@ -27,9 +28,9 @@ class EstoqueController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        
+        $fornecedors = Fornecedor::get();
         $medicamentos = Medicamento::get();  
-        return view('estoque.create', compact('medicamentos'));
+        return view('estoque.create', compact('medicamentos', 'fornecedors'));
     }
 
     /**
