@@ -19,7 +19,7 @@ class PrescricaoController extends Controller {
                 ->orderBy('id', 'DESC')
                 ->where('prescricaos.idusuario', $idusuario)
                 ->get();
-        //dd($prescricoesNatendidas);
+        //dd($prescricoesNatendidas[0]->medicamentos[0]->medicamento);
         return view('prescricao.index', compact('prescricoesNatendidas', 'prescricoesAtendidas'))
                         ->with('i', ($request->input('page', 1) - 1) * 5);
     }
