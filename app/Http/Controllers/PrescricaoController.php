@@ -15,8 +15,12 @@ class PrescricaoController extends Controller {
                 ->orderBy('id', 'DESC')
                 ->where('prescricaos.idusuario', $idusuario)
                 ->get();
+        $prescricoesAtendidas = Prescricao::where('prescricaos.status', 1)
+                ->orderBy('id', 'DESC')
+                ->where('prescricaos.idusuario', $idusuario)
+                ->get();
         //dd($prescricoesNatendidas);
-        return view('prescricao.index', compact('prescricoesNatendidas'))
+        return view('prescricao.index', compact('prescricoesNatendidas', 'prescricoesAtendidas'))
                         ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -66,25 +70,29 @@ class PrescricaoController extends Controller {
     public function edit($id) {
         $prescricao = Prescricao::find($id);
         $medicamentos = PrescricaoMedicamento::where('idprescricao', $prescricao->id)
-                        ->join('medicamentos', 'medicamentos.id', '=', 'prescricao_medicamentos.idmedicamento')
-                        ->where('idmedicamento', '!=', null)
-                        ->select('medicamentos.id', 'medicamentos.idformafarmaceutica', 'medicamentos.nomeconteudo', 'medicamentos.quantidadeconteudo', 'medicamentos.unidadeconteudo', 'medicamentos.codigosimpas', 'prescricao_medicamentos.id as idprescmed', 'prescricao_medicamentos.idprescricao', 'prescricao_medicamentos.idmedicamento', 'prescricao_medicamentos.qtdpedida', 'prescricao_medicamentos.qtdatendida', 'prescricao_medicamentos.posologia')
-                        ->where('prescricao_medicamentos.qtdatendida', 0)
-                        ->get();
+                ->join('medicamentos', 'medicamentos.id', '=', 'prescricao_medicamentos.idmedicamento')
+                ->where('idmedicamento', '!=', null)
+                ->select('medicamentos.id', 'medicamentos.idformafarmaceutica', 'medicamentos.nomeconteudo', 'medicamentos.quantidadeconteudo', 'medicamentos.unidadeconteudo', 'medicamentos.codigosimpas', 'prescricao_medicamentos.id as idprescmed', 'prescricao_medicamentos.idprescricao', 'prescricao_medicamentos.idmedicamento', 'prescricao_medicamentos.qtdpedida', 'prescricao_medicamentos.qtdatendida', 'prescricao_medicamentos.posologia')
+                ->where('prescricao_medicamentos.qtdatendida', 0)
+                ->get();
 
         //dd($medicamentos);
         return view('prescricao.edit', compact('prescricao', 'medicamentos'));
     }
 
     public function update(Request $request, $id) {
-        //dd($request->all()) and die();
-        $this->validate($request, [
-            'nome' => 'required',
-            'descricao' => 'required',
-        ]);
+        //dd($id) and die();
+//        $this->validate($request, [
+//            'nome' => 'required',
+//            'descricao' => 'required',
+//        ]);
+        
+        $prescricao = Prescricao::find($id);
+        $prescricao->status = 1;
+        $prescricao->save();
 
-//        return redirect()->route('clinica.index')
-//                        ->with('success','Clínica atualizada com sucesso!');
+        return redirect()->route('prescricao.index')
+                        ->with('success', 'Prescrição resolvida com sucesso!');
     }
 
     public function destroy($id) {

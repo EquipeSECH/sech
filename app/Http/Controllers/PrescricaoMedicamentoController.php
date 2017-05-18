@@ -13,10 +13,7 @@ class PrescricaoMedicamentoController extends Controller {
         $medicamento = PrescricaoMedicamento::find($request->id);
         $medicamento->qtdatendida = $request->qtdatentida;
         $medicamento->save();
-//        $this->validate($request, [
-//            'nome' => 'required',
-//            'descricao' => 'required',
-//        ]);
+
         return response()->json($medicamento);
     }
 

@@ -75,7 +75,7 @@ class InternacaoController extends Controller {
     public function buscarPaciente(Request $req) {
 
         $rg = $req->rg;
-        $paciente = Internacao::where('internacaos.saida', '<>', NULL)
+        $paciente = Internacao::where('internacaos.saida', NULL)
                 ->join('pacientes', 'pacientes.id', '=', 'internacaos.idpaciente')
                 ->join('clinicas', 'clinicas.id', '=', 'internacaos.idclinica')
                 ->join('leitos', 'leitos.id', '=', 'internacaos.idleito')
