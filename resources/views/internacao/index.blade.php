@@ -31,6 +31,7 @@
                         <th class="text-center">Clínica</th>
                         <th class="text-center">Leito</th>
                         <th class="text-center">Diagnóstico</th>
+                        <th class="text-center">Situação</th>
                         <th class="text-center no-sort" width="14%">Ação</th>
                     </tr>
                 </thead>
@@ -42,14 +43,25 @@
                         <td>{{ $internacao->leito->clinica->nome}}</td>
                         <td>{{ $internacao->leito->leito }}</td>
                         <td>{{ $internacao->cid10->descricao}}</td>
+                        @if(empty($internacao->saida))
+                        <td><span class="label label-warning">Internado</span></td>
+                        @else
+                        <td><span class="label label-success">Liberado</span></td>
+                        @endif
                         <td width="14.5%">
                             <a class="btn btn-default" data-target="#{{$internacao->id}}" data-toggle="modal" title="Visualizar">
                                 <i class="fa fa-eye"> </i>
                             </a>
                             @permission('internacao-edit')
-                            <a class="btn btn-default" href="{{ route('internacao.edit',$internacao->id) }}">
-                                <i class="fa fa-edit"> </i>
+                            @if(empty($internacao->saida))                 
+                            <a class="btn btn-default" data-toggle="modal" data-target="#a{{$internacao->id}}" title="Alta">
+                                <i class="fa  fa-check"> </i>
                             </a>
+                            @else
+                            <a class="btn btn-default" data-toggle="modal" data-target="#a{{$internacao->id}}" title="Alta" disabled>
+                                <i class="fa  fa-check"> </i>
+                            </a>
+                            @endif
                             @endpermission
                             @permission('internacao-delete')
                             <a class="btn btn-default" data-toggle="modal" data-target="#e{{$internacao->id}}" title="Excluir">
@@ -77,6 +89,25 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal fade" id="a{{$internacao->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Alta</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Liberar paciente?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                            {!! Form::open(['method' => 'PATCH','route' => ['internacao.update', $internacao->id],'style'=>'display:inline']) !!}
+                                            {!! Form::submit('OK', ['class' => 'btn btn-primary']) !!}
+                                            {!! Form::close() !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             @endif 
 
                             <div class="modal fade" id="{{$internacao->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -95,19 +126,26 @@
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                                     <strong>Clínica:</strong>
-                                                   {{$internacao->clinica->nome}}
+                                                    {{$internacao->clinica->nome}}
                                                     <br><br>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                                     <strong>Leito:</strong>
-                                                   {{$internacao->leito->leito}}
+                                                    {{$internacao->leito->leito}}
                                                     <br><br>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                                     <strong>Admissão:</strong>
-                                                   {{$internacao->dataadmissao}}
+                                                    {{$internacao->dataadmissao}}
                                                     <br><br>
                                                 </div>
+                                                @if(!empty($internacao->saida))
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <strong>Saída:</strong>
+                                                    {{$internacao->saida}}
+                                                    <br><br>
+                                                </div>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="modal-footer">

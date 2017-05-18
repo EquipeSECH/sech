@@ -142,7 +142,6 @@
                         <div class="pull-right"><small><strong>Data da prescrição: </strong>{{this.data}}</small></div>
                         <br><br>
                     </div>
-                    <hr>
                     <div class="col-xs-10 col-sm-10 col-md-10">
                         <div class="form-group">
                             <label for="paciente">Paciente:</label>

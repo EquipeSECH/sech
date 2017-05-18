@@ -50,15 +50,20 @@ class InternacaoController extends Controller {
     }
 
     public function update(Request $request, $id) {
-        $this->validate($request, [
-            'codigo' => 'required',
-            'descricao' => 'required',
-        ]);
+        
+//        $this->validate($request, [
+//            'codigo' => 'required',
+//            'descricao' => 'required',
+//        ]);
 
-        Cid10::find($id)->update($request->all());
 
-        return redirect()->route('cid10.index')
-                        ->with('success', 'Cid10 atualizado com sucesso!');
+        $saida = date("d-m-Y");
+        $internacao = Internacao::find($id);
+        $internacao->saida = $saida;
+        $internacao->save();
+
+        return redirect()->route('internacao.index')
+                        ->with('success', 'Paciente liberado com sucesso!');
     }
 
     public function destroy($id) {
