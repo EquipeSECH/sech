@@ -27,7 +27,7 @@
             <div class="col-xs-11 col-sm-11 col-md-11">
                 <div class="form-group">
                     <strong>Medicamento:</strong>
-                    <select id="idmedicamentos" class="form-control">
+                    <select id="idmedicamentocomercial" name="idmedicamentocomercial" class="form-control">
                         <option selected="selected">--Selecione--</option>
                         @foreach ($medicamentos as $key => $medicamento)
                             <?php $nomemedicamento = ''; ?>
@@ -91,7 +91,7 @@
             <div class="col-xs-1 col-sm-1 col-md-1">
                 <div class="form-group">
                     <strong>Qtd:</strong>
-                    {!! Form::text('nomefantasia', null, array('placeholder' => '','class' => 'form-control')) !!}
+                    {!! Form::text('quantidadeatual', null, array('placeholder' => '','class' => 'form-control')) !!}
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6">
@@ -104,6 +104,19 @@
                 <div class="form-group">
                     <strong>Lote:</strong>
                     {!! Form::text('lote', null, array('placeholder' => 'Informe o Lote','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <strong>Fabricação:</strong>
+                    {!! Form::date('fabricacao', null, array('class' => 'form-control')) !!}
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <strong>Validade:</strong>
+                    {!! Form::date('validade', null, array('class' => 'form-control')) !!}
                 </div>
             </div>
             <div class="pull-right" style="margin-right: 1%;">

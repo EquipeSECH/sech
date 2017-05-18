@@ -25,7 +25,6 @@ class ClinicaController extends Controller
     
     public function store(Request $request)
     {
-        
         $this->validate($request, [
             'nome' => 'required',
             'descricao' => 'required',
