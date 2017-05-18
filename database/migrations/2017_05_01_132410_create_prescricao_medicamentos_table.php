@@ -17,13 +17,14 @@ class CreatePrescricaoMedicamentosTable extends Migration {
             $table->foreign('idprescricao')->references('id')->on('prescricaos')
                     ->onUpdate('restrict')
                     ->onDelete('cascade');
-            $table->integer('idmedicamento');
+            $table->integer('idmedicamento')->nullable();
             $table->foreign('idmedicamento')->references('id')->on('medicamentos')
                     ->onUpdate('restrict')
                     ->onDelete('cascade');
             $table->integer('qtdpedida');
             $table->integer('qtdatendida')->default(0);
             $table->text('posologia');
+            $table->text('outros');
             $table->timestamps();
         });
     }

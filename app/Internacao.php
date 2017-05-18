@@ -20,5 +20,9 @@ class Internacao extends Model {
     public function cid10() {
         return $this->belongsTo(Cid10::class, 'idcid10');
     }
+    
+    public function clinica() {
+        return $this->belongsTo(Clinica::class, 'idclinica');
+    }
 
 }

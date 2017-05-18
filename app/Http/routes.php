@@ -184,5 +184,10 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'prescricao.update', 'uses' => 'PrescricaoController@update', 'middleware' => ['permission:prescricao-edit']]);
         Route::delete('/{id}', ['as' => 'prescricao.destroy', 'uses' => 'PrescricaoController@destroy', 'middleware' => ['permission:prescricao-delete']]);
     });
+    
+    //rotas de prescriçãomedicamento
+    Route::group(['prefix' => 'prescricaomedicamento', 'where' => ['id' => '[0-9]+']], function() {      
+        Route::patch('/', ['as' => 'prescricaomedicamento.update', 'uses' => 'PrescricaoMedicamentoController@update', 'middleware' => ['permission:prescricao-edit']]);
+    });
 });
 

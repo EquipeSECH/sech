@@ -45,7 +45,7 @@
                     $('.med').removeClass("col-xs-11 col-sm-11 col-md-11");
                     $('.med').addClass("col-xs-12 col-sm-12 col-md-12");
                 }).catch(response => {
-                     
+                     console.log('erro');
                 });
             },
             removeMed(med) {
@@ -255,7 +255,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="obsmed">Observações médicas:</label>
-                            <textarea id="obsmed" type="text" name="obsmed" class="form-control" rows="5" v-model="observacoesmedicas"></textarea>
+                            <textarea id="obsmed" type="text" name="obsmed" class="form-control" rows="5" v-model="prescricao.observacoesmedicas"></textarea>
                         </div>
                     </div>
                     <div class="pull-right" style="margin-right: 1%;">
