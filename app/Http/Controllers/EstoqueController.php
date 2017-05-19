@@ -109,15 +109,14 @@ class EstoqueController extends Controller {
      */
     public function update(Request $request, $id) {
         $this->validate($request, [
-            'lote' => 'required',
-            'quantidadeatual' => 'required',
-            'quantidadereserva' => 'required',
-            'fabricacao' => 'required',
-            'validade' => 'required',
-            'status' => 'required',
-            'idmedicamentocomercial' => 'required',
-            'idfornecedor' => 'required',
-            'idfarmacia' => 'required'
+            'quantidadeatual' => '',
+            'quantidadereserva' => 'requered',
+            'fabricacao' => '',
+            'validade' => '',
+            'status' => '',
+            'idmedicamentocomercial' => '',
+            'idfornecedor' => '',
+            'idfarmacia' => ''
         ]);
 
         Estoque::find($id)->update($request->all());

@@ -174,7 +174,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'estoque.update', 'uses' => 'EstoqueController@update', 'middleware' => ['permission:estoque-edit']]);
         Route::delete('/{id}', ['as' => 'estoque.destroy', 'uses' => 'EstoqueController@destroy', 'middleware' => ['permission:estoque-delete']]);
     });
-    //rotas de entrada e saída
+    //rotas de entrada
     Route::group(['prefix' => 'entrada', 'where' => ['id' => '[0-9]+']], function() {
         Route::get('', ['as' => 'entrada.index', 'uses' => 'EntradaController@index', 'middleware' => ['permission:entrada-list|entrada-create|entrada-edit|entrada-delete']]);
         Route::get('/create', ['as' => 'entrada.create', 'uses' => 'EntradaController@create', 'middleware' => ['permission:entrada-create']]);
@@ -183,6 +183,17 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/{id}/edit', ['as' => 'entrada.edit', 'uses' => 'EntradaController@edit', 'middleware' => ['permission:entrada-edit']]);
         Route::patch('/{id}', ['as' => 'entrada.update', 'uses' => 'EntradaController@update', 'middleware' => ['permission:entrada-edit']]);
         Route::delete('/{id}', ['as' => 'entrada.destroy', 'uses' => 'EntradaController@destroy', 'middleware' => ['permission:entrada-delete']]);
+    });
+    
+     //rotas saidamotivo
+    Route::group(['prefix' => 'saidamotivo', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('', ['as' => 'saidamotivo.index', 'uses' => 'SaidamotivoController@index', 'middleware' => ['permission:saidamotivo-list|saidamotivo-create|saidamotivo-edit|saidamotivo-delete']]);
+        Route::get('/create', ['as' => 'saidamotivo.create', 'uses' => 'SaidamotivoController@create', 'middleware' => ['permission:saidamotivo-create']]);
+        Route::post('/create', ['as' => 'saidamotivo.store', 'uses' => 'SaidamotivoController@store', 'middleware' => ['permission:saidamotivo-create']]);
+        Route::get('/{id}', ['as' => 'saidamotivo.show', 'uses' => 'SaidamotivoController@show']);
+        Route::get('/{id}/edit', ['as' => 'saidamotivo.edit', 'uses' => 'SaidamotivoController@edit', 'middleware' => ['permission:saidamotivo-edit']]);
+        Route::patch('/{id}', ['as' => 'saidamotivo.update', 'uses' => 'SaidamotivoController@update', 'middleware' => ['permission:saidamotivo-edit']]);
+        Route::delete('/{id}', ['as' => 'saidamotivo.destroy', 'uses' => 'SaidamotivoController@destroy', 'middleware' => ['permission:saidamotivo-delete']]);
     });
 
     //rotas de prescrição

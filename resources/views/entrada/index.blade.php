@@ -8,7 +8,7 @@
     <div class="col-lg-12 margin-tb">
         @section('contentheader_title')
         <div class="pull-left">
-            <h2>Estoque</h2>
+            <h2>Entradas</h2>
         </div>
         @endsection
         <div class="pull-right" style="margin-right: 2%;">
@@ -112,7 +112,16 @@
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
             <h2>Saídas</h2>
-        </div>     
+        </div>    
+        <br>
+        <div class="pull-right" style="margin-right: 2%;">
+           <!--<a class="btn btn-default" style=" margin-left: 2%;" data-toggle="modal" data-target="#substancia" title="Adicionar substância ativa">
+                Cadastrar
+            </a>-->  
+           <div class="pull-right" style="margin-right: 2%;">
+            <a class="btn btn-default"  href="{{ route('saidamotivo.index') }}">Cadastrar</a>
+            </div>
+        </div>
     </div>
 </div>
 <br>
@@ -133,11 +142,11 @@
                 </thead>
                 <tbody>
                     <?php $i = 0 ?>
-                    @foreach ($entradas as $key => $entrada)
+                    @foreach ($saidamotivos as $key => $saidamotivo)
                         <td>{{ ++$i }}</td>
                         <?php
-                            echo('<td>'.$entrada->estoque->lote.'</td>');
-                            $medicamento = $entrada->estoque->medicamentocomercial;
+                            echo('<td>'.$saidamotivo->estoque->lote.'</td>');
+                            $medicamento = $saidamotivo->estoque->medicamentocomercial;
                         ?>
                 <td>
                         @foreach ($medicamento->medicamentosubstancias as $key => $medicamentosubstancia)
@@ -195,21 +204,81 @@
                                 echo"$uc, ";
                             ?>  
                         <?php
-                            echo('<td>'.$entrada->quantidade.'</td>');                            
-                            echo('<td>'.$entrada->motivo.'</td>');
-                            echo('<td>'.$entrada->created_at.'</td>');
-                            echo('<td>'.$entrada->usuario->name.'</td>');
+                            echo('<td>'.$saidamotivo->quantidade.'</td>');                            
+                            echo('<td>'.$saidamotivo->motivo.'</td>');
+                            echo('<td>'.$saidamotivo->created_at.'</td>');
+                            echo('<td>'.$saidamotivo->usuario->name.'</td>');
                        ?>      
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+        
+        <div class="modal fade" id="substancia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><strong>Registrar saída no estoque</strong></h4>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
+                            <div class="row">
+                                <div class="box-body">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <strong>Substância ativa:</strong>
+                                            <div class="pull-right" style="margin-right: 2%;">
+            <a class="btn btn-default" style=" margin-left: 2%;" data-toggle="modal" data-target="#substancia" title="Adicionar substância ativa">
+                Cadastrar
+            </a>  
+        </div>
+                                             
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>Quantidade:</strong>
+                                            <input id="quantidadedose" type="text" name="quantidadedose" class="form-control" v-model="quantidadedose">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <strong>Unidade de medida:</strong>
+                                            <select id="unidadedose" name="unidadedose" class="form-control" placeholder = "--Selecione--" v-model="unidadedose">
+                                                <option value="0">mcg</option>
+                                                <option value="1">mg</option>
+                                                <option value="2">g</option>
+                                                <option value="3">UI</option>
+                                                <option value="4">unidades</option>
+                                                <option value="5">mg/g</option>
+                                                <option value="6">UI/g</option>
+                                                <option value="7">mEq/mL</option>
+                                                <option value="8">mg/gota</option>
+                                                <option value="9">mcg/mL</option>
+                                                <option value="10">UI/mL</option>
+                                                <option value="11">mEq</option>
+                                            </select>
+                                        </div>
+                                    </div>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary" @click="addSubstancia">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
     </div>
 </div>
-
-
-
+                        
 
 @endsection
 <script src = "{{ asset('js/jquery-3.1.0.js') }}"></script>

@@ -21,8 +21,9 @@ class EntradaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
+        $saidamotivos = SaidaMotivo::get();
         $entradas = Entrada::orderBy('id', 'desc')->paginate(15);
-        return view('entrada.index', compact('entradas'))
+        return view('entrada.index', compact('entradas', 'saidamotivos'))
                         ->with('i', ($request->input('page', 1) - 1) * 15);
     }
 
@@ -44,7 +45,7 @@ class EntradaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-         $this->validate($request, [
+        $this->validate($request, [
             'lote' => 'required',
             'quantidadeatual' => 'required',
             'fabricacao' => 'required',
@@ -62,7 +63,7 @@ class EntradaController extends Controller {
         $estoque->status = 0;        
         $estoque->idmedicamentocomercial = $request->get('idmedicamentocomercial'); 
         $estoque->idfornecedor = $request->get('idfornecedor');
-        $estoque->idfarmacia = 1; 
+        $estoque->idfarmacia = 1;   
         $estoque->save();
         
         $entrada = new Entrada();
@@ -71,8 +72,8 @@ class EntradaController extends Controller {
         $entrada->data = $estoque->created_at;
         $entrada->idusuario = Auth::user()->id;
         $entrada->save();
-        
         return redirect()->route('entrada.index');
+         
     }
 
     /**

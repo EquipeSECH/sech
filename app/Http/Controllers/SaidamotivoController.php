@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Estoque;
+use App\Medicamento;
+use App\Fornecedor;
+use App\Entrada;
 use App\Saidamotivo;
+use Auth;
 
-class SaidaController extends Controller {
+
+class SaidamotivoController extends Controller {
 
     /**
      * Display a listing of the resource.
@@ -14,8 +20,16 @@ class SaidaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        $saidamotivos = Saidamotivo::orderBy('id', 'desc')->paginate(15);
-        return view('estoque.index', compact('saidas'))
+        $entradas = Entrada::get();
+        $saidamotivos = Saidamotivo::get();
+        $estoques = Estoque::orderBy('id', 'desc')->paginate(15);
+        return view('saidamotivo.index', compact('estoques', 'entradas', 'saidamotivos'))
+                        ->with('i', ($request->input('page', 1) - 1) * 15);
+        
+        
+        $estoques = Estoque::get();
+        $saidamotivos = Entrada::orderBy('id', 'desc')->paginate(15);
+        return view('saidamotivo.index', compact('saidamotivos', 'estoques'))
                         ->with('i', ($request->input('page', 1) - 1) * 15);
     }
 
@@ -25,7 +39,8 @@ class SaidaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('saidamotivo.create');
+      
+     
     }
 
     /**
@@ -35,18 +50,21 @@ class SaidaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $this->validate($request, [
-            'quantidade' => 'required',
-            'idusuario' => 'required',
-            'motivo' => 'required',
-            'idestoque' => 'required',
-            'data' => 'required',
-        ]);
-
-        Saidamotivo::create($request->all());
-
-        return redirect()->route('estoque.index')
-                        ->with('success', 'Saída cadastrada com sucesso!');
+        
+        $estoque =  Estoque::find($request->id);
+        $quantidadeatual = Estoque::find($request->id);
+        $estoque->quantidadeatual = $quantidadeatual->quantidadeatual - $request->quantidade;
+        $estoque->save();
+        
+        $saidamotivo = new Saidamotivo();
+        $saidamotivo->quantidade = $request->quantidade;
+        $saidamotivo->data = date('Y-m-d');
+        $saidamotivo->motivo = $request->motivo;
+        $saidamotivo->idusuario = Auth::user()->id;
+        $saidamotivo->idestoque = $request->id;
+        $saidamotivo->save();
+        return redirect()->route('entrada.index');
+        
     }
 
     /**
@@ -56,8 +74,8 @@ class SaidaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $saida = Saidamotivo::find($id);
-        return view('saida.show', compact('saida'));
+        $entrada = Entrada::find($id);
+        return view('entrada.show', compact('entrada'));
     }
 
     /**
@@ -67,8 +85,8 @@ class SaidaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $saida = Saidamotivo::find($id);
-        return view('saida.edit', compact('saida'));
+        $entrada = Entrada::find($id);
+        return view('entrada.edit', compact('entrada'));
     }
 
     /**
@@ -81,16 +99,15 @@ class SaidaController extends Controller {
     public function update(Request $request, $id) {
         $this->validate($request, [
             'quantidade' => 'required',
-            'idusuario' => 'required',            
-            'motivo' => 'required',
+            'idusuario' => 'required',
             'idestoque' => 'required',
-            'data' => 'required',
+            'data' => 'required'
         ]);
 
-        Saidamotivo::find($id)->update($request->all());
+        Entrada::find($id)->update($request->all());
 
-        return redirect()->route('estoque.index')
-                        ->with('success', 'Saida atualizado com sucesso');
+        return redirect()->route('entrada.index')
+                        ->with('success', 'Entrada atualizado com sucesso');
     }
 
     /**
@@ -101,9 +118,9 @@ class SaidaController extends Controller {
      */
     public function destroy($id) {
 
-        Saidamotivo::find($id)->delete();
-        return redirect()->route('estoque.index')
-                        ->with('success', 'Saida apagado com sucesso!');
+        Entrada::find($id)->delete();
+        return redirect()->route('entrada.index')
+                        ->with('success', 'Entrada apagado com sucesso!');
     }
 
 }
