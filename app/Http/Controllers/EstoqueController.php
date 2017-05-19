@@ -8,6 +8,9 @@ use App\Estoque;
 use App\Medicamento;
 use App\Fornecedor;
 use App\Formafarmaceutica;
+use App\Entrada;
+use App\Saida;
+use Auth;
 
 class EstoqueController extends Controller {
 
@@ -17,8 +20,10 @@ class EstoqueController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
+        $entradas = Entrada::get();
+        $saidas = Saida::get();
         $estoques = Estoque::orderBy('id', 'desc')->paginate(15);
-        return view('estoque.index', compact('estoques'))
+        return view('estoque.index', compact('estoques', 'entradas', 'saidas'))
                         ->with('i', ($request->input('page', 1) - 1) * 15);
     }
 
@@ -60,8 +65,14 @@ class EstoqueController extends Controller {
         $estoque->idmedicamentocomercial = $request->get('idmedicamentocomercial'); 
         $estoque->idfornecedor = $request->get('idfornecedor');
         $estoque->idfarmacia = 1; 
-        
         $estoque->save();
+        
+        $entrada = new Entrada();
+        $entrada->idestoque = $estoque->id;
+        $entrada->quantidade = $estoque->quantidadeatual;
+        $entrada->data = $estoque->created_at;
+        $entrada->idusuario = Auth::user()->id;
+        $entrada->save();
         
         return redirect()->route('estoque.index');
     }

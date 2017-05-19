@@ -234,6 +234,10 @@
         </div>
     </div>
 </div>
+<div class="pull-left">
+    <h2>Entrada</h2>
+</div>
+<br><br><br>
 
 @endsection
 <script src = "{{ asset('js/jquery-3.1.0.js') }}"></script>
