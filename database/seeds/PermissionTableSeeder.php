@@ -276,6 +276,27 @@ class PermissionTableSeeder extends Seeder {
                 'display_name' => 'Excluir saida',
                 'description' => 'Excluir saida'
             ],
+            //Saida motivo
+            [
+                'name' => 'saidamotivo-list',
+                'display_name' => 'Listagem de saida por motivo',
+                'description' => 'Listar saida por motivo'
+            ],
+                [
+                'name' => 'saidamotivo-create',
+                'display_name' => 'Cadastrar saida por motivo',
+                'description' => 'Cadastrar nova saida por motivo'
+            ],
+                [
+                'name' => 'saidamotivo-edit',
+                'display_name' => 'Editar saida',
+                'description' => 'Editar saida'
+            ],
+                [
+                'name' => 'saidamotivo-delete',
+                'display_name' => 'Excluir saida por motivo',
+                'description' => 'Excluir saida por motivo'
+            ],
             //Farmacia
             [   'name' => 'farmacia-list',
                 'display_name' => 'Listagem de farmacia',

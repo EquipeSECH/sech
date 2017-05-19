@@ -9,11 +9,10 @@ use App\Medicamento;
 use App\Fornecedor;
 use App\Formafarmaceutica;
 use App\Entrada;
-use App\Saida;
+use App\Saidamotivo;
 use Auth;
 
 class EstoqueController extends Controller {
-
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +20,9 @@ class EstoqueController extends Controller {
      */
     public function index(Request $request) {
         $entradas = Entrada::get();
-        $saidas = Saida::get();
+        $saidamotivos = Saidamotivo::get();
         $estoques = Estoque::orderBy('id', 'desc')->paginate(15);
-        return view('estoque.index', compact('estoques', 'entradas', 'saidas'))
+        return view('estoque.index', compact('estoques', 'entradas', 'saidamotivos'))
                         ->with('i', ($request->input('page', 1) - 1) * 15);
     }
 
@@ -65,16 +64,16 @@ class EstoqueController extends Controller {
         $estoque->idmedicamentocomercial = $request->get('idmedicamentocomercial'); 
         $estoque->idfornecedor = $request->get('idfornecedor');
         $estoque->idfarmacia = 1; 
-        $estoque->save();
+//        $estoque->save();
         
         $entrada = new Entrada();
         $entrada->idestoque = $estoque->id;
         $entrada->quantidade = $estoque->quantidadeatual;
         $entrada->data = $estoque->created_at;
         $entrada->idusuario = Auth::user()->id;
-        $entrada->save();
+//        $entrada->save();
         
-        return redirect()->route('estoque.index');
+//        return redirect()->route('estoque.index');
     }
 
     /**

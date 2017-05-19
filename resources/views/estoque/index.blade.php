@@ -8,14 +8,9 @@
     <div class="col-lg-12 margin-tb">
         @section('contentheader_title')
         <div class="pull-left">
-            <h2>Estoque</h2>
+            <h2>Estoque atual</h2>
         </div>
         @endsection
-        <div class="pull-right" style="margin-right: 2%;">
-            @permission('estoque-create')
-            <a class="btn btn-default"  href="{{ route('estoque.create') }}">Cadastrar</a>
-            @endpermission
-        </div>
     </div>
 </div>
 <br>
@@ -29,9 +24,7 @@
                         <th class="text-center">Lote</th>
                         <th class="text-center">Medicamento</th>
                         <th class="text-center">Quantidade</th>
-                        <th class="text-center">Entrada</th>
                         <th class="text-center">Validade</th>
-                        <th class="text-center no-sort">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,7 +35,6 @@
                         <td>
                         <?php 
                             $medicamento = $estoque->medicamentocomercial;
-//                            echo($medicamento);
                         ?>
                         @foreach ($medicamento->medicamentosubstancias as $key => $medicamentosubstancia)
                             {{$medicamentosubstancia->substanciaativa->nome}}
@@ -50,42 +42,18 @@
                             <?php
                                 $nomeunidade = ''; 
                                 switch ($medicamentosubstancia->unidadedose) {
-                                case 0:
-                                    $nomeunidade = 'mcg';
-                                    break;
-                                case 1:
-                                    $nomeunidade = 'mg';
-                                    break;
-                                case 2:
-                                    $nomeunidade = 'g';
-                                    break;
-                                case 3:
-                                    $nomeunidade = 'UI';
-                                    break;
-                                case 4:
-                                    $nomeunidade = 'unidades';
-                                    break;
-                                case 5:
-                                    $nomeunidade = 'mg/g';
-                                    break;
-                                case 6:
-                                    $nomeunidade = 'UI/g';
-                                    break;
-                                case 7:
-                                    $nomeunidade = 'mEq/mL';
-                                    break;
-                                case 8:
-                                    $nomeunidade = 'mg/gota';
-                                    break;
-                                case 9:
-                                    $nomeunidade = 'mcg/mL';
-                                    break;
-                                case 10:
-                                    $nomeunidade = 'UI/mL';
-                                    break;
-                                case 11:
-                                    $nomeunidade = 'mEq';
-                                    break;
+                                    case 0:$nomeunidade = 'mcg'; break;
+                                    case 1: $nomeunidade = 'mg'; break;
+                                    case 2: $nomeunidade = 'g'; break;
+                                    case 3: $nomeunidade = 'UI'; break;
+                                    case 4: $nomeunidade = 'unidades';break;
+                                    case 5:$nomeunidade = 'mg/g'; break;
+                                    case 6:$nomeunidade = 'UI/g'; break;
+                                    case 7: $nomeunidade = 'mEq/mL'; break;
+                                    case 8: $nomeunidade = 'mg/gota'; break;
+                                    case 9: $nomeunidade = 'mcg/mL'; break;
+                                    case 10: $nomeunidade = 'UI/mL'; break;
+                                    case 11: $nomeunidade = 'mEq'; break;
                                 }
                                 echo"$nomeunidade, ";
                             ?>
@@ -94,139 +62,37 @@
                          <?php
                                 $conteudo = ''; 
                                 switch ($medicamento->nomeconteudo) {
-                                case 0:
-                                    $conteudo = 'Frasco';
-                                    break;
-                                case 1:
-                                    $conteudo = 'FA (frasco ampola)';
-                                    break;
-                                case 2:
-                                    $conteudo = 'AMP (ampola)';
-                                    break;
-                                case 3:
-                                    $conteudo = 'Caixa';
-                                    break;
-                                case 4:
-                                    $conteudo = 'Envelope';
-                                    break;
-                                case 5:
-                                    $conteudo = 'Tubo';
-                                    break;
-                                case 6:
-                                    $conteudo = 'Bolsa';
-                                    break;
-                                case 7:
-                                    $conteudo = 'Pote';
-                                    break;
+                                case 0: $conteudo = 'Frasco'; break;
+                                case 1: $conteudo = 'FA (frasco ampola)'; break;
+                                case 2: $conteudo = 'AMP (ampola)'; break;
+                                case 3:$conteudo = 'Caixa'; break;
+                                case 4: $conteudo = 'Envelope'; break;
+                                case 5: $conteudo = 'Tubo'; break;
+                                case 6: $conteudo = 'Bolsa'; break;
+                                case 7: $conteudo = 'Pote'; break;
                                 }
                                 echo"$conteudo com $medicamento->quantidadeconteudo";
                            
                                 $uc = ''; 
                                 switch ($medicamento->unidadeconteudo) {
-                                case 0:
-                                    $uc = 'mcg';
-                                    break;
-                                case 1:
-                                    $uc = 'mg';
-                                    break;
-                                case 2:
-                                    $uc = 'g';
-                                    break;
-                                case 3:
-                                    $uc = 'UI';
-                                    break;
-                                case 4:
-                                    $uc = 'unidades';
-                                    break;
-                                case 5:
-                                    $uc = 'mg/g';
-                                    break;
-                                case 6:
-                                    $uc = 'UI/g';
-                                    break;
-                                case 7:
-                                    $uc = 'mEq/mL';
-                                    break;
-                                case 8:
-                                    $uc = 'mg/gota';
-                                    break;
-                                case 9:
-                                    $uc = 'mcg/mL';
-                                    break;
-                                case 10:
-                                    $uc = 'UI/mL';
-                                    break;
-                                case 11:
-                                    $uc = 'mEq';
-                                    break;
+                                case 0: $uc = 'mcg'; break;
+                                case 1: $uc = 'mg'; break;
+                                case 2: $uc = 'g'; break;
+                                case 3: $uc = 'UI'; break;
+                                case 4: $uc = 'unidades'; break;
+                                case 5: $uc = 'mg/g'; break;
+                                case 6: $uc = 'UI/g'; break;
+                                case 7: $uc = 'mEq/mL'; break;
+                                case 8: $uc = 'mg/gota'; break;
+                                case 9: $uc = 'mcg/mL'; break;
+                                case 10: $uc = 'UI/mL'; break;
+                                case 11: $uc = 'mEq'; break;
                                 }
                                 echo"$uc, ";
                             ?>    
                         </td>      
                         <td>{{ $estoque->quantidadeatual}}</td>
-                        <td>{{ $estoque->created_at }}</td>
                         <td>{{ $estoque->validade }}</td>
-                        <td width="14.5%">
-                            <a class="btn btn-default" data-target="#{{$estoque->id}}" data-toggle="modal" title="Visualizar">
-                                <i class="fa fa-eye"> </i>
-                            </a>
-                            @permission('estoque-edit')
-                            <a class="btn btn-default" title="Editar" href="{{ route('estoque.edit',$estoque->id) }}">
-                                <i class="fa fa-edit"> </i>
-                            </a>
-                            @endpermission
-                            @permission('estoque-delete')
-                            <a class="btn btn-default" data-toggle="modal" data-target="#e{{$estoque->id}}" title="Excluir">
-                                <i class="fa fa-trash"> </i>
-                            </a>
-                            @endpermission
-
-                            @if(!empty($estoque))
-                            <div class="modal fade" id="e{{$estoque->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel">Excluir</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            Tem certeza que deseja excluir?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                            {!! Form::open(['method' => 'DELETE','route' => ['estoque.destroy', $estoque->id],'style'=>'display:inline']) !!}
-                                            {!! Form::submit('OK', ['class' => 'btn btn-primary']) !!}
-                                            {!! Form::close() !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif 
-
-                            <div class="modal fade" id="{{$estoque->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel"><strong>Dados da clínica: {{$estoque->nome}}</strong></h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Nome:</strong>
-                                                    {{ $estoque->quantidade}}
-                                                    <br><br>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -234,10 +100,6 @@
         </div>
     </div>
 </div>
-<div class="pull-left">
-    <h2>Entrada</h2>
-</div>
-<br><br><br>
 
 @endsection
 <script src = "{{ asset('js/jquery-3.1.0.js') }}"></script>

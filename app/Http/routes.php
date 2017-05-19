@@ -173,6 +173,16 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'estoque.update', 'uses' => 'EstoqueController@update', 'middleware' => ['permission:estoque-edit']]);
         Route::delete('/{id}', ['as' => 'estoque.destroy', 'uses' => 'EstoqueController@destroy', 'middleware' => ['permission:estoque-delete']]);
     });
+    //rotas de entrada e saída
+    Route::group(['prefix' => 'entrada', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('', ['as' => 'entrada.index', 'uses' => 'EntradaController@index', 'middleware' => ['permission:entrada-list|entrada-create|entrada-edit|entrada-delete']]);
+        Route::get('/create', ['as' => 'entrada.create', 'uses' => 'EntradaController@create', 'middleware' => ['permission:entrada-create']]);
+        Route::post('/create', ['as' => 'entrada.store', 'uses' => 'EntradaController@store', 'middleware' => ['permission:entrada-create']]);
+        Route::get('/{id}', ['as' => 'entrada.show', 'uses' => 'EntradaController@show']);
+        Route::get('/{id}/edit', ['as' => 'entrada.edit', 'uses' => 'EntradaController@edit', 'middleware' => ['permission:entrada-edit']]);
+        Route::patch('/{id}', ['as' => 'entrada.update', 'uses' => 'EntradaController@update', 'middleware' => ['permission:entrada-edit']]);
+        Route::delete('/{id}', ['as' => 'entrada.destroy', 'uses' => 'EntradaController@destroy', 'middleware' => ['permission:entrada-delete']]);
+    });
 
     //rotas de prescrição
     Route::group(['prefix' => 'prescricao', 'where' => ['id' => '[0-9]+']], function() {

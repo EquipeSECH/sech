@@ -103,8 +103,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                    <li style="margin-left: 20px;"><a href="{{ url('fornecedor') }}"></i> Fornecedor</a></li>                 
-                    <li style="margin-left: 20px;"><a href="{{ url('estoque') }}"></i> Estoque</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('fornecedor') }}"></i> Fornecedor</a></li>  
+                    <li style="margin-left: 20px;"><a href="{{ url('entrada') }}"></i> Entrada/Saída</a></li>                    
+                    <li style="margin-left: 20px;"><a href="{{ url('estoque') }}"></i> Estoque Atual</a></li>
                     <li style="margin-left: 20px;"><a href="{{ url('precricaoestoque') }}"> Prescrição</a></li>
                     <li style="margin-left: 20px;"><a href="{{ url('transferencia') }}"></i> Transferência</a></li>
                 </ul>
