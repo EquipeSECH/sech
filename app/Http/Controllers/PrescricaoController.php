@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Prescricao;
 use App\PrescricaoMedicamento;
+use App\User;
 
 class PrescricaoController extends Controller {
 
@@ -26,7 +27,9 @@ class PrescricaoController extends Controller {
 
     public function create() {
         $dataprescricao = date("d/m/Y H:i:s");
-        return view('prescricao.create', compact('dataprescricao'));
+        $id = Auth::user()->id;
+        $medico = User::find($id)->name;
+        return view('prescricao.create', compact('dataprescricao', 'medico'));
     }
 
     public function store(Request $request) {

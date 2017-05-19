@@ -1,7 +1,7 @@
 <script language= "text/javascript">
     export default{
 
-        props: ['data'],
+        props: ['data', 'medico'],
 
         data(){
             return {
@@ -138,7 +138,9 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="box-body pad table-responsive">
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="pull-right"><small><p><strong>Data da prescrição: </strong>{{this.data}}</p></small></div><br> 
+                        <div class="pull-left"><small><strong>Médico: </strong>{{this.medico}}</small></div> 
+                        <div class="pull-right"><small><strong>Data da prescrição: </strong>{{this.data}}</small></div>
+                        <br><br>
                     </div>
                     <div class="col-xs-10 col-sm-10 col-md-10">
                         <div class="form-group">
