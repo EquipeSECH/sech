@@ -60,10 +60,11 @@
                         title: "Salvo!",
                         text: "Prescrição cadastrada com sucesso!",
                         confirmButtonColor: "#66BB6A",
-                        type: "success"
+                        type: "success",
+                        showLoaderOnConfirm: true
                    },
                    function(){
-                        location.href = "../../clinica";
+                        location.href = "../../prescricao";
                    }); 
                 }).catch(response => {
                     console.log('Erro:' + response);
@@ -109,6 +110,22 @@
                 $('.qtd').css('display','block');
                 $('.med').removeClass("col-xs-12 col-sm-12 col-md-12");
                 $('.med').addClass("col-xs-11 col-sm-11 col-md-11");
+                $.ajax({
+                    type: 'get',
+                    url: '../medicamento/contraindicacao',
+                    data: {
+                        'id': ui.item.id,
+                    },
+                    success: function (data){
+                        console.log(data);
+                        swal({
+                            title: "Contraindicação",
+                            text: data, 
+                            type: "warning",
+                            html: true,
+                        });
+                    },
+                });
             },
             change: function(event, ui){
                 var b = $("#med").val();

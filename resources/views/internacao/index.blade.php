@@ -31,7 +31,7 @@
                         <th class="text-center">Clínica</th>
                         <th class="text-center">Leito</th>
                         <th class="text-center">Diagnóstico</th>
-                        <th class="text-center">Situação</th>
+                        <th class="text-center" width="10%">Situação</th>
                         <th class="text-center no-sort" width="14%">Ação</th>
                     </tr>
                 </thead>

@@ -36,7 +36,6 @@
                     quantidadedose: this.quantidadedose,
                     unidadedose: this.unidadedose,    
                  });
- console.log(this.medicamento.substancias);
                 this.substancia = '';
                 this.quantidadedose = '';
                 this.unidadedose = '';
