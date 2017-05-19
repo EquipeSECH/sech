@@ -112,7 +112,14 @@
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
             <h2>Saídas</h2>
-        </div>     
+        </div>    
+        <br>
+         <a class="btn btn-default" id= "teste" data-target="" data-toggle="modal" title="Visualizar">
+            <i class="fa fa-eye"> </i>
+        </a>
+        <div class="pull-right" style="margin-right: 2%;">
+            <a class="btn btn-default"  href="{{ route('saidamotivo.create') }}">Cadastrar</a>
+        </div>
     </div>
 </div>
 <br>
@@ -207,9 +214,23 @@
         </div>
     </div>
 </div>
-
-
-
+                        <div class="modal fade" id="teste" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel"><strong></strong></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 @endsection
 <script src = "{{ asset('js/jquery-3.1.0.js') }}"></script>
