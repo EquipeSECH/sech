@@ -1,76 +1,75 @@
 <html>
+    <head><title>Prescrição eletrônica</title></head>
     <body>
-            <table width="100%" border="1px" bordercolor="#FF0000">
-
-                <tr>
-                    <th width="10%">Diagnóstico:</th>
-                    <th colspan="4" width="10%" rowspan="2">Dengue</th>
-                    <th rowspan="2" width="12%">História da doença atual:</th>
-                    <th rowspan="2" width="25%">Paciente portador de DRCT em regime de diálise, hipertenso e diabético; apresentou quadro súbito de hemiplegia E + afasoa durante sessão de HD </th>
-                    <th rowspan="2" width="8%">Evolução: </th>
-                    <th colspan="5" rowspan="2" width="35%">Paciente permanece afásico e hemiparetico à E. Realizou Tc de crânio dia 29/04, aguarda imagens e laudo. Aceitando dieta oral, afebril, eupneico, Pa=180x80mmHg. CD: mantida + aguarda resultado da TC de crânio + hemotransfusão hoje no CDRJ 
-                    </th>
-                </tr>
-                <tr>
-                    <td>aa</td>
-                    <td colspan="4"></td>
-                </tr>
-                <tr>
-                    <td>Unidade:</td>
-                    <td colspan="4"></td>
-                    <td>Leito: </td>
-                    <td>15</td>
-                    <td>Admissão</td>
-                    <td>XX/XX/XXXX</td>
-                    <td colspan="4">PRESCRIÇÃO E EVOLUÇÃO MEDICA</td>
-                </tr>
-                <tr>
-                    <td>Nome do paciente: </td>
-                    <td colspan="4">XXXXXXXX</td>
-                    <td></td>
-                    <td></td>
-                    <td>idade</td>
-                    <td>XX</td>
-                    <td>hora</td>
-                    <td>XX:XX:XX</td>
-                    <td>data</td>
-                    <td>XX/XX/XXXX</td>
-                </tr>
-                <tr>
-                    <td>SIMPAS</td>
-                    <td>ped</td>
-                    <td>at.</td>
-                    <td>It</td>
-                    <td>DESCRIÇÃO DO MEDICAMENTO</td>
-                    <td>OBSERVAÇÃO</td>
-                    <td colspan="7">APRAZAMENTO</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                    <td>7</td>
-                </tr>
-            </table>
-        </div>
-    </body>
+        <style type="text/css">
+            .tg  {border-collapse:collapse;border-spacing:0;}
+            .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+            .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+            @media screen and (max-width: 100%)
+        </style>
+        <table class="tg" style="table-layout: fixed; width: 100%">
+            
+            <tr>
+                <th class="tg-031e">Diagnóstico</th>
+                <th  colspan="4" rowspan="2" width="30%">akjskajsk</th>
+                <th class="tg-baqh" rowspan="2">História da doença atual</th>
+                <th class="tg-yw4l" rowspan="2">{{$prescricao->historicoatual}}</th>
+                <th class="tg-031e" rowspan="2">Evolução</th>
+                <th class="tg-031e" colspan="10" rowspan="2">{{$prescricao->evolucao}}</th>
+            </tr>
+            <tr>
+                <td class="tg-031e"></td>
+            </tr>
+            <tr>
+                <td class="tg-031e">Unidade:</td>
+                <td class="tg-yw4l" colspan="4"></td>
+                <td class="tg-yw4l">Leito: </td>
+                <td class="tg-yw4l">15</td>
+                <td class="tg-031e">Admissão</td>
+                <td class="tg-031e">XX/XX/XXXX</td>
+                <td class="tg-031e" colspan="9">Prescrição e evolução médica</td>
+            </tr>
+            <tr>
+                <td class="tg-031e">Nome do paciente: </td>
+                <td class="tg-yw4l" colspan="6">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</td>
+                <td class="tg-s6z2">idade</td>
+                <td class="tg-031e">XX</td>
+                <td class="tg-031e">hora</td>
+                <td class="tg-031e">XX:XX:XX</td>
+                <td class="tg-031e">data</td>
+                <td class="tg-031e" colspan="6">XX/XX/XXXX</td>
+            </tr>
+            <tr>
+                <td class="tg-s6z2">SIMPAS</td>
+                <td class="tg-yw4l" width="3%" >ped</td>
+                <td class="tg-yw4l" width="3%">at.</td>
+                <td class="tg-yw4l" width="3%">It</td>
+                <td class="tg-s6z2" width="30%">Descrição do medicamento</td>
+                <td class="tg-baqh">Observação</td>
+                <td class="tg-baqh" colspan="12">Aprazamento</td>
+            </tr>
+            <tr>
+                <td class="tg-yw4l"></td>
+                <td class="tg-yw4l"></td>
+                <td class="tg-yw4l"></td>
+                <td class="tg-yw4l"></td>
+                <td class="tg-yw4l"></td>
+                <td class="tg-yw4l"></td>
+                <td class="tg-yw4l" width="3%">1</td>
+                <td class="tg-yw4l" width="3%">2</td>
+                <td class="tg-yw4l" width="3%">3</td>
+                <td class="tg-yw4l" width="3%">4</td>
+                <td class="tg-yw4l" width="3%">5</td>
+                <td class="tg-yw4l" width="3%">6</td>
+                <td class="tg-yw4l" width="3%">7</td>
+                <td class="tg-yw4l" width="3%">8</td>
+                <td class="tg-yw4l" width="3%">9</td>
+                <td class="tg-yw4l" width="3%">10</td>
+                <td class="tg-yw4l" width="3%">11</td>
+                <td class="tg-yw4l"width="3%">12</td>
+            </tr>
+        </table>
+    </table>
+</div>
+</body>
 </html>
-<style type="text/css">
-    @page {
-        margin: 120px 50px 80px 50px;
-    }
-    table{
-        border-collapse: collapse;
-        position: relative;
-        table-layout: fixed; 
-    }
-</style>

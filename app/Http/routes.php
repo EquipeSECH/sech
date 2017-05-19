@@ -203,7 +203,7 @@ Route::group(['middleware' => ['auth']], function() {
     
     //rotas para relatorios
      Route::group(['prefix' => 'relatorio', 'where' => ['id' => '[0-9]+']], function() {
-        Route::get('/prescricao', ['as' => 'relatorio.prescricao', 'uses' => 'RelatorioController@prescricao', 'middleware' => ['permission:prescricao-list']]);
+        Route::get('/{id}/prescricao', ['as' => 'relatorio.prescricao', 'uses' => 'RelatorioController@prescricao', 'middleware' => ['permission:prescricao-list']]);
        
     });
     

@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Prescricao;
 
 /**
  * Description of RelatorioController
@@ -18,12 +18,13 @@ use App\User;
 class RelatorioController extends Controller {
     
     
-    public function prescricao(){
+    public function prescricao($id){
         
-        //$usuarios = User::all();
+        $prescricao = Prescricao::find($id);
+        //dd($prescricao);
         //dd($usuarios);
-        $pdf = \PDF::loadView('relatorios.prescricao');
-        $pdf->setPaper('A4', 'landscape');
+        $pdf = \PDF::loadView('relatorios.prescricao', ['prescricao' => $prescricao])->setPaper('a4', 'landscape');
+        
         return $pdf->stream();
         
     }
