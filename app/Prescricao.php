@@ -19,6 +19,6 @@ class Prescricao extends Model {
     }
     
     public function medicamentos(){
-        return $this->hasMany(PrescricaoMedicamento::class, 'idprescricao', 'idmedicamento');
+        return $this->hasMany(PrescricaoMedicamento::class, 'idprescricao');
     }
 }

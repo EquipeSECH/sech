@@ -211,5 +211,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::group(['prefix' => 'prescricaomedicamento', 'where' => ['id' => '[0-9]+']], function() {
         Route::patch('/', ['as' => 'prescricaomedicamento.update', 'uses' => 'PrescricaoMedicamentoController@update', 'middleware' => ['permission:prescricao-edit']]);
     });
+    
+    //rotas para relatorios
+     Route::group(['prefix' => 'relatorio', 'where' => ['id' => '[0-9]+']], function() {
+        Route::get('/prescricao', ['as' => 'relatorio.prescricao', 'uses' => 'RelatorioController@prescricao', 'middleware' => ['permission:prescricao-list']]);
+       
+    });
+    
 });
 
