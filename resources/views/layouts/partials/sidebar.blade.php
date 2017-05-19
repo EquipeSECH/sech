@@ -109,6 +109,17 @@
                     <li style="margin-left: 20px;"><a href="{{ url('transferencia') }}"></i> Transferência</a></li>
                 </ul>
             </li>
+            <li class="treeview">
+                <a href="#">
+                    <i style="font-size:18px; color:#3c8dbc; " class='fa  fa-cube' data-toggle="dropdown"></i> 
+                    <span> Prescrição</span> 
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li style="margin-left: 20px;"><a href="{{ route('internacao.index') }}"> Internação</a></li>
+                    <li style="margin-left: 20px;"><a href="{{ url('prescricao') }}"></i> Prescrição</a></li>  
+                </ul>
+            </li>
             @endpermission
 
             @permission('medico')
@@ -154,7 +165,7 @@
                 </ul>
             </li>
             @endpermission
-            
+
             @permission('enfermeiro')
             <li class="treeview">
                 <a href="{{ route('internacao.index') }}">
