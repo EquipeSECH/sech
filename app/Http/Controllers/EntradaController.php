@@ -21,8 +21,9 @@ class EntradaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
+        $saidamotivos = SaidaMotivo::get();
         $entradas = Entrada::orderBy('id', 'desc')->paginate(15);
-        return view('entrada.index', compact('entradas'))
+        return view('entrada.index', compact('entradas', 'saidamotivos'))
                         ->with('i', ($request->input('page', 1) - 1) * 15);
     }
 

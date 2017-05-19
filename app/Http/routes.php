@@ -187,7 +187,7 @@ Route::group(['middleware' => ['auth']], function() {
     
      //rotas saidamotivo
     Route::group(['prefix' => 'saidamotivo', 'where' => ['id' => '[0-9]+']], function() {
-        Route::get('', ['as' => 'saidamotivo.index', 'uses' => 'EntradaController@index', 'middleware' => ['permission:saidamotivo-list|saidamotivo-create|saidamotivo-edit|saidamotivo-delete']]);
+        Route::get('', ['as' => 'saidamotivo.index', 'uses' => 'SaidamotivoController@index', 'middleware' => ['permission:saidamotivo-list|saidamotivo-create|saidamotivo-edit|saidamotivo-delete']]);
         Route::get('/create', ['as' => 'saidamotivo.create', 'uses' => 'SaidamotivoController@create', 'middleware' => ['permission:saidamotivo-create']]);
         Route::post('/create', ['as' => 'saidamotivo.store', 'uses' => 'SaidamotivoController@store', 'middleware' => ['permission:saidamotivo-create']]);
         Route::get('/{id}', ['as' => 'saidamotivo.show', 'uses' => 'SaidamotivoController@show']);

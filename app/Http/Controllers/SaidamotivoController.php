@@ -20,8 +20,16 @@ class SaidamotivoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
+        $entradas = Entrada::get();
+        $saidamotivos = Saidamotivo::get();
+        $estoques = Estoque::orderBy('id', 'desc')->paginate(15);
+        return view('saidamotivo.index', compact('estoques', 'entradas', 'saidamotivos'))
+                        ->with('i', ($request->input('page', 1) - 1) * 15);
+        
+        
+        $estoques = Estoque::get();
         $saidamotivos = Entrada::orderBy('id', 'desc')->paginate(15);
-        return view('saidamotivo.index', compact('saidamotivos'))
+        return view('saidamotivo.index', compact('saidamotivos', 'estoques'))
                         ->with('i', ($request->input('page', 1) - 1) * 15);
     }
 
@@ -31,9 +39,8 @@ class SaidamotivoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $fornecedors = Fornecedor::orderBy('id', 'DESC')->lists('razaosocial', 'id');
-        $medicamentos = Medicamento::get();  
-        return view('saidamotivo.create', compact('medicamentos', 'fornecedors'));
+      
+     
     }
 
     /**
@@ -43,16 +50,21 @@ class SaidamotivoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-              
+        
+        $estoque =  Estoque::find($request->id);
+        $quantidadeatual = Estoque::find($request->id);
+        $estoque->quantidadeatual = $quantidadeatual->quantidadeatual - $request->quantidade;
+        $estoque->save();
+        
         $saidamotivo = new Saidamotivo();
-        $saidamotivo->quantidade = $estoque->created_at;;
-        $saidamotivo->data = date($format);        
-        $saidamotivo->motivo = $estoque->created_at;
+        $saidamotivo->quantidade = $request->quantidade;
+        $saidamotivo->data = date('Y-m-d');
+        $saidamotivo->motivo = $request->motivo;
         $saidamotivo->idusuario = Auth::user()->id;
-        $saidamotivo->isestoque = 1;
+        $saidamotivo->idestoque = $request->id;
         $saidamotivo->save();
         return redirect()->route('entrada.index');
-         
+        
     }
 
     /**

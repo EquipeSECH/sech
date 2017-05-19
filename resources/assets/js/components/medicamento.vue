@@ -156,7 +156,7 @@
                                                     {{substancia2.nome}}
                                                 </div>                            
                                             </td>
-                                            <td>{{substancia.quantidadedose}}</td>                                            
+                                            <td>{{substancia.quantidadedose}}</td>
                                             <td>{{substancia.unidadedose}}</td>
                                             <td>             
                                                 <center>
