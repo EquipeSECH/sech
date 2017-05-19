@@ -124,7 +124,7 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    
+
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -195,79 +195,86 @@
                                         <h4 class="modal-title" id="myModalLabel"><strong>Dados da clínica: </strong></h4>
                                     </div>
                                     <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Paciente:</strong>
-                                                    {{$prescricao->internacao->paciente->nomecompleto}}
-                                                    <br><br>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Clínica:</strong>
-                                                    {{$prescricao->internacao->clinica->nome}}
-                                                    <br><br>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Leito:</strong>
-                                                    {{$prescricao->internacao->leito->leito}}
-                                                    <br><br> 
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Data de nascimento:</strong>
-                                                    {{$prescricao->internacao->paciente->nascimento}}
-                                                    <br><br> 
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Admissão:</strong>
-                                                    {{$prescricao->internacao->dataadmissao}}
-                                                    <br><br> 
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Data e hora:</strong>
-                                                    {{$prescricao->dataprescricao}}
-                                                    <br><br> 
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Diagnóstico:</strong>
-                                                    {{$prescricao->internacao->cid10->descricao}}
-                                                    <br><br> 
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Histórico da doença:</strong>
-                                                    {{$prescricao->historicoatual}}
-                                                    <br><br> 
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Evolução:</strong>
-                                                    {{$prescricao->evolucao}}
-                                                    <br><br> 
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <strong>Médico responsável:</strong>
-                                                    {{ $prescricao->usuario->name }}
-                                                    <br><br> 
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
-                                                        <h4><center><b>Medicamentos</b></center></h4>
-                                                        <div class="box-body">
-                                                            <table id="table" class="table table-bordered table-hover dataTable" role="grid">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>SIMPAS</th>
-                                                                        <th>Quantidade</th>
-                                                                        <th>Medicamento</th>
-                                                                        <th>Posologia</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <strong>Paciente:</strong>
+                                                {{$prescricao->internacao->paciente->nomecompleto}}
+                                                <br><br>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <strong>Clínica:</strong>
+                                                {{$prescricao->internacao->clinica->nome}}
+                                                <br><br>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <strong>Leito:</strong>
+                                                {{$prescricao->internacao->leito->leito}}
+                                                <br><br> 
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <strong>Data de nascimento:</strong>
+                                                {{$prescricao->internacao->paciente->nascimento}}
+                                                <br><br> 
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <strong>Admissão:</strong>
+                                                {{$prescricao->internacao->dataadmissao}}
+                                                <br><br> 
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <strong>Data e hora:</strong>
+                                                {{$prescricao->dataprescricao}}
+                                                <br><br> 
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <strong>Diagnóstico:</strong>
+                                                {{$prescricao->internacao->cid10->descricao}}
+                                                <br><br> 
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <strong>Histórico da doença:</strong>
+                                                {{$prescricao->historicoatual}}
+                                                <br><br> 
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <strong>Evolução:</strong>
+                                                {{$prescricao->evolucao}}
+                                                <br><br> 
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <strong>Médico responsável:</strong>
+                                                {{ $prescricao->usuario->name }}
+                                                <br><br> 
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <div class="box box-primary" style="margin-left: 2%; margin-right: 2%; width: 96%;">
+                                                    <h4><center><b>Medicamentos</b></center></h4>
+                                                    <div class="box-body">
+                                                        <table id="table" class="table table-bordered table-hover dataTable" role="grid">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>SIMPAS</th>
+                                                                    <th>Quantidade</th>
+                                                                    <th>Medicamento</th>
+                                                                    <th>Posologia</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($prescricao->medicamentos  as $key => $prescmed)
+                                                                <tr>
+                                                                    <td>{{$prescmed->medicamento->codigosimpas}}</td>
+                                                                    <td>{{$prescmed->medicamento->codigosimpas}}</td>
+                                                                    <td>{{$prescmed->medicamento->codigosimpas}}</td>
+                                                                    <td>{{$prescmed->medicamento->codigosimpas}}</td>
+                                                                </tr>
+                                                                @endforeach  
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                                     </div>

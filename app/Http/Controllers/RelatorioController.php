@@ -18,11 +18,12 @@ use App\User;
 class RelatorioController extends Controller {
     
     
-    public function relatorioUsuario(){
+    public function prescricao(){
         
-        $usuarios = User::all();
+        //$usuarios = User::all();
         //dd($usuarios);
-        $pdf = \PDF::loadView('relatorios.usuarios', ['usuarios' => $usuarios]);
+        $pdf = \PDF::loadView('relatorios.prescricao');
+        $pdf->setPaper('A4', 'landscape');
         return $pdf->stream();
         
     }
