@@ -106,6 +106,7 @@ class MedicamentoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
+
         $medicamento = Medicamento::find($id);
         $medicamento->idformafarmaceutica = $request->get('formafarmaceutica');
         $medicamento->nomeconteudo = $request->get('conteudo');
@@ -144,56 +145,56 @@ class MedicamentoController extends Controller {
     public function autocomplete(Request $req) {
         $term = $req->get('term');
 
-        $data = Medicamento::join('medicamentosubstancias', 'medicamentosubstancias.idmedicamento', '=', 'medicamentos.id')
-                ->join('substanciaativas', 'substanciaativas.id', '=', 'medicamentosubstancias.idsubstanciaativa')
-                ->join('formafarmaceuticas', 'formafarmaceuticas.id', '=', 'medicamentos.idformafarmaceutica')
-                ->select('medicamentos.id', 'substanciaativas.nome', 'medicamentosubstancias.quantidadedose', 'medicamentosubstancias.unidadedose', 'formafarmaceuticas.nome as fnome', 'medicamentos.nomeconteudo', 'medicamentos.quantidadeconteudo', 'medicamentos.unidadeconteudo', 'medicamentos.codigosimpas')
-                ->where('substanciaativas.nome', 'ilike', '%' . $term . '%')
-                ->take(10)
-                ->get();
+        $data = Medicamento::get();
         $results = array();
-        foreach ($data as $key => $value) {
-            $nomeunidade = '';
-            switch ($value->unidadedose) {
-                case 0:
-                    $nomeunidade = 'mcg';
-                    break;
-                case 1:
-                    $nomeunidade = 'mg';
-                    break;
-                case 2:
-                    $nomeunidade = 'g';
-                    break;
-                case 3:
-                    $nomeunidade = 'UI';
-                    break;
-                case 4:
-                    $nomeunidade = 'unidades';
-                    break;
-                case 5:
-                    $nomeunidade = 'mg/g';
-                    break;
-                case 6:
-                    $nomeunidade = 'UI/g';
-                    break;
-                case 7:
-                    $nomeunidade = 'mEq/mL';
-                    break;
-                case 8:
-                    $nomeunidade = 'mg/gota';
-                    break;
-                case 9:
-                    $nomeunidade = 'mcg/mL';
-                    break;
-                case 10:
-                    $nomeunidade = 'UI/mL';
-                    break;
-                case 11:
-                    $nomeunidade = 'mEq';
-                    break;
+
+        $substancias = '';
+        foreach ($data as $key => $medicamento) {
+            foreach ($medicamento->medicamentosubstancias as $key => $medicamentosubstancia) {
+                $nomeunidade = '';
+                switch ($medicamentosubstancia->unidadedose) {
+                    case 0:
+                        $nomeunidade = 'mcg';
+                        break;
+                    case 1:
+                        $nomeunidade = 'mg';
+                        break;
+                    case 2:
+                        $nomeunidade = 'g';
+                        break;
+                    case 3:
+                        $nomeunidade = 'UI';
+                        break;
+                    case 4:
+                        $nomeunidade = 'unidades';
+                        break;
+                    case 5:
+                        $nomeunidade = 'mg/g';
+                        break;
+                    case 6:
+                        $nomeunidade = 'UI/g';
+                        break;
+                    case 7:
+                        $nomeunidade = 'mEq/mL';
+                        break;
+                    case 8:
+                        $nomeunidade = 'mg/gota';
+                        break;
+                    case 9:
+                        $nomeunidade = 'mcg/mL';
+                        break;
+                    case 10:
+                        $nomeunidade = 'UI/mL';
+                        break;
+                    case 11:
+                        $nomeunidade = 'mEq';
+                        break;
+                }
+                $substancias .= $medicamentosubstancia->substanciaativa->nome.' '. $medicamentosubstancia->quantidadedose. ' '. $nomeunidade . ', ';
             }
+            $substancias .= $medicamento->formafarmaceuticas->nome . ' ';
             $conteudo = '';
-            switch ($value->nomeconteudo) {
+            switch ($medicamento->nomeconteudo) {
                 case 0:
                     $conteudo = 'Frasco';
                     break;
@@ -219,7 +220,8 @@ class MedicamentoController extends Controller {
                     $conteudo = 'Pote';
                     break;
             }
-            switch ($value->unidadeconteudo) {
+            
+            switch ($medicamento->unidadeconteudo) {
                 case 0:
                     $uc = 'mcg';
                     break;
@@ -257,8 +259,9 @@ class MedicamentoController extends Controller {
                     $uc = 'mEq';
                     break;
             }
-            $results[] = ['id' => $value->id,
-                'value' => $value->nome . ' ' . $value->quantidadedose . ' ' . $nomeunidade . ', ' . $value->fnome . ' ' . $conteudo . ' com ' . $value->quantidadeconteudo . ' ' . $uc
+            $substancias .= '' . $conteudo . ' com ' . $medicamento->quantidadeconteudo . ' '. $uc;
+            $results[] = ['id' => $medicamento->id,
+                'value' => $substancias
             ];
         }
         return response()->json($results);
@@ -269,11 +272,27 @@ class MedicamentoController extends Controller {
         $id = $req->get('id');
 
         if ($id == null) {
-             return response()->json("-");
+            return response()->json("-");
         } else {
             $codsimpas = Medicamento::find($id)->select('medicamentos.codigosimpas')->get();
             return response()->json($codsimpas[0]->codigosimpas);
         }
+    }
+
+    public function getContraindicacao(Request $req) {
+
+        $id = $req->id;
+
+        $contraindicacoes = Medicamentosubstancia::join('substanciaativas', 'medicamentosubstancias.idsubstanciaativa', '=', 'substanciaativas.id')
+                ->join('medicamentos', 'medicamentos.id', '=', 'medicamentosubstancias.idmedicamento')
+                ->get();
+        
+        $texto = '';
+        foreach ($contraindicacoes as $key => $contraindicacao) {
+            $texto .= $contraindicacao->nome . ': ' . $contraindicacao->contraindicacao. '<br>';        
+        }
+
+        return response()->json($texto);
     }
 
 }

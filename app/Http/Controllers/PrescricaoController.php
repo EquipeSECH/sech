@@ -98,10 +98,5 @@ class PrescricaoController extends Controller {
                         ->with('success', 'Prescrição resolvida com sucesso!');
     }
 
-    public function destroy($id) {
-        Clinica::find($id)->delete();
-        return redirect()->route('clinica.index')
-                        ->with('success', 'Clínica excluída com sucesso!');
-    }
 
 }

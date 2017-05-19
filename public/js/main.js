@@ -19237,7 +19237,6 @@ exports.default = {
                 quantidadedose: this.quantidadedose,
                 unidadedose: this.unidadedose
             });
-            console.log(this.medicamento.substancias);
             this.substancia = '';
             this.quantidadedose = '';
             this.unidadedose = '';
@@ -19353,9 +19352,10 @@ exports.default = {
                     title: "Salvo!",
                     text: "Prescrição cadastrada com sucesso!",
                     confirmButtonColor: "#66BB6A",
-                    type: "success"
+                    type: "success",
+                    showLoaderOnConfirm: true
                 }, function () {
-                    location.href = "../../clinica";
+                    location.href = "../../prescricao";
                 });
             }).catch(function (response) {
                 console.log('Erro:' + response);
@@ -19403,6 +19403,22 @@ $(document).ready(function () {
             $('.qtd').css('display', 'block');
             $('.med').removeClass("col-xs-12 col-sm-12 col-md-12");
             $('.med').addClass("col-xs-11 col-sm-11 col-md-11");
+            $.ajax({
+                type: 'get',
+                url: '../medicamento/contraindicacao',
+                data: {
+                    'id': ui.item.id
+                },
+                success: function success(data) {
+                    console.log(data);
+                    swal({
+                        title: "Contraindicação",
+                        text: data,
+                        type: "warning",
+                        html: true
+                    });
+                }
+            });
         },
         change: function change(event, ui) {
             var b = $("#med").val();

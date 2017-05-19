@@ -162,6 +162,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/{id}/edit', ['as' => 'medicamento.edit', 'uses' => 'MedicamentoController@edit', 'middleware' => ['permission:medicamento-edit']]);
         Route::patch('/{id}', ['as' => 'medicamento.update', 'uses' => 'MedicamentoController@update', 'middleware' => ['permission:medicamento-edit']]);
         Route::delete('/{id}', ['as' => 'medicamento.destroy', 'uses' => 'MedicamentoController@destroy', 'middleware' => ['permission:medicamento-delete']]);
+        Route::get('/contraindicacao', ['as' => 'medicamento.contraindicacao', 'uses' => 'MedicamentoController@getContraindicacao']);
     });
     //rotas de estoque
     Route::group(['prefix' => 'estoque', 'where' => ['id' => '[0-9]+']], function() {
@@ -184,9 +185,9 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/{id}', ['as' => 'prescricao.update', 'uses' => 'PrescricaoController@update', 'middleware' => ['permission:prescricao-edit']]);
         Route::delete('/{id}', ['as' => 'prescricao.destroy', 'uses' => 'PrescricaoController@destroy', 'middleware' => ['permission:prescricao-delete']]);
     });
-    
+
     //rotas de prescriçãomedicamento
-    Route::group(['prefix' => 'prescricaomedicamento', 'where' => ['id' => '[0-9]+']], function() {      
+    Route::group(['prefix' => 'prescricaomedicamento', 'where' => ['id' => '[0-9]+']], function() {
         Route::patch('/', ['as' => 'prescricaomedicamento.update', 'uses' => 'PrescricaoMedicamentoController@update', 'middleware' => ['permission:prescricao-edit']]);
     });
 });
