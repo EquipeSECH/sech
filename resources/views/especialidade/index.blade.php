@@ -12,9 +12,11 @@
             <h2>Especialidade</h2>
         </div>
         @endsection
-        <div class="pull-right" style="margin-right: 2%;">
-            @permission('cid-create')
-            <a class="btn btn-default" href="{{ route('especialidade.create') }}"> Cadastrar</a>
+        <div class="pull-right" style="margin-right: 1%;">
+            @permission('especialidade-create')
+            <a class="btn btn-default" href="{{ route('especialidade.create') }}" title="Cadastrar" data-toggle="tooltip"> 
+                <i class="fa  fa-plus"></i>
+            </a>
             @endpermission
         </div>
     </div>

@@ -11,9 +11,11 @@
             <h2>Clínicas</h2>
         </div>
         @endsection
-        <div class="pull-right" style="margin-right: 2%;">
+        <div class="pull-right" style="margin-right: 1%;">
             @permission('clinica-create')
-            <a class="btn btn-default"  href="{{ route('clinica.create') }}">Cadastrar</a>
+            <a class="btn btn-default" href="{{ route('clinica.create') }}" title="Cadastrar" data-toggle="tooltip"> 
+                <i class="fa  fa-plus"></i>
+            </a>
             @endpermission
         </div>
     </div>

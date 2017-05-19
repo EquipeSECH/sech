@@ -11,9 +11,11 @@
             <h2>Papeis </h2>
         </div>
         @endsection 
-        <div class="pull-right" style="margin-right: 2%;">
-            @permission('clinica-create')
-            <a class="btn btn-default"  href="{{ route('roles.create') }}">Cadastrar</a>
+       <div class="pull-right" style="margin-right: 1%;">
+            @permission('role-create')
+            <a class="btn btn-default" href="{{ route('roles.create') }}" title="Cadastrar" data-toggle="tooltip"> 
+                <i class="fa  fa-plus"></i>
+            </a>
             @endpermission
         </div>
     </div>

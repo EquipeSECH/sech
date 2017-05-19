@@ -12,9 +12,11 @@
             <h2>Usuários</h2>
         </div>
         @endsection
-        <div class="pull-right" style="margin-right: 2%;">
+        <div class="pull-right" style="margin-right: 1%;">
             @permission('gestao_usuario-create')
-            <a class="btn btn-default"  href="{{ route('users.create') }}">Cadastrar</a>
+            <a class="btn btn-default" href="{{ route('users.create') }}" title="Cadastrar" data-toggle="tooltip"> 
+                <i class="fa  fa-plus"></i>
+            </a>
             @endpermission
         </div>
     </div>
